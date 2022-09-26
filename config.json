@@ -1,0 +1,22 @@
+{
+    "server": {
+        "hostname": "127.0.0.1",
+        "port": 4000
+    },
+    "sbop": {
+        "database": {
+            "host": "sistema.sbop.com.br",
+            "port": "3306",
+            "user": "python",
+            "password": "SucessoZOP2022!",
+            "database": "sbop_sistema",
+            "tables": {
+                "membros": "Membros",
+                "postagens": "Blog",
+                "tipos_solicitacao": "available_requests",
+                "solicitacoes": "Solicitacoes",
+                "especialidades": "especialidades"
+            }
+        }
+    }
+}
