@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const config = require('../../config.json')
 const newMysql = require('../../src/database')
 
 
@@ -8,7 +8,7 @@ const newMysql = require('../../src/database')
 router.post('/', function(request, response, next) {    
 	const data = request.body;
 
-	const mysql = newMysql();
+	const mysql = newMysql(config.sbop.database);
 	mysql.connect();
 	
 	mysql.query({
