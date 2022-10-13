@@ -6,7 +6,7 @@ router.get('/', (request, response) => {
 })
 
 // sub-routes
-const login = require('./jogomemoria');
+const jogomemoria = require('./jogomemoria');
 router.use('/jogomemoria', jogomemoria);
 
 module.exports = router;
