@@ -19,4 +19,7 @@ app.use(cors());
 const sbop = require('./routes/sbop');
 app.use('/api/v1/sbop', sbop);
 
+const casaludica = require('./routes/casaludica/jogomemoria');
+app.use('/api/v1/casaludica', casaludica);
+
 module.exports = app;
