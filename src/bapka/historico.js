@@ -3,7 +3,7 @@ const historico = (historico_raw, alvo) => {
     for (let item of historico_raw) {
         historicos.push({
             ...item,
-            nome: item[`nome_${alvo}`],
+            nome: alvo == 'parceiro' ? item[`nome_${alvo}`] : item[`nome_${alvo}`].split(' ')[0],
             operacao: item.quantidade > 0 ? 'Adicionado' : 'Removido',
             alvo
         })
