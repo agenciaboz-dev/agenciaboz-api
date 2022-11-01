@@ -18,5 +18,14 @@
                 "especialidades": "especialidades"
             }
         }
+    },
+    "bapka": {
+        "database": {
+            "host": "cupons.bapkasorvetes.com.br",
+            "port": "3306",
+            "user": "python",
+            "password": "SucessoZOP2022!",
+            "database": "bapkasor_sistema"
+        }
     }
 }

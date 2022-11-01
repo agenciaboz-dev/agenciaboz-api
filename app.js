@@ -22,4 +22,7 @@ app.use('/api/v1/sbop', sbop);
 const casaludica = require('./routes/casaludica');
 app.use('/api/v1/casaludica', casaludica);
 
+const bapka = require('./routes/bapka')
+app.use('/api/v1/bapka', bapka)
+
 module.exports = app;
