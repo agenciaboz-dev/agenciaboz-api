@@ -4,7 +4,7 @@ const historico = (historico_raw, alvo) => {
         historicos.push({
             ...item,
             nome: item[`nome_${alvo}`],
-            operacao: item.quantidade > 0 ? '+' : '-',
+            operacao: item.quantidade > 0 ? 'Adicionado' : 'Removido',
             alvo
         })
     }
