@@ -31,7 +31,7 @@ router.post('/', (request, response, next) => {
                         timeout: 40000, // 40s
                     }, (error, historicos) => {
                         if (error) console.error(error);
-                        cliente.historico = getHistorico(historicos, 'cliente');
+                        cliente.historico = getHistorico(historicos, 'parceiro');
                         response.json(cliente)
                         mysql.end()
                     })
