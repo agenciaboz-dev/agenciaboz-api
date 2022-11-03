@@ -9,4 +9,7 @@ router.get('/', (request, response) => {
 const login = require('./login');
 router.use('/login', login);
 
+const search_cpf = require('./search_cpf');
+router.use('/search_cpf', search_cpf);
+
 module.exports = router;

@@ -58,19 +58,20 @@ router.post('/', (request, response, next) => {
                                 if (i == count-1) {
                                     console.log(usuario)
                                     response.json(usuario);
-                                    
+                                    mysql.end();
                                 }
                             })
                         }
                     })
                 } else {
                     response.json(usuario);
+                    mysql.end();
                 }
             })
         } else {
             response.json({error: 'Usuário não encontrado'})
+            mysql.end();
         }
-		// mysql.end();
 	});
 
 
