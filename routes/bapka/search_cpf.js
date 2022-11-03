@@ -25,6 +25,7 @@ router.post('/', (request, response, next) => {
             }, (error, results) => {
                 const cadastrado = results[0]
                 if (cadastrado) {
+                    cliente.cupons = cadastrado.cupons
                     mysql.query({
                         sql: `SELECT * FROM historicos WHERE id_cliente=${cliente.id} ORDER BY id DESC LIMIT 3`,
                         timeout: 40000, // 40s
