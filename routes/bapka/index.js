@@ -15,4 +15,7 @@ router.use('/search_cpf', search_cpf);
 const modificar_cupons = require('./modificar_cupons');
 router.use('/modificar_cupons', modificar_cupons);
 
+const get_history = require('./get_history');
+router.use('/get_history', get_history);
+
 module.exports = router;
