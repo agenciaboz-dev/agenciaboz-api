@@ -9,6 +9,7 @@ var debug = require('debug')('agenciaboz-api:server');
 var http = require('http');
 var https = require('https');
 const io = require('socket.io')(http);
+const fs = require('fs');
 
 /**
  * Get port from environment and store in Express.
