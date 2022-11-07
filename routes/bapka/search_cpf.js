@@ -16,7 +16,6 @@ router.post('/', (request, response, next) => {
 	}, (error, results) => {
         const cliente = results[0]
         if (cliente) {
-            console.log(cliente)
             const table = `parceiro_${data.id}`
             mysql.query({
                 sql: `SELECT * FROM ${table} WHERE id_cliente = ? ;`,
@@ -36,12 +35,16 @@ router.post('/', (request, response, next) => {
                         mysql.end()
                     })
                 } else {
-                    response.json({error: 'Cliente não cadastro nessa loja'})
+                    response.json({
+                        ...cliente,
+                        error: 'Cliente não cadastrado nessa loja',
+                        error_code: 2
+                    })
                     mysql.end()
                 }
             })
         } else {
-            response.json({error: 'Cliente não cadastrado.'})
+            response.json({error: 'Cliente não cadastrado.', error_code: 1})
             mysql.end()
         }
     })

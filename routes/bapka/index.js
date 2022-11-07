@@ -18,4 +18,7 @@ router.use('/modificar_cupons', modificar_cupons);
 const get_history = require('./get_history');
 router.use('/get_history', get_history);
 
+const cadastrar_cliente = require('./cadastrar_cliente');
+router.use('/cadastrar_cliente', cadastrar_cliente);
+
 module.exports = router;

@@ -56,7 +56,6 @@ router.post('/', (request, response, next) => {
                                     usuario.lojas.push(loja)
                                 }
                                 if (i == count-1) {
-                                    console.log(usuario)
                                     response.json(usuario);
                                     mysql.end();
                                 }
