@@ -57,6 +57,7 @@ router.post('/', (request, response, next) => {
                                 }
                                 if (i == count-1) {
                                     response.json(usuario);
+                                    console.log(usuario);
                                     mysql.end();
                                 }
                             })
