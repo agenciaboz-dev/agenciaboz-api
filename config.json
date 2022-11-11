@@ -3,6 +3,15 @@
         "hostname": "127.0.0.1",
         "port": 4000
     },
+    "app":{
+        "database": {
+            "host": "app.agenciaboz.com.br",
+            "port": "3306",
+            "user": "python",
+            "password": "SucessoZOP2022!",
+            "database": "agenciaboz_sistema"
+        }
+    },
     "sbop": {
         "database": {
             "host": "sistema.sbop.com.br",

@@ -15,6 +15,8 @@ const cors = require('cors');
 app.use(cors());
 
 // ROUTES
+const agenciaboz = require('./routes/app');
+app.use('/api/v1/app', agenciaboz);
 
 const sbop = require('./routes/sbop');
 app.use('/api/v1/sbop', sbop);
