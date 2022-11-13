@@ -15,16 +15,7 @@ const cors = require('cors');
 app.use(cors());
 
 // ROUTES
-const agenciaboz = require('./routes/app');
-app.use('/api/v1/app', agenciaboz);
-
-const sbop = require('./routes/sbop');
-app.use('/api/v1/sbop', sbop);
-
-const casaludica = require('./routes/casaludica');
-app.use('/api/v1/casaludica', casaludica);
-
-const bapka = require('./routes/bapka')
-app.use('/api/v1/bapka', bapka)
+const cheatsheet = require('./routes/cheatsheet');
+app.use('/api/v1/cheatsheet', cheatsheet);
 
 module.exports = app;

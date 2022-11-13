@@ -5,24 +5,23 @@ const newMysql = require('../../src/database')
 
 
 /* GET users listing. */
-router.post('/', function(request, response, next) {    
+router.post('/', (request, response, next) => {    
 	const data = request.body;
 
-	const mysql = newMysql(config.sbop.database);
+	const mysql = newMysql(config.app.database);
 	mysql.connect();
 	
 	mysql.query({
-		sql: `SELECT * FROM Membros WHERE user = ${mysql.escape(data.login)} AND senha = ${mysql.escape(data.password)} ;`,
+		sql: `SELECT * FROM ${data.language} ;`,
 		timeout: 40000, // 40s
-		values: {
-			USUÁRIO: data.login,
-			SENHA: data.password,
-		}
+		values: [
+            data.language,
+        ]
 	}, (error, results) => {
 		if (error) console.error(error);
-		console.log(results);
-		response.json(results);
-		mysql.end();
+        console.log(results)
+        response.json(results)
+        mysql.end()
 	});
 
 
