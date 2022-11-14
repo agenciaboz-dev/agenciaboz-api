@@ -5,11 +5,36 @@
     },
     "app":{
         "database": {
-            "host": "localhost",
+            "host": "app.agenciaboz.com.br",
             "port": "3306",
-            "user": "burgos",
-            "password": "mfux6xpj",
-            "database": "cheatsheet"
+            "user": "python",
+            "password": "SucessoZOP2022!",
+            "database": "agenciaboz_sistema"
+        }
+    },
+    "sbop": {
+        "database": {
+            "host": "sistema.sbop.com.br",
+            "port": "3306",
+            "user": "python",
+            "password": "SucessoZOP2022!",
+            "database": "sbop_sistema",
+            "tables": {
+                "membros": "Membros",
+                "postagens": "Blog",
+                "tipos_solicitacao": "available_requests",
+                "solicitacoes": "Solicitacoes",
+                "especialidades": "especialidades"
+            }
+        }
+    },
+    "bapka": {
+        "database": {
+            "host": "cupons.bapkasorvetes.com.br",
+            "port": "3306",
+            "user": "python",
+            "password": "SucessoZOP2022!",
+            "database": "bapkasor_sistema"
         }
     }
 }
