@@ -9,4 +9,7 @@ router.get('/', (request, response) => {
 const login = require('./login');
 router.use('/login', login);
 
+const usuarios = require('./usuarios');
+router.use('/usuarios', usuarios);
+
 module.exports = router;
