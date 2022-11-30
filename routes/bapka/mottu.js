@@ -12,15 +12,15 @@ router.post('/', (request, response, next) => {
         "codigoExterno": address.id,
 
         //Opcional, pois consulta o endereço da loja, mas caso o endereço seja diferente pode informar
-        "enderecoColeta": {
-            "bairro": "Jardim Caboré",
-            "cep": "09230110",
-            "cidade": "São Paulo",
-            "complemento": "Loja 9 e 10",
-            "estado": "X",
-            "numero": "2050",
-            "rua": "Rua Doutor Luiz Migliano"
-        },
+        // "enderecoColeta": {
+        //     "bairro": "Jardim Caboré",
+        //     "cep": "09230110",
+        //     "cidade": "São Paulo",
+        //     "complemento": "Loja 9 e 10",
+        //     "estado": "X",
+        //     "numero": "2050",
+        //     "rua": "Rua Doutor Luiz Migliano"
+        // },
         
         //"usuarioOrigemId": 15468,//Esse é o id retornado no método de login, caso não informado irá criar com o usuário do token, 
         // caso seja informado por exemplo um usuário matriz no token e deseja criar pedido com filial, basta passar aqui
