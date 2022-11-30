@@ -13,8 +13,6 @@ router.post('/', (request, response, next) => {
 
     const columns = ['name', 'user', 'password', 'type', 'cpf', 'email', 'birthday', 'role']
 
-    console.log(data)
-	
 	mysql.query({
 		sql: `INSERT INTO users (${columns}) VALUES (?) ;`,
 		timeout: 40000, // 40s
@@ -24,7 +22,6 @@ router.post('/', (request, response, next) => {
 	}, (error, results) => {
 		if (error) console.error(error);
         
-        console.log(results)
         response.json(results)
         mysql.end()
 	});
