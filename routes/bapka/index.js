@@ -21,4 +21,7 @@ router.use('/get_history', get_history);
 const cadastrar_cliente = require('./cadastrar_cliente');
 router.use('/cadastrar_cliente', cadastrar_cliente);
 
+const mottu = require('./mottu');
+router.use('/mottu', mottu);
+
 module.exports = router;
