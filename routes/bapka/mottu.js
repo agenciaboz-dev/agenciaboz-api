@@ -26,7 +26,6 @@ router.post('/', (request, response, next) => {
         // caso seja informado por exemplo um usuário matriz no token e deseja criar pedido com filial, basta passar aqui
         "minutosTempoDePreparo": null,
         "ordenarMelhorRota": true,
-        "pagamentoOnline": true,
         "pedidoEntrega": [
             {
             "endereco": {
@@ -50,5 +49,12 @@ router.post('/', (request, response, next) => {
     response.json(data)
 
 });
+
+router.post('/integracao', (request, response, next) => {
+    const data = request.body
+    console.log(data)
+
+    response.send('teste')
+})
 
 module.exports = router;
