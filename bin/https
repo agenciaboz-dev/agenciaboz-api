@@ -16,7 +16,7 @@ const fs = require('fs');
  */
 
 const config = require('../config.json')
-var port = normalizePort(process.env.PORT || config.server.port);
+var port = normalizePort(process.env.PORT || config.server.ssl_port);
 app.set('port', port);
 
 /**

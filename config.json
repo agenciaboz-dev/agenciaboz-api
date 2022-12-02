@@ -1,7 +1,8 @@
 {
     "server": {
         "hostname": "127.0.0.1",
-        "port": 4000
+        "ssl_port": 4000,
+        "http_port": 4001
     },
     "app":{
         "database": {
