@@ -23,7 +23,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = https.createServer({
-    key: fs.readFileSync('../ssl/keys/c304b_aaa57_ae70f7dfd65c130f49763c0c9a6aece1.key'),
+    key: fs.readFileSync('../ssl/keys/c0da1_a91f9_e880bed06258cfeb6f2c213822fb6c6d.key'),
     cert: fs.readFileSync('../ssl/certs/www_app_agenciaboz_com_br_d0ece_a29b9_1675776323_6df49d749256d77226e732050f820822.crt'),
 }, app);
 
