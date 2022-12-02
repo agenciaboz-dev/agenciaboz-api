@@ -27,6 +27,8 @@ const server = https.createServer({
     cert: fs.readFileSync('../ssl/certs/www_app_agenciaboz_com_br_d0ece_a29b9_1675776323_6df49d749256d77226e732050f820822.crt'),
 }, app);
 
+const _server = http.createServer(app);
+
 // var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
@@ -35,6 +37,10 @@ const server = https.createServer({
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+_server.listen(port);
+_server.on('error', onError);
+_server.on('listening', onListening);
 
 io.on('connection', (socket) => {
     console.log('A user connected');
@@ -102,4 +108,10 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+
+  var _addr = _server.address();
+  var _bind = typeof _addr === 'string'
+    ? 'pipe ' + _addr
+    : 'port ' + _addr.port;
+  debug('Listening on ' + _bind);
 }
