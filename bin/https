@@ -23,11 +23,9 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = https.createServer({
-    key: fs.readFileSync('../ssl/keys/d0ece_a29b9_9a51e254c14bf633874d4bf50b684355.key'),
+    key: fs.readFileSync('../ssl/keys/efc85_a965b_7e0730a6ece63cbfa95b878f4f447aa7.key'),
     cert: fs.readFileSync('../ssl/certs/www_app_agenciaboz_com_br_d0ece_a29b9_1675776323_6df49d749256d77226e732050f820822.crt'),
 }, app);
-
-const _server = http.createServer(app);
 
 // var server = http.createServer(app);
 /**
@@ -37,10 +35,6 @@ const _server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-
-_server.listen(port);
-_server.on('error', onError);
-_server.on('listening', onListening);
 
 io.on('connection', (socket) => {
     console.log('A user connected');
@@ -108,10 +102,4 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-
-  var _addr = _server.address();
-  var _bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + _bind);
 }
