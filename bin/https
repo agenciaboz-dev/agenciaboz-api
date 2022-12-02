@@ -110,8 +110,8 @@ function onListening() {
   debug('Listening on ' + bind);
 
   var _addr = _server.address();
-  var _bind = typeof _addr === 'string'
-    ? 'pipe ' + _addr
-    : 'port ' + _addr.port;
+  var _bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
   debug('Listening on ' + _bind);
 }
