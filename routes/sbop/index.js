@@ -15,4 +15,7 @@ router.use('/delete_member', delete_member);
 const get_content = require('./get_content');
 router.use('/get_content', get_content);
 
+const get_category = require('./get_category');
+router.use('/get_category', get_category);
+
 module.exports = router;
