@@ -7,7 +7,6 @@ const newMysql = require('../../src/database')
 /* GET users listing. */
 router.post('/', function(request, response, next) {    
 	const data = request.body;
-    console.log(data)
 
 	const mysql = newMysql(config.sbop.database);
 	mysql.connect();
