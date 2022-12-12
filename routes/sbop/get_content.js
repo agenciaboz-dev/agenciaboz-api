@@ -31,7 +31,29 @@ router.post('/', function(request, response, next) {
 		mysql.end();
 	});
 
-
 });
+
+router.post('/post', (request, response, next) => {
+    const data = request.body
+
+    const mysql = newMysql(config.sbop.database);
+	mysql.connect();
+
+    mysql.query({
+        sql: `SELECT * FROM conteudos WHERE id = ?`,
+        timeout: 40000,
+        values: [data.id]
+    }, (error, results) => {
+        if (error) {
+            console.error(error)
+            mysql.end()
+            response.json({ error })
+        }
+
+        console.log(results)
+        mysql.end()
+        response.json(results[0])
+    })
+})
 
 module.exports = router;
