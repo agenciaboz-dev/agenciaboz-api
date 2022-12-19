@@ -135,13 +135,7 @@ router.post('/integracao', (request, response, next) => {
 router.get('/pagseguro', (request, response, next) => {
     
     response.json({
-        public_key: `MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvUkVN2qhJCWsxxkPmmnq
-            EX3fAB1+2nTZkr7VLTUnrBLJstWweuU1hpCQ2P3BoZwxgUMKnhHhDEbLelFv8wCc
-            Rv31mkHkF1gFPtk++tV6K8ElsGsExCDVXoPQkg2JkYSmdhYgPoPUBhtqlO5Yv1yz
-            xteIYpDToaqiO/SoMCzzw75MZpxGe/xkiya20S8apXL5bLsbAwryr4Xy17HqMwze
-            /dl1AIbwrQ4wCJTgq/Iieo5auamk9jpHPXLtdFGUr8910LFT8PaPcfZyGTWiJtls
-            1HcqETqncunXtUNcZBGPS666RVkqrXej1gTTC9wObRV2/GbrBa+JDxM2/Rt+06Hj
-            yQIDAQAB`, 
+        public_key: `-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvUkVN2qhJCWsxxkPmmnqEX3fAB1+2nTZkr7VLTUnrBLJstWweuU1hpCQ2P3BoZwxgUMKnhHhDEbLelFv8wCcRv31mkHkF1gFPtk++tV6K8ElsGsExCDVXoPQkg2JkYSmdhYgPoPUBhtqlO5Yv1yzxteIYpDToaqiO/SoMCzzw75MZpxGe/xkiya20S8apXL5bLsbAwryr4Xy17HqMwze/dl1AIbwrQ4wCJTgq/Iieo5auamk9jpHPXLtdFGUr8910LFT8PaPcfZyGTWiJtls1HcqETqncunXtUNcZBGPS666RVkqrXej1gTTC9wObRV2/GbrBa+JDxM2/Rt+06HjyQIDAQAB-----END PUBLIC KEY-----`, 
         created_at: 1671455460
     })
 })
