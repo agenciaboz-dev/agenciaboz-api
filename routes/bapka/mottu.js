@@ -3,8 +3,8 @@ const router = express.Router();
 const config = require('../../config.json')
 const axios = require('axios');
 const newMysql = require('../../src/database');
-
-
+const { exec } = require('child_process');
+const fs = require('fs')
 
 router.post('/pedido', (request, response, next) => {    
     const address = request.body.address;
@@ -58,7 +58,7 @@ router.post('/pedido', (request, response, next) => {
             .then((_response) => {
                 if (_response.data.error) console.error(_response.data.error)
     
-                console.log(_response.data)
+                // console.log(_response.data)
                 response.json(_response.data)
             })
             .catch((error) => {
@@ -98,15 +98,18 @@ router.post('/pedido', (request, response, next) => {
                 if (response.data.error) console.error(response.data.error)
                 
                 mysql.query({
-                    sql: "INSERT INTO mottu_token (token, expiration) values (?)",
+                    sql: "UPDATE mottu_token set token = ?, expiration = ? WHERE loja = ?",
                     values: [
-                        [response.data.token, date]
+                        response.data.token, 
+                        date,
+                        loja
                     ]
                 }, (error, results) => {
                     if (error) console.error(error)
         
                     token = response.data.token
-                    newOrder(token)
+                    console.log(token)
+                    // newOrder(token)
                 })
             })
             .catch((error) => {
@@ -115,16 +118,11 @@ router.post('/pedido', (request, response, next) => {
 
         } else {
             token = result.token
-            newOrder(token)
+            console.log(token)
+            // newOrder(token)
         }
     })
     
-    
-
-    console.log(token)
-
-	
-
 });
 
 router.post('/integracao', (request, response, next) => {
@@ -132,6 +130,86 @@ router.post('/integracao', (request, response, next) => {
     console.log(data)
 
     response.send('teste')
+})
+
+router.get('/pagseguro/keys/:loja', (request, response) => {
+    const loja = request.params.loja
+    const mysql = newMysql(config.bapka.database);
+	mysql.connect();
+
+    mysql.query({
+        sql: "SELECT * FROM pix_keys WHERE loja = ?",
+        values: [ loja ]
+    }, (error, results) => {
+        const keys = results[0]
+        console.log(`searching keys for ${loja}`)
+        
+        if (keys) {
+            const key = {
+                public_key: keys.public,
+                created_at: keys.timestamp
+            }
+
+            response.json(key)
+        }
+    })
+});
+
+router.post('/pagseguro/new_keys', (request, response, next) => {
+    const loja = request.body.loja
+
+    const mysql = newMysql(config.bapka.database);
+	mysql.connect();
+
+    mysql.query({
+        sql: "SELECT * FROM pix_keys WHERE loja = ?",
+        values: [ loja ]
+    }, (error, results) => {
+        const keys = results[0]
+        console.log(`searching keys for ${loja}`)
+        
+        if (keys) {
+            console.log(keys)
+            response.json({ keys })
+
+        } else {
+            console.log('keys not found, generating new rsa key')
+            const command = {
+                private: `openssl genpkey -algorithm RSA -out private-key -pkeyopt rsa_keygen_bits:2048`,
+                public: `openssl rsa -pubout -in private-key -out public-key`
+            }
+
+            const keys = {}
+
+            exec(command.private, (err, stdout, stderr) => {
+                console.log('private key:')
+                // remove second param before commit
+                exec('cat private-key', {shell: "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"}, (err, stdout, stderr) => {
+                    console.log('success')
+                    keys.private = stdout.replaceAll(`\r\n`, '')
+                    
+                    exec(command.public, (err, stdout, stderr) => {
+                        console.log('public key:')
+                        // remove second param before commit
+                        exec('cat public-key', {shell: "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"}, (err, stdout, stderr) => {
+                            console.log('success')
+                            keys.public = stdout.replaceAll(`\r\n`, '')
+
+                            mysql.query({
+                                sql: "INSERT INTO pix_keys (loja, private, public, timestamp) VALUES (?)",
+                                values: [[ loja, keys.private, keys.public, Date.now() ]]
+                            }, (error, results) => {
+                                console.log('keys stored in database')
+                            })
+
+                            response.json({ keys , url: `https://app.agenciaboz.com.br:4000/api/v1/bapka/mottu/pagseguro/keys/${loja}`})
+                        })
+                    })
+                })
+            })
+        }
+    })
+    
 })
 
 router.get('/pagseguro', (request, response, next) => {
