@@ -58,7 +58,7 @@ router.post('/pedido', (request, response, next) => {
                 if (_response.data.error) console.error(_response.data.error)
     
                 // console.log(_response.data)
-                response.json(_response.data)
+                response.json({success: true})
             })
             .catch((error) => {
                 console.error(error)
