@@ -170,7 +170,7 @@ router.post('/pagseguro/new_keys', (request, response, next) => {
         
         if (keys) {
             console.log(keys)
-            response.json({ keys })
+            response.json({ keys, url: `https://app.agenciaboz.com.br:4000/api/v1/bapka/mottu/pagseguro/keys/${loja}` })
 
         } else {
             console.log('keys not found, generating new rsa key')
@@ -183,15 +183,13 @@ router.post('/pagseguro/new_keys', (request, response, next) => {
 
             exec(command.private, (err, stdout, stderr) => {
                 console.log('private key:')
-                // remove second param before commit
-                exec('cat private-key', {shell: "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"}, (err, stdout, stderr) => {
+                exec('cat private-key', (err, stdout, stderr) => {
                     console.log('success')
                     keys.private = stdout.replaceAll(`\r\n`, '')
                     
                     exec(command.public, (err, stdout, stderr) => {
                         console.log('public key:')
-                        // remove second param before commit
-                        exec('cat public-key', {shell: "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"}, (err, stdout, stderr) => {
+                        exec('cat public-key', (err, stdout, stderr) => {
                             console.log('success')
                             keys.public = stdout.replaceAll(`\r\n`, '')
 
