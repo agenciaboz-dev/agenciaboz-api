@@ -8,6 +8,8 @@ const newMysql = require('../../src/database');
 
 router.post('/pedido', (request, response, next) => {    
     const address = request.body.address;
+    const loja = request.body.loja
+    console.log(loja)
 
     const mysql = newMysql(config.bapka.database);
 	mysql.connect();
