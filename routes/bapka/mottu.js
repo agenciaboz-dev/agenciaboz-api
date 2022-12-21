@@ -200,7 +200,7 @@ router.post('/pagseguro/new_keys', (request, response, next) => {
                                 console.log('keys stored in database')
                             })
 
-                            response.json({ keys , url: `https://app.agenciaboz.com.br:4000/api/v1/bapka/mottu/pagseguro/keys/${loja}`})
+                            response.json({ keys , url: `https://app.agenciaboz.com.br:4000/api/v1/bapka/mottu/pagseguro/keys/${loja}`, new: true })
                         })
                     })
                 })
