@@ -29,9 +29,7 @@ router.post('/pedido', (request, response, next) => {
 
         const data = {
             "codigoConfirmacaoColeta": null,
-            "codigoExterno": address.id,
-    
-            //"usuarioOrigemId": 15468,//Esse é o id retornado no método de login, caso não informado irá criar com o usuário do token, 
+            "codigoExterno": 1,
             "minutosTempoDePreparo": null,
             "ordenarMelhorRota": true,
             "pedidoEntrega": [
@@ -45,7 +43,7 @@ router.post('/pedido', (request, response, next) => {
                     "numero": address.numero,
                     "rua": address.rua
                     },
-                "idExterno": address.id,
+                "idExterno": 1,
                 "nome": address.nome,
                 "observacao": "",
                 "pagamentoOnline": true,
@@ -53,6 +51,7 @@ router.post('/pedido', (request, response, next) => {
                 }
             ]
         }
+
     
         mottu.post('/pedido/preview', data)
             .then((_response) => {
@@ -68,17 +67,23 @@ router.post('/pedido', (request, response, next) => {
     }
 
     mysql.query({
-        sql: "SELECT * FROM mottu_token order by id desc limit 1"
+        sql: "SELECT * FROM mottu_token WHERE loja = ?",
+        values: [ loja ]
     }, (error, results) => {
         if (error) console.error(error)
 
         const result = results[0]
 
-        if (result.expiration <= new Date) {
+        // if result exists and it's bigger then new date
+        if (result?.expiration > new Date) {
+            token = result.token
+            console.log(token)
+            newOrder(token)
 
+        } else {
             const login = {
-                "email": "bapka@agenciazop.com.br",
-                "senha": "SucessoZOP2022!"
+                "email": result.login,
+                "senha": result.password
                 }
         
             const date = new Date
@@ -109,17 +114,12 @@ router.post('/pedido', (request, response, next) => {
         
                     token = response.data.token
                     console.log(token)
-                    // newOrder(token)
+                    newOrder(token)
                 })
             })
             .catch((error) => {
                 console.error(error)
             })
-
-        } else {
-            token = result.token
-            console.log(token)
-            // newOrder(token)
         }
     })
     
