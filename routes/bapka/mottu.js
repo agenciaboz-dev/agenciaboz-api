@@ -9,6 +9,7 @@ const fs = require('fs')
 router.post('/pedido', (request, response, next) => {    
     const address = request.body.address;
     const loja = request.body.loja
+    console.log(address)
     console.log(loja)
 
     const mysql = newMysql(config.bapka.database);
