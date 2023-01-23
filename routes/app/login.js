@@ -23,8 +23,19 @@ router.post('/', (request, response, next) => {
         const user = results[0]
 
         if (user) {
-            response.json(user);
-            mysql.end();
+            mysql.query({
+                sql: `SELECT * FROM customers ;`
+            }, (error, results) => {
+                const customers = results
+
+                mysql.query({
+                    sql: `SELECT * FROM users ;`
+                }, (error, results) => {
+                    const team = results
+                    response.json({user, customers, team})
+                })
+            })
+            // mysql.end();
         } else {
             response.json({ error: "Usuário ou senha inválidos" })
             mysql.end()

@@ -15,4 +15,10 @@ router.use('/usuarios', usuarios);
 const cadastrar = require('./cadastrar');
 router.use('/cadastrar', cadastrar);
 
+const tasks = require('./tasks');
+router.use('/tasks', tasks);
+
+const customers = require('./customers');
+router.use('/customers', customers);
+
 module.exports = router;
