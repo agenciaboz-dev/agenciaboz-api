@@ -21,4 +21,7 @@ router.use('/tasks', tasks);
 const customers = require('./customers');
 router.use('/customers', customers);
 
+const new_task = require('./new_task');
+router.use('/new_task', new_task);
+
 module.exports = router;
