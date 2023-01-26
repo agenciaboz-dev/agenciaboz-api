@@ -35,7 +35,7 @@ router.post('/', (request, response, next) => {
                     response.json({user, customers, team})
                 })
             })
-            // mysql.end();
+            mysql.end();
         } else {
             response.json({ error: "Usuário ou senha inválidos" })
             mysql.end()

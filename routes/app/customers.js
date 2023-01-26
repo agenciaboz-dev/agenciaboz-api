@@ -22,7 +22,7 @@ router.post('/', (request, response, next) => {
         if (error) console.error(error);
 
         response.json(results[0]);
-        // mysql.end();
+        mysql.end();
     });
 
 
