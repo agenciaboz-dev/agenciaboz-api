@@ -20,7 +20,14 @@ router.post('/', (request, response, next) => {
             [data.name, data.user, data.password, data.type, data.cpf, `${data.user}@agenciaboz.com.br`, data.birthday, data.role]
         ]
 	}, (error, results) => {
-		if (error) console.error(error);
+		if (error) {
+            console.error(error)
+            
+            if (error.code == 'ER_DUP_ENTRY') {
+                const duplicate = error.sqlMessage.split('key ')[1].split("'")[1]
+                response.json({error: duplicate})
+            }
+        }
         
         response.json(results)
         mysql.end()
