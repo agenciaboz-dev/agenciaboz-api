@@ -22,10 +22,26 @@ router.post('/', (request, response, next) => {
         if (error) console.error(error);
 
         response.json(results);
-        // mysql.end();
+        mysql.end()
     });
 
 
 });
+
+router.post('/done', (request, response) => {
+    const task = request.body
+    const mysql = newMysql(config.app.database)
+    mysql.connect()
+    mysql.query({
+        sql: `UPDATE tasks SET done = ? WHERE id = ?`,
+        values: [ task.done, task.id ]
+    }, (error, results) => {
+        if (error) console.error(error)
+
+        response.json(results)
+        mysql.end()
+
+    })
+})
 
 module.exports = router;
