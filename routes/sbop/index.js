@@ -18,4 +18,7 @@ router.use('/get_content', get_content);
 const get_category = require('./get_category');
 router.use('/get_category', get_category);
 
+const signup = require('./signup');
+router.use('/signup', signup);
+
 module.exports = router;
