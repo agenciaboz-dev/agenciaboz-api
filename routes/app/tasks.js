@@ -12,8 +12,10 @@ router.post('/', (request, response, next) => {
     const mysql = newMysql(config.app.database);
     mysql.connect();
 
+    const sql = `SELECT * FROM tasks WHERE ${data.review ? "planner" : "worker"} = ? ${data.important ? "AND priority = 2" : ""} ORDER BY customer DESC, done, priority DESC, date`
+
     mysql.query({
-        sql: `SELECT * FROM tasks WHERE ${data.review ? "planner" : "worker"} = ? ORDER BY customer DESC, done, priority DESC, date`,
+        sql: sql,
         timeout: 40000, // 40s
         values: [
             data.user
@@ -21,7 +23,13 @@ router.post('/', (request, response, next) => {
     }, (error, results) => {
         if (error) console.error(error);
 
-        response.json(results);
+        if (results.length == 0) {
+            response.json({empty: true})
+            
+        } else {
+            response.json(results);
+        }
+
         mysql.end()
     });
 
