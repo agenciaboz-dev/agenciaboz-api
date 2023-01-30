@@ -13,10 +13,10 @@ router.post('/', (request, response, next) => {
     mysql.connect();
 
     mysql.query({
-        sql: `SELECT * FROM tasks WHERE worker = ? OR planner = ? ORDER BY customer DESC, done, priority DESC, date`,
+        sql: `SELECT * FROM tasks WHERE ${data.review ? "planner" : "worker"} = ? ORDER BY customer DESC, done, priority DESC, date`,
         timeout: 40000, // 40s
         values: [
-            data.user, data.user
+            data.user
         ]
     }, (error, results) => {
         if (error) console.error(error);
