@@ -12,7 +12,7 @@ router.post('/', (request, response, next) => {
     const mysql = newMysql(config.app.database);
     mysql.connect();
 
-    const sql = `SELECT * FROM tasks WHERE ${data.review ? "planner" : "worker"} = ? ${data.important ? "AND priority = 2" : ""} ${data.today ? `AND DATE(date) = CURDATE()` : ""} ORDER BY customer DESC, done, priority DESC, date`
+    const sql = `SELECT * FROM tasks WHERE ${data.review ? "planner" : "worker"} = ? ${data.important ? "AND priority = 2" : ""} ${data.today ? `AND DATE(date) = CURDATE()` : ""} ORDER BY customer DESC, done ${data.review ? "DESC" : ""}, priority DESC, date`
 
     mysql.query({
         sql: sql,
@@ -43,6 +43,22 @@ router.post('/done', (request, response) => {
     mysql.query({
         sql: `UPDATE tasks SET done = ? WHERE id = ?`,
         values: [ task.done, task.id ]
+    }, (error, results) => {
+        if (error) console.error(error)
+
+        response.json(results)
+        mysql.end()
+
+    })
+})
+
+router.post('/finished', (request, response) => {
+    const task = request.body
+    const mysql = newMysql(config.app.database)
+    mysql.connect()
+    mysql.query({
+        sql: `UPDATE tasks SET finished = ? WHERE id = ?`,
+        values: [ task.finished, task.id ]
     }, (error, results) => {
         if (error) console.error(error)
 
