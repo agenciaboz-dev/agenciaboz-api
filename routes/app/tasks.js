@@ -12,7 +12,7 @@ router.post('/', (request, response, next) => {
     const mysql = newMysql(config.app.database);
     mysql.connect();
 
-    const sql = `SELECT * FROM tasks WHERE ${data.review ? "planner" : "worker"} = ? ${data.important ? "AND priority = 2" : ""} ORDER BY customer DESC, done, priority DESC, date`
+    const sql = `SELECT * FROM tasks WHERE ${data.review ? "planner" : "worker"} = ? ${data.important ? "AND priority = 2" : ""} ${data.today ? `AND DATE(date) = CURDATE()` : ""} ORDER BY customer DESC, done, priority DESC, date`
 
     mysql.query({
         sql: sql,
