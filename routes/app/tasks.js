@@ -69,4 +69,20 @@ router.post('/finished', (request, response) => {
     })
 })
 
+router.post('/delete', (request, response) => {
+    const task = request.body
+    const mysql = newMysql(config.app.database)
+    mysql.connect()
+    mysql.query({
+        sql: `DELETE FROM tasks WHERE id = ?`,
+        values: [ task.id ]
+    }, (error, results) => {
+        if (error) console.error(error)
+
+        response.json(results)
+        mysql.end()
+
+    })
+})
+
 module.exports = router;
