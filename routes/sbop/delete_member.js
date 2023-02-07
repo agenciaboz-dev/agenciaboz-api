@@ -19,6 +19,7 @@ router.post('/', function(request, response, next) {
 		]
 	}, (error, results) => {
 		if (error) console.error(error);
+        console.log(results)
         response.json({success: 'Sucesso'})
 		mysql.end();
 	});
