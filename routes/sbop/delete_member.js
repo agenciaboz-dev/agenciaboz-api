@@ -28,7 +28,7 @@ router.post('/', function(request, response, next) {
 
         const user = results[0]
         mysql.query({
-            sql: "INSERT INTO deleted_logs (name, cpf, email, deleter_id) VALUES (?)",
+            sql: "INSERT INTO deletions_log (name, cpf, email, deleter_id) VALUES (?)",
             values: [ [user.nome, user.cpf, user.email, data.deleter] ]
         }, (error, results) => {
             if (error) console.error(error);
