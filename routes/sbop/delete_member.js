@@ -12,17 +12,28 @@ router.post('/', function(request, response, next) {
 	mysql.connect();
 	
 	mysql.query({
-		sql: `DELETE FROM Membros WHERE id = ?`,
-		timeout: 40000, // 40s
-		values: [
-			data.id,
-		]
-	}, (error, results) => {
-		if (error) console.error(error);
-        console.log(results)
-        response.json({success: 'Sucesso'})
-		mysql.end();
-	});
+        sql: "SELECT * FROM Membros WHERE id = ?",
+        values: [ data.id ]
+    }, (error, results) => {
+        mysql.query({
+            sql: `DELETE FROM Membros WHERE id = ?`,
+            timeout: 40000, // 40s
+            values: [
+                data.id,
+            ]
+        }, (error, results) => {
+            if (error) console.error(error);
+            response.json({success: 'Sucesso'})
+        });
+
+        const user = results[0]
+        mysql.query({
+            sql: "INSERT INTO deleted_logs (name, cpf, email, deleter_id) VALUES (?)",
+            values: [ [user.nome, user.cpf, user.email, data.deleter] ]
+        }, (error, results) => {
+            if (error) console.error(error);
+        })
+    })
 
 
 });
