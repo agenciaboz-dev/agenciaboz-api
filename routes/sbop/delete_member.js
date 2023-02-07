@@ -27,10 +27,16 @@ router.post('/', (request, response, next) => {
 
         const user = results[0]
         mysql.query({
-            sql: "INSERT INTO deletions_log (name, cpf, email, deleter_id) VALUES (?)",
-            values: [ [user.nome, user.cpf, user.email, data.adm_id] ]
+            sql: "SELECT nome FROM Membros WHERE id = ?",
+            values: [ data.adm_id ]
         }, (error, results) => {
-            if (error) console.error(error);
+            const adm = results[0]
+            mysql.query({
+                sql: "INSERT INTO deletions_log (name, cpf, email, adm) VALUES (?)",
+                values: [ [user.nome, user.cpf, user.email, adm.nome] ]
+            }, (error, results) => {
+                if (error) console.error(error);
+            })
         })
     })
 
