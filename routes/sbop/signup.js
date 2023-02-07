@@ -25,14 +25,13 @@ router.post('/', (request, response, next) => {
 
         if (user) {
             mysql.query({
-                sql: "update Membros set nome = ?, senha = ?, cpf = ?, crm = ?, email = ?, uf = ? where id = ?",
+                sql: "update Membros set nome = ?, senha = ?, cpf = ?, crm = ?, email = ? where id = ?",
                 values: [
                     data.name,
                     data.cpf,
                     data.cpf,
-                    data.crm,
+                    `${data.crm}-${data.uf}`,
                     data.email,
-                    data.uf,
                     user.id
                 ]
             }, (error, results) => {
@@ -43,15 +42,14 @@ router.post('/', (request, response, next) => {
             })
         } else {
             mysql.query({
-                sql: "insert into Membros (user, senha, nome, uf, email, pais, crm, primeiro_acesso, temporario, cpf, lat, lng, need_location, pago, especialidades, telefone, celular) values (?)",
+                sql: "insert into Membros (user, senha, nome, email, pais, crm, primeiro_acesso, temporario, cpf, lat, lng, need_location, pago, especialidades, telefone, celular) values (?)",
                 values: [[
                     data.email.split('@')[0],
                     data.cpf,
                     data.name,
-                    data.uf,
                     data.email,
                     'BR',
-                    data.crm,
+                    `${data.crm}-${data.uf}`,
                     'True',
                     'True',
                     data.cpf,
