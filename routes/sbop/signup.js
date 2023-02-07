@@ -25,9 +25,10 @@ router.post('/', (request, response, next) => {
 
         if (user) {
             mysql.query({
-                sql: "update Membros set nome = ?, cpf = ?, crm = ?, email = ?, uf = ? where id = ?",
+                sql: "update Membros set nome = ?, senha = ?, cpf = ?, crm = ?, email = ?, uf = ? where id = ?",
                 values: [
                     data.name,
+                    data.cpf,
                     data.cpf,
                     data.crm,
                     data.email,
