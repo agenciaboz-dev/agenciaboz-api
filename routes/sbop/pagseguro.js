@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const config = require('../../config.json')
-const newMysql = require('../../src/database')
+const axios = require('axios');
+const newMysql = require('../../src/database');
+const { exec } = require('child_process');
 
 router.post('/integracao', (request, response, next) => {
     const data = request.body
