@@ -21,4 +21,7 @@ router.use('/get_category', get_category);
 const signup = require('./signup');
 router.use('/signup', signup);
 
+const pagseguro = require('./pagseguro');
+router.use('/pagseguro', pagseguro);
+
 module.exports = router;
