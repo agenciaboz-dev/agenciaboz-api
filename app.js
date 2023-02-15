@@ -27,4 +27,7 @@ app.use('/api/v1/casaludica', casaludica);
 const bapka = require('./routes/bapka')
 app.use('/api/v1/bapka', bapka)
 
+const sion = require('./routes/sion')
+app.use('/api/v1/sion', sion)
+
 module.exports = app;
