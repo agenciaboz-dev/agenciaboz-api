@@ -90,4 +90,50 @@ router.post('/new_keys', (request, response, next) => {
     
 })
 
+router.post('/member', (request, response, next) => {    
+	const data = request.body;
+
+	const mysql = newMysql(config.sbop.database);
+	mysql.connect();
+	
+	mysql.query({
+		sql: `SELECT * FROM Membros WHERE id = ? ;`,
+		timeout: 40000, // 40s
+		values: [ data.id ]
+	}, (error, results) => {
+		if (error) console.error(error);
+		response.json(results);
+		mysql.end();
+	});
+
+
+});
+
+router.post('/new_order', (request, response, next) => {
+    const data = request.body
+    console.log(data)
+
+    const options = {
+    method: 'POST',
+    url: 'https://sandbox.api.pagseguro.com/orders',
+    headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer 2054EB5973684405B0E04001EE29E932',
+        'content-type': 'application/json'
+    },
+
+    data: data
+};
+
+    axios.request(options)
+    .then((_response) => {
+        console.log(_response.data);
+        response.json(_response.data)
+    })
+    // .catch(function (error) {
+    //     console.error(error);
+    // });
+        
+    })
+
 module.exports = router;
