@@ -111,29 +111,29 @@ router.post('/member', (request, response, next) => {
 
 router.post('/new_order', (request, response, next) => {
     const data = request.body
-    console.log(data)
+    // console.log(data)
 
     const options = {
-    method: 'POST',
-    url: 'https://sandbox.api.pagseguro.com/orders',
-    headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer 2054EB5973684405B0E04001EE29E932',
-        'content-type': 'application/json'
-    },
+        method: 'POST',
+        url: 'https://sandbox.api.pagseguro.com/orders',
+        headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer 2054EB5973684405B0E04001EE29E932',
+            'content-type': 'application/json'
+        },
 
-    data: data
-};
+        data: data
+    }
 
     axios.request(options)
     .then((_response) => {
-        console.log(_response.data);
+        // console.log(_response.data);
         response.json(_response.data)
     })
     // .catch(function (error) {
     //     console.error(error);
     // });
         
-    })
+})
 
 module.exports = router;
