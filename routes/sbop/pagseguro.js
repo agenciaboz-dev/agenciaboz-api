@@ -10,7 +10,7 @@ router.post('/webhook', (request, response, next) => {
 
     if (data?.charges[0].status == 'PAID') {
         console.log('pago: ')
-        console.log(data.charges.reference_id)
+        console.log(data.charges[0].reference_id)
     }
 
     response.json({message: 'teste'})
