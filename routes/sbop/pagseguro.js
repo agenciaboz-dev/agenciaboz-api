@@ -8,7 +8,7 @@ const { exec } = require('child_process');
 router.post('/webhook', (request, response, next) => {
     const data = request.body
 
-    if (data?.charges.lenght > 0 && data?.charges[0].status == 'PAID') {
+    if (data?.charges[0]?.status == 'PAID') {
         console.log('pago: ')
         console.log(data.charges[0].reference_id)
     }
