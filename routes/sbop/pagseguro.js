@@ -9,6 +9,7 @@ router.post('/webhook', (request, response, next) => {
     const data = request.body
 
     if (data?.charges[0]?.status == 'PAID') {
+        console.log(`pago membro ${data.charges[0].reference_id}`)
         
         const mysql = newMysql(config.sbop.database)
         mysql.connect()
@@ -17,7 +18,7 @@ router.post('/webhook', (request, response, next) => {
             sql: "UPDATE Membros SET pago=true WHERE id = ?",
             values: [ data.charges[0].reference_id ]
         }, (error, results) => {
-            
+            if (error) console.log(error)
         })
     }
 
