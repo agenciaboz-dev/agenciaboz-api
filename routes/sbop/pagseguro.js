@@ -5,7 +5,7 @@ const axios = require('axios');
 const newMysql = require('../../src/database');
 const { exec } = require('child_process');
 
-router.put('/webhook', (request, response, next) => {
+router.post('/webhook', (request, response, next) => {
     const data = request.body
     console.log(data)
 
