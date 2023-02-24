@@ -10,6 +10,7 @@ var http = require('http');
 var https = require('https');
 const io = require('socket.io')(http);
 const fs = require('fs');
+const { WebSocketServer } = require('ws');
 
 /**
  * Get port from environment and store in Express.
@@ -28,6 +29,7 @@ app.set('port', port);
 // }, app);
 
 var server = http.createServer(app);
+const wsServer = new WebSocketServer({ server })
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -103,3 +105,16 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+const clients = {};
+
+// A new client connection request received
+wsServer.on('connection', function(connection) {
+  // Generate a unique code for every user
+  const userId = uuidv4();
+  console.log(`Recieved a new connection.`);
+
+  // Store the new connection and handle messages
+  clients[userId] = connection;
+  console.log(`${userId} connected.`);
+});
