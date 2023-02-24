@@ -7,7 +7,11 @@ const { exec } = require('child_process');
 
 router.post('/webhook', (request, response, next) => {
     const data = request.body
-    console.log(data)
+
+    if (data?.charges[0].status == 'PAID') {
+        console.log('pago: ')
+        console.log(data.charges.reference_id)
+    }
 
     response.json({message: 'teste'})
 })
