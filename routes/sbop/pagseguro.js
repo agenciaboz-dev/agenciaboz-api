@@ -149,4 +149,40 @@ router.post('/new_order', (request, response, next) => {
         
 })
 
+router.post('/simulate_payment', (request, response, next) => {
+    const options = request.body
+    // console.log(data)
+
+    axios.request(options).then(function (_response) {
+        response.json(_response.data)
+    }).catch(function (error) {
+        console.error(error);
+      });
+        
+})
+
+router.post('/consult', (request, response, next) => {
+    const options = request.body
+    // console.log(data)
+
+    axios.request(options).then(function (_response) {
+        response.json(_response.data)
+    }).catch(function (error) {
+        console.error(error);
+      });
+        
+})
+
+router.post('/refund', (request, response, next) => {
+    const options = request.body
+    // console.log(data)
+
+    axios.request(options).then(function (_response) {
+        response.json(_response.data)
+    }).catch(function (error) {
+        console.error(error);
+      });
+        
+})
+
 module.exports = router;

@@ -109,12 +109,10 @@ function onListening() {
 const clients = {};
 
 // A new client connection request received
-wsServer.on('connection', function(connection) {
+wsServer.on('connection', (connection) => {
   // Generate a unique code for every user
-  const userId = uuidv4();
   console.log(`Recieved a new connection.`);
+  connection.on('message', message => console.log(message))
 
   // Store the new connection and handle messages
-  clients[userId] = connection;
-  console.log(`${userId} connected.`);
 });
