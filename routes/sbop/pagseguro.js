@@ -4,6 +4,7 @@ const config = require('../../config.json')
 const axios = require('axios');
 const newMysql = require('../../src/database');
 const { exec } = require('child_process');
+const clients = require('../../src/wsClients')
 
 router.post('/webhook', (request, response, next) => {
     const data = request.body
@@ -20,6 +21,9 @@ router.post('/webhook', (request, response, next) => {
         }, (error, results) => {
             if (error) console.log(error)
         })
+
+        clients[data.charges[0].reference_id].send('PAID')
+        
     }
 
     response.json({message: 'teste'})
