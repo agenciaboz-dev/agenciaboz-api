@@ -10,7 +10,7 @@ var http = require('http');
 var https = require('https');
 const io = require('socket.io')(http);
 const fs = require('fs');
-const { WebSocketServer } = require('ws');
+const { wsServer } = require('../path/to/websocket.js');
 
 /**
  * Get port from environment and store in Express.
@@ -28,7 +28,6 @@ const server = https.createServer({
     cert: fs.readFileSync('/etc/letsencrypt/live/app.agenciaboz.com.br/cert.pem', 'utf8'),
     ca: fs.readFileSync('/etc/letsencrypt/live/app.agenciaboz.com.br/chain.pem', 'utf8'),
 }, app);
-const wsServer = new WebSocketServer({ server })
 
 // var server = http.createServer(app);
 /**
