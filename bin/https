@@ -10,7 +10,7 @@ var http = require('http');
 var https = require('https');
 const io = require('socket.io')(http);
 const fs = require('fs');
-const { wsServer } = require('../path/to/websocket.js');
+const { wsServer } = require('./websocket')
 
 /**
  * Get port from environment and store in Express.
