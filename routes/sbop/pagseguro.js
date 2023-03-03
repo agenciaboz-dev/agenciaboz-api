@@ -135,7 +135,7 @@ router.post('/new_order', (request, response, next) => {
         url: 'https://api.pagseguro.com/orders',
         headers: {
             accept: 'application/json',
-            Authorization: 'Bearer 00020101021226830014br.gov.bcb.pix2561api.pagseguro.com/pix/v2/F2768D54-5008-48BB-9DCE-02C8A69C833027600016BR.COM.PAGSEGURO0136F2768D54-5008-48BB-9DCE-02C8A69C833052048211530398654042.005802BR5922Sociedade Brasileira d6009Sao Paulo62070503***6304A313',
+            Authorization: 'Bearer ac4751ea-4d2b-4f32-9ae2-cf6b2f4da772bf4af43b43c6b2834627b037ec82c9a93900-8c98-4e5f-b786-e34a98d3b18e',
             'content-type': 'application/json'
         },
 
