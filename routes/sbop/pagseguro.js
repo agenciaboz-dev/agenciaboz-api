@@ -132,10 +132,10 @@ router.post('/new_order', (request, response, next) => {
 
     const options = {
         method: 'POST',
-        url: 'https://sandbox.api.pagseguro.com/orders',
+        url: 'https://api.pagseguro.com/orders',
         headers: {
             accept: 'application/json',
-            Authorization: 'Bearer 2054EB5973684405B0E04001EE29E932',
+            Authorization: 'Bearer 00020101021226830014br.gov.bcb.pix2561api.pagseguro.com/pix/v2/F2768D54-5008-48BB-9DCE-02C8A69C833027600016BR.COM.PAGSEGURO0136F2768D54-5008-48BB-9DCE-02C8A69C833052048211530398654042.005802BR5922Sociedade Brasileira d6009Sao Paulo62070503***6304A313',
             'content-type': 'application/json'
         },
 
