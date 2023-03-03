@@ -11,7 +11,7 @@ router.post('/webhook', (request, response, next) => {
 
     if (data?.charges[0]?.status == 'PAID') {
         const id = data.charges[0].reference_id
-        const assinatura = data.items[0].name
+        let assinatura = data.items[0].name
         assinatura = assinatura.charAt(0).toUpperCase() + assinatura.slice(1)
         console.log({datetime: new Date(), webhook: data})
 
