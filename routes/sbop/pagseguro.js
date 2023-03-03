@@ -8,6 +8,7 @@ const clients = require('../../src/wsClients')
 
 router.post('/webhook', (request, response, next) => {
     const data = request.body
+    console.log(data)
 
     if (data?.charges[0]?.status == 'PAID') {
         console.log(`pago membro ${data.charges[0].reference_id}`)
