@@ -8,22 +8,25 @@ const clients = require('../../src/wsClients')
 
 router.post('/webhook', (request, response, next) => {
     const data = request.body
-    console.log(data)
 
     if (data?.charges[0]?.status == 'PAID') {
-        console.log(`pago membro ${data.charges[0].reference_id}`)
+        const id = data.charges[0].reference_id
+        const assinatura = data.items[0].name
+        assinatura = assinatura.charAt(0).toUpperCase() + assinatura.slice(1)
+
+        console.log(`pago membro ${id}`)
         
         const mysql = newMysql(config.sbop.database)
         mysql.connect()
 
         mysql.query({
-            sql: "UPDATE Membros SET pago=true WHERE id = ?",
-            values: [ data.charges[0].reference_id ]
+            sql: "UPDATE Membros SET pago=true, assinatura = ? WHERE id = ?",
+            values: [ assinatura, id ]
         }, (error, results) => {
             if (error) console.log(error)
         })
 
-        clients[data.charges[0].reference_id].send('PAID')
+        clients[id].send('PAID')
         
     }
 
