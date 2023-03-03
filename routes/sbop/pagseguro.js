@@ -13,7 +13,7 @@ router.post('/webhook', (request, response, next) => {
         const id = data.charges[0].reference_id
         const assinatura = data.items[0].name
         assinatura = assinatura.charAt(0).toUpperCase() + assinatura.slice(1)
-        console.log({webhook: data})
+        console.log({datetime: new Date(), webhook: data})
 
         console.log(`pago membro ${id}`)
         
@@ -146,11 +146,11 @@ router.post('/new_order', (request, response, next) => {
 
         data: data
     }
-    console.log({request: options})
+    console.log({datetime: new Date(), request: options})
 
     axios.request(options)
     .then((_response) => {
-        console.log({response: _response.data});
+        console.log({datetime: new Date(), response: _response.data});
         response.json(_response.data)
     })
     // .catch(function (error) {
