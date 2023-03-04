@@ -18,10 +18,16 @@ router.use('/get_content', get_content);
 const get_category = require('./get_category');
 router.use('/get_category', get_category);
 
+const get_specializations = require('./get_specializations');
+router.use('/get_specializations', get_specializations);
+
 const signup = require('./signup');
 router.use('/signup', signup);
 
 const pagseguro = require('./pagseguro');
 router.use('/pagseguro', pagseguro);
+
+const member = require('./member');
+router.use('/member', member);
 
 module.exports = router;
