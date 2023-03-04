@@ -3,8 +3,44 @@ const router = express.Router();
 const config = require('../../config.json')
 const newMysql = require('../../src/database')
 
+router.post('/full', (request, response) => {
+    const data = request.body;
 
-/* GET users listing. */
+	const mysql = newMysql(config.sbop.database);
+	mysql.connect();
+
+    mysql.query({
+        sql: "update Membros set nome = ?, uf = ?, cep = ?, email = ?, endereco = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, curriculum = ?, pais = ?, crm = ?, cpf = ?, lat = ?, lng = ?, need_location = ?, especialidades = ?, telefone = ? where id = ?",
+        values: [
+            data.name,
+            data.uf,
+            data.cep,
+            data.email,
+            data.endereco,
+            data.numero,
+            data.complemento,
+            data.bairro,
+            data.cidade,
+            data.curriculum,
+            'BR',
+            data.crm,
+            data.cpf,
+            0,
+            0,
+            true,
+            data.especialidades.toString(),
+            data.telefone,
+            data.id 
+        ]
+    }, (error, results) => {
+        if (error) console.error(error);
+
+        response.json(results)
+        mysql.end()
+    })
+
+})
+
 router.post('/', (request, response, next) => {    
 	const data = request.body;
 
