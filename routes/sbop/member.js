@@ -31,4 +31,18 @@ router.post('/', (request, response, next) => {
 
 });
 
+router.post('/update/password', (request, response) => {
+    const data = request.body
+    const mysql = newMysql(config.sbop.database)
+    mysql.connect()
+
+    mysql.query({
+        sql: "update Membros set senha = ?, primeiro_acesso = 'False' where id = ?",
+        values: [ data.password, data.id ]
+    }, (error, results) => {
+        if (error) console.error(error)
+        response.json(results)
+    })
+})
+
 module.exports = router;
