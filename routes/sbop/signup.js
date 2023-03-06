@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('../../config.json')
 const newMysql = require('../../src/database')
+const stripAll = require('../../src/stripAll')
 
 router.post('/full', (request, response) => {
     const data = request.body;
@@ -24,7 +25,7 @@ router.post('/full', (request, response) => {
             data.curriculum,
             'BR',
             data.crm,
-            data.cpf,
+            stripAll(data.cpf),
             0,
             0,
             true,
