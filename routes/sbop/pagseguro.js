@@ -21,7 +21,7 @@ router.post('/webhook', (request, response, next) => {
         mysql.connect()
 
         mysql.query({
-            sql: "UPDATE Membros SET pago=true, assinatura = ? WHERE id = ?",
+            sql: "UPDATE Membros SET pago=true, assinatura = ?, temporario = 'false' WHERE id = ?",
             values: [ assinatura, id ]
         }, (error, results) => {
             if (error) console.log(error)
