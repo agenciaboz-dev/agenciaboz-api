@@ -37,7 +37,7 @@ router.post('/update/password', (request, response) => {
     mysql.connect()
 
     mysql.query({
-        sql: "update Membros set senha = ?, primeiro_acesso = 'False' where id = ?",
+        sql: "update Membros set senha = ?, primeiro_acesso = false where id = ?",
         values: [ data.password, data.id ]
     }, (error, results) => {
         if (error) console.error(error)
