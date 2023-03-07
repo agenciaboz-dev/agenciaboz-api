@@ -21,7 +21,7 @@ router.post('/', (request, response, next) => {
 
         member.pago = Boolean(+member.pago)
         member.temporario = Boolean(+member.temporario)
-        member.primeiro_acesso = member.primeiro_acesso == "True" ? true : false
+        // member.primeiro_acesso = member.primeiro_acesso == "True" || member.primeiro_acesso == "1" ? true : false
         member.especialidades = member.especialidades.split(',')
 
         response.json(member)
