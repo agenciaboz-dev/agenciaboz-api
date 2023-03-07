@@ -45,4 +45,18 @@ router.post('/update/password', (request, response) => {
     })
 })
 
+router.post('/update/temporario', (request, response) => {
+    const data = request.body
+    const mysql = newMysql(config.sbop.database)
+    mysql.connect()
+
+    mysql.query({
+        sql: "update Membros set temporario = 'False' where id = ?",
+        values: [ data.id ]
+    }, (error, results) => {
+        if (error) console.error(error)
+        response.json(results)
+    })
+})
+
 module.exports = router;
