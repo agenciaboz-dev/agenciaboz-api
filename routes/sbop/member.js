@@ -20,6 +20,12 @@ router.post('/', (request, response, next) => {
         console.log(member)
 
         member.pago = Boolean(+member.pago)
+        if (member.temporario == "True") {
+            member.temporario = 1
+        }
+        if (member.temporario == "False") {
+            member.temporario = 0
+        }
         member.temporario = Boolean(+member.temporario)
         member.primeiro_acesso = +member.primeiro_acesso
         member.especialidades = member.especialidades.split(',')
