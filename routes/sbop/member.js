@@ -26,8 +26,14 @@ router.post('/', (request, response, next) => {
         if (member.temporario == "False") {
             member.temporario = 0
         }
+        if (member.primeiro_acesso == "True") {
+            member.primeiro_acesso = 1
+        }
+        if (member.primeiro_acesso == "False") {
+            member.primeiro_acesso = 0
+        }
         member.temporario = Boolean(+member.temporario)
-        member.primeiro_acesso = +member.primeiro_acesso
+        member.primeiro_acesso = Boolean(+member.primeiro_acesso)
         member.especialidades = member.especialidades.split(',')
 
         response.json(member)
