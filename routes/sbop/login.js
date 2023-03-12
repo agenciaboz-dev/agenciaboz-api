@@ -44,14 +44,12 @@ router.post('/recover', (request, response) => {
 		if (error) console.error(error);
 
         const member = results[0]
-        console.log(member)
         
         if (member) {
             exec(`python3 src/sbop/recover_password.py ${member.user} ${member.email}`, (err, stdout, stderr) => {
                 if (err || stderr) console.error(err)
                 if (stderr) console.error(stderr)
 
-                console.log(stdout)
                 response.json(member)
             })
         } else {
