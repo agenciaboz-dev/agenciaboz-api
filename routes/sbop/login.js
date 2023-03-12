@@ -48,11 +48,16 @@ router.post('/recover', (request, response) => {
         
         if (member) {
             exec(`python3 src/sbop/recover_password.py ${member.user} ${member.email}`, (err, stdout, stderr) => {
-                if (err) console.error(err)
-                if (stderr) console.error(stderr)
+                if (err || stderr) {
+                    console.error(err)
+                    console.error(stderr)
+                    response.json({error: 'api error'})
+                } else {
+                    
+                    console.log(stdout)
+                    response.json(member)
+                }
 
-                console.log(stdout)
-                response.json(member)
             })
         } else {
             response.json({error: 'nothing found'})
