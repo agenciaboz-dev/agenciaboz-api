@@ -47,10 +47,10 @@ router.post('/recover', (request, response) => {
         console.log(member)
         
         if (member) {
-            exec(`python src/sbop/recover_password.py ${member.user} ${member.email}`, (err, stdout, stderr) => {
+            exec(`python3 src/sbop/recover_password.py ${member.user} ${member.email}`, (err, stdout, stderr) => {
                 if (err) console.error(err)
                 if (stderr) console.error(stderr)
-                
+
                 console.log(stdout)
                 response.json(member)
             })
