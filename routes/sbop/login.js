@@ -4,7 +4,6 @@ const config = require('../../config.json')
 const newMysql = require('../../src/database')
 
 
-/* GET users listing. */
 router.post('/', (request, response, next) => {    
 	const data = request.body;
 
@@ -12,20 +11,25 @@ router.post('/', (request, response, next) => {
 	mysql.connect();
 	
 	mysql.query({
-		sql: `SELECT * FROM Membros WHERE user = ${mysql.escape(data.login)} AND senha = ${mysql.escape(data.password)} ;`,
+		sql: `SELECT * FROM Membros WHERE (user = ? OR cpf = ? OR telefone = ?) AND senha = ?`,
 		timeout: 40000, // 40s
-		values: {
-			USUÁRIO: data.login,
-			SENHA: data.password,
-		}
+		values: [
+			data.login,
+			data.login,
+			data.login,
+			data.password,
+        ]
 	}, (error, results) => {
 		if (error) console.error(error);
 		console.log(results);
-		response.json(results);
+
+        const member = results[0]
+        
+        response.json(member || {error: 'no member found'})
+
 		mysql.end();
 	});
-
-
 });
+
 
 module.exports = router;
