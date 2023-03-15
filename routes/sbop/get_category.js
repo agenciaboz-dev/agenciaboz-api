@@ -4,7 +4,6 @@ const config = require('../../config.json')
 const newMysql = require('../../src/database')
 
 
-/* GET users listing. */
 router.get('/', function(request, response, next) {    
 	const mysql = newMysql(config.sbop.database);
 	mysql.connect();

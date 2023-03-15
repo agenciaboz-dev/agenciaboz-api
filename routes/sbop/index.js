@@ -30,4 +30,7 @@ router.use('/pagseguro', pagseguro);
 const member = require('./member');
 router.use('/member', member);
 
+const restart = require('./restart');
+router.use('/restart', restart);
+
 module.exports = router;
