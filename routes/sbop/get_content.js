@@ -3,9 +3,32 @@ const router = express.Router();
 const config = require('../../config.json')
 const newMysql = require('../../src/database')
 
+router.post('/videos', (request, response, next) => {    
+   const data = request.body
 
-/* GET users listing. */
-router.post('/', function(request, response, next) {    
+   const mysql = newMysql(config.sbop.database);
+   mysql.connect();
+
+    const sql = {
+        Aspirante: `SELECT * FROM conteudos WHERE assinatura = 'Aspirante' AND video = true ORDER BY id DESC`,
+        Associado: `SELECT * FROM conteudos WHERE (assinatura = 'Aspirante' OR assinatura = 'Associado') AND video = true ORDER BY id DESC`,
+        Titular: `SELECT * FROM conteudos WHERE (assinatura = 'Aspirante' OR assinatura = 'Associado' OR assinatura = 'Titular') AND video = true ORDER BY id DESC`,
+    }
+   
+   mysql.query({
+       sql: sql[data.assinatura],
+       timeout: 40000, // 40s
+       values: []
+   }, (error, results) => {
+       if (error) console.error(error);
+
+       response.json(results)
+
+       mysql.end();
+   });
+});
+
+router.post('/', (request, response, next) => {    
 	const data = request.body;
 
 	const mysql = newMysql(config.sbop.database);
