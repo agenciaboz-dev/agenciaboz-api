@@ -43,6 +43,28 @@ router.post('/', (request, response, next) => {
 
 });
 
+router.post('/search', (request, response, next) => {    
+   const data = request.body
+
+   const mysql = newMysql(config.sbop.database);
+   mysql.connect();
+
+   
+   mysql.query({
+       sql: `SELECT * FROM Membros WHERE nome like ?`,
+       timeout: 40000, // 40s
+       values: [
+           '%'+data.name+'%',
+       ]
+   }, (error, results) => {
+       if (error) console.error(error);
+
+       response.json(results)
+
+       mysql.end();
+   });
+});
+
 router.post('/update', (request, response) => {
     const data = request.body
     const mysql = newMysql(config.sbop.database)
@@ -87,5 +109,26 @@ router.post('/update/temporario', (request, response) => {
         response.json(results)
     })
 })
+
+router.post('/requests', (request, response, next) => {    
+   const data = request.body
+
+   const mysql = newMysql(config.sbop.database);
+   mysql.connect();
+   
+   mysql.query({
+       sql: `SELECT * FROM Solicitacoes WHERE USUARIO = ?`,
+       timeout: 40000, // 40s
+       values: [
+           data.id,
+       ]
+   }, (error, results) => {
+       if (error) console.error(error);
+
+       response.json(results)
+
+       mysql.end();
+   });
+});
 
 module.exports = router;
