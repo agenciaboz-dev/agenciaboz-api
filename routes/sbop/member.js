@@ -59,7 +59,29 @@ router.post('/search', (request, response, next) => {
    }, (error, results) => {
        if (error) console.error(error);
 
-       response.json(results)
+        const parsed_results = results.map(member => {
+            member.pago = Boolean(+member.pago)
+            if (member.temporario == "True") {
+                member.temporario = 1
+            }
+            if (member.temporario == "False") {
+                member.temporario = 0
+            }
+            if (member.primeiro_acesso == "True") {
+                member.primeiro_acesso = 1
+            }
+            if (member.primeiro_acesso == "False") {
+                member.primeiro_acesso = 0
+            }
+            member.temporario = Boolean(+member.temporario)
+            member.primeiro_acesso = Boolean(+member.primeiro_acesso)
+            member.especialidades = member.especialidades.split(',')
+
+            return member
+        })
+
+        console.log(parsed_results)
+        response.json(parsed_results)
 
        mysql.end();
    });
