@@ -257,7 +257,7 @@ router.post('/requests/new', (request, response, next) => {
 
             // if it is a member certificate request
             if (data.request_id == 0) {
-                execSync(`python3 src/sbop/certificate.py "${member.nome}" ${member.assinatura} /home/agenciaboz/dev.agenciaboz.com.br/static/documents/${member.id}`)
+                execSync(`python3 src/sbop/certificate.py "${member.nome}" ${member.assinatura} /home/agenciaboz/dev.agenciaboz.com.br/documents/${member.id}`)
                 solicitacao.status = 'Concluído'
                 solicitacao.url = 'certificate.pdf'
             }
