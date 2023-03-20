@@ -199,6 +199,27 @@ router.post('/requests', (request, response, next) => {
    });
 });
 
+router.post('/requests/cancel', (request, response, next) => {    
+   const data = request.body
+
+   const mysql = newMysql(config.sbop.database);
+   mysql.connect();
+   
+   mysql.query({
+       sql: `UPDATE Solicitacoes SET SITUACAO = 'Cancelado' WHERE ID = ?`,
+       timeout: 40000, // 40s
+       values: [
+           data.id,
+       ]
+   }, (error, results) => {
+       if (error) console.error(error);
+
+       response.json(results)
+
+       mysql.end();
+   });
+});
+
 router.post('/requests/new', (request, response, next) => {    
    const data = request.body
    const member = data.member
