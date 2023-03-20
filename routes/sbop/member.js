@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('../../config.json')
 const newMysql = require('../../src/database')
+const { execSync } = require('child_process');
 
 
 router.post('/', (request, response, next) => {    
@@ -242,7 +243,8 @@ router.post('/requests/new', (request, response, next) => {
         const solicitacao = {
             date: today,
             protocol: `${member.id}.${data.request_id}.${new_id}.${today.split('/')[0]}.${today.split('/')[1]}.${today.split('/')[2]}`,
-            user_id: member.id
+            user_id: member.id,
+            status: 'Em andatamento'
         }
 
         mysql.query({
@@ -253,9 +255,16 @@ router.post('/requests/new', (request, response, next) => {
 
             solicitacao.name = results[0].NOME
 
+            // if it is a member certificate request
+            if (data.request_id == 0) {
+                execSync(`python3 src/sbop/certificate.py "${member.nome}" ${member.assinatura} /home/sbop/sistema/static/documents/${member.id}`)
+                solicitacao.status = 'Concluído'
+                solicitacao.url = 'certificate.pdf'
+            }
+
             mysql.query({
-                sql: 'INSERT INTO Solicitacoes (USUARIO, SOLICITACAO, SITUACAO, DATA, PROTOCOLO) VALUES (?)',
-                values: [[solicitacao.user_id, solicitacao.name, 'Em andamento', solicitacao.date, solicitacao.protocol]]
+                sql: 'INSERT INTO Solicitacoes (USUARIO, SOLICITACAO, SITUACAO, DATA, PROTOCOLO, URL) VALUES (?)',
+                values: [[solicitacao.user_id, solicitacao.name, solicitacao.status, solicitacao.date, solicitacao.protocol, solicitacao.url]]
             }, (error, results) => {
                 if (error) console.error(error)
 
