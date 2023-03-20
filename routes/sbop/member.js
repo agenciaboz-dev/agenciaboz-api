@@ -57,7 +57,7 @@ router.post('/search', (request, response, next) => {
    }, (error, results) => {
        if (error) console.error(error);
 
-        const parsed_results = results.map(member => {
+        const parsed_results = results?.map(member => {
             member.pago = Boolean(+member.pago)
             if (member.temporario == "True") {
                 member.temporario = 1
@@ -144,6 +144,20 @@ router.post('/update/password', (request, response) => {
     mysql.query({
         sql: "update Membros set senha = ?, primeiro_acesso = false where id = ?",
         values: [ data.password, data.id ]
+    }, (error, results) => {
+        if (error) console.error(error)
+        response.json(results)
+    })
+})
+
+router.post('/update/plan', (request, response) => {
+    const data = request.body
+    const mysql = newMysql(config.sbop.database)
+    mysql.connect()
+
+    mysql.query({
+        sql: "update Membros set assinatura = ? where id = ?",
+        values: [ data.plan, data.id ]
     }, (error, results) => {
         if (error) console.error(error)
         response.json(results)
