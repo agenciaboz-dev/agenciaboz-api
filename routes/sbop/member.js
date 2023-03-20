@@ -51,11 +51,9 @@ router.post('/search', (request, response, next) => {
 
    
    mysql.query({
-       sql: `SELECT * FROM Membros WHERE nome like ?`,
-       timeout: 40000, // 40s
-       values: [
-           '%'+data.name+'%',
-       ]
+    sql: `SELECT * FROM Membros WHERE nome ${data.name ? 'REGEXP' : 'like'} ?`,
+    timeout: 40000,
+    values: [data.name ? data.name.split(' ').join('|') : '%%']
    }, (error, results) => {
        if (error) console.error(error);
 
