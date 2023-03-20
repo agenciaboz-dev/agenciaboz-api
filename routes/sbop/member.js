@@ -185,7 +185,7 @@ router.post('/requests', (request, response, next) => {
    mysql.connect();
    
    mysql.query({
-       sql: `SELECT * FROM Solicitacoes WHERE USUARIO = ?`,
+       sql: `SELECT * FROM Solicitacoes WHERE USUARIO = ? order by ID desc`,
        timeout: 40000, // 40s
        values: [
            data.id,
