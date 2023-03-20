@@ -91,11 +91,45 @@ router.post('/update', (request, response) => {
     mysql.connect()
 
     mysql.query({
-        sql: "update Membros set email = ?, primeiro_acesso = false where id = ?",
+        sql: "update Membros set bairro = ?, celular = ?, cep = ?, cidade = ?, complemento = ?, cpf = ?, crm = ?, curriculum = ?, email = ?, endereco = ?, need_location = true, nome = ?, numero = ?, pago = ?, pessoa = ?, primeiro_acesso = ?, senha = ?, telefone = ?, temporario = ?, uf = ?, user = ?, especialidades = ? where id = ?",
         values: [ 
+            data.bairro,
+            data.celular,
+            data.cep,
+            data.cidade,
+            data.complemento,
+            data.cpf,
+            `${data.crm.split('-')[0]}-${data.crm_uf}`,
+            data.curriculum,
             data.email, 
+            data.endereco,
+            data.nome,
+            data.numero,
+            data.pago,
+            data.pessoa,
+            data.primeiro_acesso,
+            data.senha,
+            data.telefone,
+            data.temporario,
+            data.uf,
+            data.user,
+            data.especialidades.toString(),
             data.id,
         ]
+    }, (error, results) => {
+        if (error) console.error(error)
+        response.json(results)
+    })
+})
+
+router.post('/update/email', (request, response) => {
+    const data = request.body
+    const mysql = newMysql(config.sbop.database)
+    mysql.connect()
+
+    mysql.query({
+        sql: "update Membros set email = ? where id = ?",
+        values: [ data.email, data.id ]
     }, (error, results) => {
         if (error) console.error(error)
         response.json(results)
