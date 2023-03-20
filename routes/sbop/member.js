@@ -199,4 +199,50 @@ router.post('/requests', (request, response, next) => {
    });
 });
 
+router.post('/requests/new', (request, response, next) => {    
+   const data = request.body
+   const member = data.member
+
+   const mysql = newMysql(config.sbop.database);
+   mysql.connect();
+   
+   mysql.query({
+       sql: `SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'Solicitacoes' AND table_schema = DATABASE()`,
+       timeout: 40000, // 40s
+       values: [
+       ]
+   }, (error, results) => {
+       if (error) console.error(error);
+
+        const new_id = results[0].AUTO_INCREMENT
+
+        const today = new Date().toLocaleDateString('pt-BR')
+
+        const solicitacao = {
+            date: today,
+            protocol: `${member.id}.${data.request_id}.${new_id}.${today.split('/')[0]}.${today.split('/')[1]}.${today.split('/')[2]}`,
+            user_id: member.id
+        }
+
+        mysql.query({
+            sql: "SELECT * FROM available_requests WHERE id = ?",
+            values: [data.request_id]
+        }, (error, results) => {
+            if (error) console.error(error)
+
+            solicitacao.name = results[0].NOME
+
+            mysql.query({
+                sql: 'INSERT INTO Solicitacoes (USUARIO, SOLICITACAO, SITUACAO, DATA, PROTOCOLO) VALUES (?)',
+                values: [[solicitacao.user_id, solicitacao.name, 'Em andamento', solicitacao.date, solicitacao.protocol]]
+            }, (error, results) => {
+                if (error) console.error(error)
+
+                response.json(solicitacao)
+            })
+        })
+
+   });
+});
+
 module.exports = router;
