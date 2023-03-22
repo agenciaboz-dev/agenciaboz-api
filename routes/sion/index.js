@@ -12,5 +12,8 @@ router.use('/signup', signup);
 const login = require('./login');
 router.use('/login', login);
 
+const contract = require('./contract');
+router.use('/contract', contract);
+
 
 module.exports = router;
