@@ -61,7 +61,7 @@ router.post('/new', (request, response, next) => {
             Object.entries(files).forEach(([key, file]) => {
                 const filePath = path.join(uploadsDir, file.name);
                 console.log(filePath)
-                file.mv(file.name, (err) => {
+                file.mv(filePath, (err) => {
                     if (err) {
                         console.error("Error saving file:", err);
                         return res.status(500).json({ error: "Error saving file" });
