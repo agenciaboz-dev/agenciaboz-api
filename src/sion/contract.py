@@ -10,7 +10,7 @@ from gdrive import upload
 
 
 def generate():
-    global data, path
+    global data, path, juridica
 
     def first_page():
         global data
@@ -20,9 +20,10 @@ def generate():
         # drawing client data
         can.drawRightString(540, 488, str(data['id']))
         can.drawRightString(540, 440, str(data['date']))
-        can.drawRightString(540, 315, data['company'])
-        can.drawRightString(540, 267, data['cnpj'])
-        can.drawRightString(540, 219, data['category'])
+        
+        can.drawRightString(540, 315, data['company'] if juridica else data['name'])
+        can.drawRightString(540, 267, data['cnpj'] if juridica else data['cpf'])
+        can.drawRightString(540, 219, data['category'] if juridica else data['rg'])
         can.drawRightString(540, 171, data['email'])
         can.drawRightString(540, 123, data['name'])
         can.drawRightString(540, 75, data['phone'])
@@ -46,9 +47,16 @@ def generate():
 
         # drawing client data
         can.drawRightString(540, 555, str(data['address']))
-        can.drawRightString(540, 507, str(data['cnpj']))
-        can.drawRightString(540, 459, data['unit'])
-        can.drawString(160, 459, data['supplier'])
+        
+        if juridica:
+            can.drawRightString(540, 507, str(data['cnpj']))
+            can.drawRightString(540, 459, data['unit'])
+            can.drawString(160, 459, data['supplier'])
+        else:
+            can.drawRightString(540, 507, data['unit'])
+            can.drawString(160, 507, data['supplier'])
+
+            
 
         can.drawCentredString(475, 280, 'R$ 99,90')
         can.drawCentredString(300, 280, data['profit'])
@@ -75,7 +83,7 @@ def generate():
     # can.setFillColorRGB(0.86328, 0.8, 0.496)
 
     # read your existing PDF
-    existing_pdf = PdfReader(open(Path("src/sion/contract_template.pdf"), "rb"))
+    existing_pdf = PdfReader(open(Path(f"src/sion/contract_template_{data['pessoa']}.pdf"), "rb"))
     output = PdfWriter()
     
     first_page()
@@ -95,6 +103,8 @@ def generate():
 data = sys.argv[1]
 data = data.replace("'", '"')
 data = json.loads(data)
+
+juridica = data['pessoa'] == 'juridica'
 
 path = f"documents/sion/{data['id']}"
 if not os.path.exists(path):
