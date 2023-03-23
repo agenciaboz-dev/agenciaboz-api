@@ -43,8 +43,8 @@ router.post('/new', (request, response, next) => {
         ]]
     }, (error, results) => {
         if (error) {
-            // console.error(error)
-            // response.json({error: error.sqlMessage.includes('unit') && 'Unidade consumidora'})
+            console.error(error)
+            response.json({error: error.sqlMessage.includes('unit') ? 'Unidade consumidora já cadastrada': 'Erro desconhecido na API'})
         } else {
 
             data.id = results.insertId
