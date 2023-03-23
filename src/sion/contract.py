@@ -85,10 +85,7 @@ def generate():
         output.add_page(page)
 
     # finally, write "output" to a real file
-    if not os.path.exists(path):
-        os.makedirs(path)
         
-    print(path)
     outputStream = open(os.path.join(Path(path), "contract.pdf"), "wb")
     output.write(outputStream)
     outputStream.close()
@@ -96,12 +93,17 @@ def generate():
     return "contract.pdf"
 
 data = sys.argv[1]
-print(data)
 data = data.replace("'", '"')
-print(data)
 data = json.loads(data)
-print(data)
-path = f"documents/{data['id']}"
+
+path = f"documents/sion/{data['id']}"
+if not os.path.exists(path):
+    os.makedirs(path)
 
 generate()
+
+files = [file for file in Path(path).glob("*") if file.is_file()]
+for file in files:
+    upload(data['id'], os.path.join(Path(path), file.name))
+
 upload(data['id'], os.path.join(Path(path), "contract.pdf"))
