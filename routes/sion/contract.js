@@ -36,7 +36,10 @@ router.post('/new', (request, response, next) => {
             data.profession
         ]]
     }, (error, results) => {
-        if (error) console.error(error);
+        if (error) {
+            console.error(error)
+            response.json({error: error.sqlMessage.includes('cnpj') ? 'CNPJ' : (error.sqlMessage.includes('cpf') && 'CPF')})
+        }
 
         console.log(results)
         response.json(results)
