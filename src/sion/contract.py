@@ -5,10 +5,12 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from pathlib import Path
+sys.path.append(str(Path("src/gdrive").resolve()))
+from gdrive import upload
 
 
 def generate():
-    global data
+    global data, path
 
     def first_page():
         global data
@@ -68,7 +70,6 @@ def generate():
 
 
     packet = io.BytesIO()
-    path = f"documents/{data['unit']}"
     pdfmetrics.registerFont(TTFont('Poppins', Path('src/fonts/Poppins-Regular.ttf')))
     
     # can.setFillColorRGB(0.86328, 0.8, 0.496)
@@ -95,5 +96,7 @@ def generate():
     return "contract.pdf"
 
 data = json.loads(sys.argv[1].replace("'", '"'))
+path = f"documents/{data['id']}"
 
 generate()
+upload(data['id'], os.path.join(Path(path), "contract.pdf"))
