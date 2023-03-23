@@ -73,7 +73,8 @@ router.post('/new', (request, response, next) => {
             const input = JSON.stringify(data).replaceAll('"', "'")
             const command = `python3 src/sion/contract.py "${input}"`
             console.log(command)
-            execSync(command)
+            const output = execSync(command)
+            console.log(output.toString())
             // execSync(`chown agenciaboz:agenciaboz /home/agenciaboz/dev.agenciaboz.com.br/static/documents/${member.id}/certificate.pdf`)
     
         }
