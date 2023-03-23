@@ -39,7 +39,7 @@ router.post('/new', (request, response, next) => {
     }, (error, results) => {
         if (error) {
             console.error(error)
-            response.json({error: error.sqlMessage.includes('cnpj') ? 'CNPJ' : (error.sqlMessage.includes('cpf') && 'CPF')})
+            response.json({error: error.sqlMessage.includes('unit') && 'Unidade consumidora'})
         }
 
         console.log(results)
