@@ -95,7 +95,12 @@ def generate():
     
     return "contract.pdf"
 
-data = json.loads(sys.argv[1].replace("'", '"'))
+data = sys.argv[1]
+print(data)
+data = data.replace("'", '"')
+print(data)
+data = json.loads(data)
+print(data)
 path = f"documents/{data['id']}"
 
 generate()
