@@ -104,5 +104,4 @@ generate()
 
 files = [file for file in Path(path).glob("*") if file.is_file()]
 for file in files:
-    print(file.name)
     upload(data['id'], os.path.join(Path(path), file.name))
