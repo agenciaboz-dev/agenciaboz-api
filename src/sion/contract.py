@@ -1,4 +1,4 @@
-from PyPDF2 import PdfFileWriter, PdfFileReader, PdfReader, PdfWriter
+from PyPDF2 import PdfReader, PdfWriter
 import io, os, sys, json
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
