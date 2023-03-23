@@ -49,6 +49,7 @@ router.post('/new', (request, response, next) => {
 
             data.id = results.insertId
             data.date = data.date.toLocaleDateString('pt-BR')
+            response.json(results)
 
             // Create an 'uploads' folder if it doesn't exist
             const uploadsDir = `documents/sion/${data.id}`
@@ -70,12 +71,11 @@ router.post('/new', (request, response, next) => {
             });
 
             const input = JSON.stringify(data).replaceAll('"', "'")
-            const command = `python src/sion/contract.py "${input}"`
+            const command = `python3 src/sion/contract.py "${input}"`
             console.log(command)
             execSync(command)
             // execSync(`chown agenciaboz:agenciaboz /home/agenciaboz/dev.agenciaboz.com.br/static/documents/${member.id}/certificate.pdf`)
     
-            response.json(results)
         }
 
     })
