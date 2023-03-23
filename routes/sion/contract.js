@@ -11,8 +11,9 @@ router.post('/new', (request, response, next) => {
 	mysql.connect();
 
     mysql.query({
-        sql: "INSERT INTO contracts (date, pessoa, supplier, discount, profit, name, email, phone, address, number, district, cnpj, company, category, curriculum, cpf, rg, cep, civil, nationality, profession) VALUES (?)",
+        sql: "INSERT INTO contracts (unit, date, pessoa, supplier, discount, profit, name, email, phone, address, number, district, cnpj, company, category, curriculum, cpf, rg, cep, civil, nationality, profession) VALUES (?)",
         values: [[
+            data.unit,
             new Date(),
             data.pessoa,
             data.supplier,
