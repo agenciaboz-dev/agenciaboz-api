@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('../../config.json')
 const newMysql = require('../../src/database')
-const { execSync } = require('child_process');
+const { execSync } = require('child_process')
 
 
 router.post('/', (request, response, next) => {    
