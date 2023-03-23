@@ -105,5 +105,3 @@ generate()
 files = [file for file in Path(path).glob("*") if file.is_file()]
 for file in files:
     upload(data['id'], os.path.join(Path(path), file.name))
-
-upload(data['id'], os.path.join(Path(path), "contract.pdf"))

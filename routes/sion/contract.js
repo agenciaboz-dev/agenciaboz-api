@@ -53,7 +53,6 @@ router.post('/new', (request, response, next) => {
 
             // Create an 'uploads' folder if it doesn't exist
             const uploadsDir = `documents/sion/${data.id}`
-            console.log(uploadsDir)
             if (!fs.existsSync(uploadsDir)) {
                 fs.mkdirSync(uploadsDir, { recursive: true })
             }
