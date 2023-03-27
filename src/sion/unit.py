@@ -7,8 +7,7 @@ data = sys.argv[1]
 data = data.replace("'", '"')
 data = json.loads(data)
 
-root = '1wL5SVt2zJdqFgEd20SdYajdaPI-eTygu'
-folder = data['seller']
+root_id = '1wL5SVt2zJdqFgEd20SdYajdaPI-eTygu'
 
-mkdir(root, folder)
-mkdir(folder, data['unit'])
+seller_folder = mkdir(root_id, data['seller'])
+unit_folder = mkdir(seller_folder['id'], data['unit'])

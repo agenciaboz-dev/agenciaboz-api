@@ -50,8 +50,8 @@ def upload(root: str, folder: str, file_path: str):
     file.Upload()
     print(f"uploaded {file_path}")
 
-def mkdir(root: str, folder: str):
-    parent_folder = root
+def mkdir(root_id: str, folder: str):
+    parent_folder = root_id
 
     file_metadata = {
     'title': folder,
@@ -64,6 +64,10 @@ def mkdir(root: str, folder: str):
         folder = drive.CreateFile(file_metadata)
         folder.Upload()
         print(f"folder id: {folder['id']}")
+    else:
+        folder = folder[0]
+
+    return folder
 
 gauth = GoogleAuth()   
 
