@@ -13,30 +13,22 @@ router.post('/new', (request, response, next) => {
 	mysql.connect();
 
     mysql.query({
-        sql: "INSERT INTO contracts (unit, date, pessoa, supplier, discount, profit, name, email, phone, address, number, district, cnpj, company, category, curriculum, cpf, rg, cep, civil, nationality, profession) VALUES (?)",
+        sql: "INSERT INTO contracts (unit, date, pessoa, supplier, name, email, phone, address, cep, cnpj, company, category, cpf, rg) VALUES (?)",
         values: [[
             data.unit,
             data.date,
             data.pessoa,
             data.supplier,
-            parseInt(data.discount.replaceAll(' ', '').replaceAll('%', '').split(',')[0]),
-            parseInt(data.profit.replaceAll(' ', '').replaceAll('%', '').split(',')[0]),
             data.name,
             data.email,
             data.phone.replaceAll('(', '').replaceAll('-', '').replaceAll(')', '').replaceAll(' ', ''),
             data.address,
-            data.number,
-            data.district,
+            data.cep.replaceAll('.', '').replaceAll('-', ''),
             data.cnpj?.replaceAll('.', '').replaceAll('-', '').replaceAll('/', ''),
             data.company,
             data.category,
-            data.curriculum,
             data.cpf?.replaceAll('.', '').replaceAll('-', ''),
             data.rg?.replaceAll('.', '').replaceAll('-', ''),
-            data.cep?.replaceAll('.', '').replaceAll('-', ''),
-            data.civil,
-            data.nationality,
-            data.profession
         ]]
     }, (error, results) => {
         if (error) {
