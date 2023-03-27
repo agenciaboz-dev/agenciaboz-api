@@ -112,6 +112,3 @@ if not os.path.exists(path):
 
 generate()
 
-files = [file for file in Path(path).glob("*") if file.is_file()]
-for file in files:
-    upload(data['id'], os.path.join(Path(path), file.name))

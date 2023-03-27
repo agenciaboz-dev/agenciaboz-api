@@ -26,16 +26,16 @@ def download(user):
 
     
 
-def upload(folder_id, file_path):
-    parent_folder = '1wL5SVt2zJdqFgEd20SdYajdaPI-eTygu'
+def upload(root: str, folder: str, file_path: str):
+    parent_folder = root
 
     file_metadata = {
-    'title': folder_id,
+    'title': folder,
     'parents': [{'id': parent_folder}],
     'mimeType': 'application/vnd.google-apps.folder'
     }
 
-    folder = drive.ListFile({'q': f"title = '{folder_id}' and trashed=false"}).GetList()
+    folder = drive.ListFile({'q': f"title = '{folder}' and trashed=false"}).GetList()
     if not folder:
 
         folder = drive.CreateFile(file_metadata)
@@ -49,6 +49,21 @@ def upload(folder_id, file_path):
     file.SetContentFile(f"{file_path}")
     file.Upload()
     print(f"uploaded {file_path}")
+
+def mkdir(root: str, folder: str):
+    parent_folder = root
+
+    file_metadata = {
+    'title': folder,
+    'parents': [{'id': parent_folder}],
+    'mimeType': 'application/vnd.google-apps.folder'
+    }
+
+    folder = drive.ListFile({'q': f"title = '{folder}' and trashed=false"}).GetList()
+    if not folder:
+        folder = drive.CreateFile(file_metadata)
+        folder.Upload()
+        print(f"folder id: {folder['id']}")
 
 gauth = GoogleAuth()   
 
