@@ -58,11 +58,11 @@ def generate():
 
             
 
-        can.drawCentredString(475, 280, 'R$ 99,90')
-        can.drawCentredString(300, 280, data['profit'])
-        can.drawCentredString(120, 280, data['discount'])
+        # can.drawCentredString(475, 280, 'R$ 99,90')
+        # can.drawCentredString(300, 280, data['profit'])
+        # can.drawCentredString(120, 280, data['discount'])
 
-        can.drawCentredString(410, 172, 'PIX')
+        # can.drawCentredString(410, 172, 'PIX')
 
         # save
         can.save()
