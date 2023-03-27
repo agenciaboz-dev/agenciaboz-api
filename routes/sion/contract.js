@@ -39,6 +39,7 @@ router.post('/unit', (request, response, next) => {
 
 router.post('/lead', (request, response, next) => {    
     const data = request.body
+    data.date = new Date()
 
     const mysql = newMysql(config.sion.database);
     mysql.connect();
@@ -67,6 +68,8 @@ router.post('/lead', (request, response, next) => {
             response.json({error: error.sqlMessage.includes('unit') ? 'Unidade consumidora já cadastrada': 'Erro desconhecido na API'})
         } else {
             response.json({success: true})
+
+            // consume api adding client to lead
         }
     })
 })
