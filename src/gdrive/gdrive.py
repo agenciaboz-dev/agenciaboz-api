@@ -45,7 +45,7 @@ def upload(folder_id, file_path):
     else:
         folder = folder[0]
 
-    file = drive.CreateFile({'parents': [{'id': folder['id']}],})
+    file = drive.CreateFile({'parents': [{'id': folder['id']}], 'title': file_path.split('/')[-1]})
     file.SetContentFile(f"{file_path}")
     file.Upload()
     print(f"uploaded {file_path}")
