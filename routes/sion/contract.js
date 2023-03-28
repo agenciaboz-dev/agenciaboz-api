@@ -27,7 +27,7 @@ router.post('/unit', (request, response, next) => {
 
         if (!contract) {
             const input = JSON.stringify(data).replaceAll('"', "'")
-            const command = `python src/sion/unit.py "${input}"`
+            const command = `python3 src/sion/unit.py "${input}"`
             console.log(command)
             const output = execSync(command)
             console.log(output.toString())
