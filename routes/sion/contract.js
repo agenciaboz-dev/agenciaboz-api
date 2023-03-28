@@ -41,6 +41,10 @@ router.post('/lead', (request, response, next) => {
     const data = request.body
     data.date = new Date()
 
+    if ('emails' in data) {
+        data.email = data.emails.toString()
+    }
+
     const mysql = newMysql(config.sion.database);
     mysql.connect();
     
