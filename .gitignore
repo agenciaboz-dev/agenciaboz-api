@@ -3,3 +3,4 @@ public-key
 node_modules/
 documents/
 mycreds.txt
+**/__pycache__/

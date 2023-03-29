@@ -105,7 +105,7 @@ router.post('/generate', (request, response, next) => {
         contract.date = contract.date.toLocaleDateString('pt-BR')
 
         // Create an 'uploads' folder if it doesn't exist
-        const uploadsDir = `documents/sion/${contract.id}`
+        const uploadsDir = `documents/sion/${contract.unit}`
         if (!fs.existsSync(uploadsDir)) {
             fs.mkdirSync(uploadsDir, { recursive: true })
         }
