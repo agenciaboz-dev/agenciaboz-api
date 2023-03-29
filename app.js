@@ -15,6 +15,9 @@ app.use(fileUpload())
 const cors = require('cors');
 app.use(cors());
 
+// serve static files
+app.use('/documents', express.static('documents'));
+
 // ROUTES
 const agenciaboz = require('./routes/app');
 app.use('/api/v1/app', agenciaboz);

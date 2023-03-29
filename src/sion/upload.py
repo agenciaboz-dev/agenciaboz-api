@@ -9,7 +9,7 @@ data = sys.argv[1]
 data = data.replace("'", '"')
 data = json.loads(data)
 
-path = f"documents/sion/{data['id']}"
+path = f"documents/sion/{data['unit']}"
 if not os.path.exists(path):
     os.makedirs(path)
 

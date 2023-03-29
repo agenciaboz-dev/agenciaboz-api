@@ -128,9 +128,8 @@ router.post('/generate', (request, response, next) => {
         const generate_contract = `python3 src/sion/contract.py "${input}"`
         exec(generate_contract, (error, stdout, stderr) => {
             console.log(stdout)
-            
-            // response.setHeader('Content-Type', 'application/pdf');
-            response.sendFile(`sion/${contract.id}/contract.pdf`, { root: path.join('documents') });
+
+            response.json({success: true})
 
             exec(`python3 src/sion/upload.py "${input}"`, (error, stdout, stderr) => {
                 console.log(stdout)
