@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model adms {
+  id       Int     @id @default(autoincrement())
+  username String? @db.VarChar(55) @unique
+  email    String? @db.VarChar(55) @unique
+  password String? @db.VarChar(55)
+  name     String  @db.VarChar(55)
+}
+
+model contracts {
+  id          Int      @id @default(autoincrement())
+  unit        String   @unique(map: "unit") @db.VarChar(55)
+  date        DateTime @db.Date
+  pessoa      String   @db.VarChar(8)
+  supplier    String   @db.VarChar(55)
+  name        String   @db.VarChar(55)
+  email       String   @db.VarChar(55)
+  phone       String   @db.VarChar(55)
+  address     String   @db.VarChar(55)
+  cep         String   @db.VarChar(55)
+  cnpj        String?  @db.VarChar(55)
+  company     String?  @db.VarChar(55)
+  category    String?  @db.VarChar(55)
+  cpf         String?  @db.VarChar(55)
+  rg          String?  @db.VarChar(55)
+  seller      Int
+  seller_name String?  @db.VarChar(55)
+}
+
+model emails {
+  id    Int     @id @default(autoincrement())
+  email String? @db.VarChar(55)
+}
+
+model users {
+  id       Int     @id @default(autoincrement())
+  username String? @db.VarChar(55) @unique
+  email    String? @db.VarChar(55) @unique
+  password String? @db.VarChar(55)
+  name     String  @db.VarChar(55)
+}
+
+model financial {
+    id      Int     @id @default(autoincrement())
+    name    String  @db.VarChar(55)
+    phone   String  @db.VarChar(55)
+    email   String  @db.VarChar(512)
+}
