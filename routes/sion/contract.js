@@ -12,50 +12,47 @@ const prisma = new PrismaClient()
 router.post('/financial', async (request, response, next) => {    
     const data = request.body
 
-    const financial = await prisma.financial.create({
-        data: {
-            name: data.name,
-            phone: data.phone,
-            email: data.email
-        }
-    })
+    try {
+        const financial = await prisma.financial.create({
+            data: {
+                name: data.name,
+                phone: data.phone.replace(/\D/g, ''),
+                email: data.email,
+                contract: data.id
+            }
+        })
 
-    response.json(financial)
+        response.json(financial)
+    } catch {
+        response.json(null)
+    }
+
 
 })
 
-router.post('/unit', (request, response, next) => {    
+router.post('/unit', async (request, response, next) => {    
     const data = request.body
 
     const mysql = newMysql(config.sion.database)
     mysql.connect()
-    
-    mysql.query({
-        sql: `SELECT * FROM contracts WHERE unit = ?`,
-        timeout: 40000, // 40s
-        values: [
-            data.unit,
-        ]
-    }, (error, results) => {
-        if (error) console.error(error)
 
-        const contract = results[0] 
-
-        response.json(contract ? {error: 'Unidade consumidora já cadastrada'} : {success: true})
-
-        if (!contract) {
-            const input = JSON.stringify(data).replaceAll('"', "'")
-            const command = `python3 src/sion/unit.py "${input}"`
-            console.log(command)
-            const output = execSync(command)
-            console.log(output.toString())
-        }
-
-        mysql.end()
+    const contract = await prisma.contracts.findUnique({
+        where: { unit: data.unit }
     })
+
+    response.json(contract ? {error: 'Unidade consumidora já cadastrada'} : {success: true})
+
+    if (!contract) {
+        const input = JSON.stringify(data).replaceAll('"', "'")
+        const command = `python3 src/sion/unit.py "${input}"`
+        console.log(command)
+        const output = execSync(command)
+        console.log(output.toString())
+    }
+    
 })
 
-router.post('/lead', (request, response, next) => {    
+router.post('/lead', async (request, response, next) => {    
     const data = request.body
     data.date = new Date()
 
@@ -65,37 +62,34 @@ router.post('/lead', (request, response, next) => {
 
     const mysql = newMysql(config.sion.database);
     mysql.connect();
-    
-    mysql.query({
-        sql: "INSERT INTO contracts (unit, date, pessoa, supplier, name, email, phone, address, cep, cnpj, company, category, cpf, rg, seller, seller_name) VALUES (?)",
-        values: [[
-            data.unit,
-            data.date,
-            data.pessoa,
-            data.supplier,
-            data.name,
-            data.email,
-            data.phone.replaceAll('(', '').replaceAll('-', '').replaceAll(')', '').replaceAll(' ', ''),
-            data.address,
-            data.cep.replaceAll('.', '').replaceAll('-', ''),
-            data.cnpj?.replaceAll('.', '').replaceAll('-', '').replaceAll('/', ''),
-            data.company,
-            data.category,
-            data.cpf?.replaceAll('.', '').replaceAll('-', ''),
-            data.rg?.replaceAll('.', '').replaceAll('-', ''),
-            data.seller.id,
-            data.seller.name,
-        ]]
-    }, (error, results) => {
-        if (error) {
-            console.error(error)
-            response.json({error: error.sqlMessage.includes('unit') ? 'Unidade consumidora já cadastrada': 'Erro desconhecido na API'})
-        } else {
-            response.json({success: true})
 
-            // consume api adding client to lead
-        }
-    })
+    try {
+        const contract = await prisma.contracts.create({
+            data: {
+                unit: data.unit,
+                date: data.date,
+                pessoa: data.pessoa,
+                supplier: data.supplier,
+                name: data.name,
+                email: data.email,
+                phone: data.phone.replaceAll('(', '').replaceAll('-', '').replaceAll(')', '').replaceAll(' ', ''),
+                address: data.address,
+                cep: data.cep.replaceAll('.', '').replaceAll('-', ''),
+                cnpj: data.cnpj?.replaceAll('.', '').replaceAll('-', '').replaceAll('/', ''),
+                company: data.company,
+                category: data.category,
+                cpf: data.cpf?.replaceAll('.', '').replaceAll('-', ''),
+                rg: data.rg?.replaceAll('.', '').replaceAll('-', ''),
+                seller: data.seller.id,
+                seller_name: data.seller.name,
+            }
+        })
+
+        response.json(contract)
+    } catch {
+        response.json(null)
+    }
+    
 })
 
 router.post('/', (request, response, next) => {    
