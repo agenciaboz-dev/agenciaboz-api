@@ -5,6 +5,24 @@ const newMysql = require('../../src/database')
 const { execSync, exec } = require('child_process')
 const fs = require("fs");
 const path = require("path");
+const { PrismaClient } = require('@prisma/client')
+
+const prisma = new PrismaClient()
+
+router.post('/financial', async (request, response, next) => {    
+    const data = request.body
+
+    const financial = await prisma.financial.create({
+        data: {
+            name: data.name,
+            phone: data.phone,
+            email: data.email
+        }
+    })
+
+    response.json(financial)
+
+})
 
 router.post('/unit', (request, response, next) => {    
     const data = request.body
