@@ -49,8 +49,9 @@ model users {
 }
 
 model financial {
-    id      Int     @id @default(autoincrement())
-    name    String  @db.VarChar(55)
-    phone   String  @db.VarChar(55)
-    email   String  @db.VarChar(512)
+    id          Int     @id @default(autoincrement())
+    name        String  @db.VarChar(55)
+    phone       String  @db.VarChar(55)
+    email       String  @db.VarChar(512)
+    contract    Int     @unique
 }
