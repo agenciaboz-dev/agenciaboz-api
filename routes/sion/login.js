@@ -1,50 +1,40 @@
 const express = require('express')
 const router = express.Router();
-const config = require('../../config.json')
-const newMysql = require('../../src/database')
+const { PrismaClient } = require('@prisma/client')
 
-router.post('/', (request, response, next) => {    
-   const data = request.body
+const prisma = new PrismaClient()
 
-   const mysql = newMysql(config.sion.database);
-   mysql.connect();
-   
-   mysql.query({
-       sql: `SELECT * FROM adms WHERE (username = ? OR email = ?) AND password = ?`,
-       timeout: 40000, // 40s
-       values: [
-           data.user,
-           data.user,
-           data.password,
-       ]
-   }, (error, results) => {
-       if (error) console.error(error);
+router.post('/', async (request, response, next) => {    
+    const data = request.body
 
-       const adm = results[0]
-       if (adm) {
-        response.json({...adm, adm: true})
-    
-        } else {
-        mysql.query({
-            sql: "SELECT * FROM users WHERE (username = ? OR email = ?) AND password = ?",
-            values: [
-                data.user,
-                data.user,
-                data.password,
-            ]
-        }, (error, results) => {
-            if (error) console.error(error)
-
-            const user = results[0]
-            if (user) {
-                response.json(user)
-            } else {
-                response.json({error: 'not found'})
+    const adm = await prisma.adms.findFirst({
+        where: {
+            OR: [
+                {username: data.user},
+                {email: data.user},
+            ],
+            AND: {
+                password: data.password
             }
-        })
-       }
+        }
+    })
 
-   });
+    if (adm) response.json(adm)
+
+    const user = await prisma.users.findFirst({
+        where: {
+            OR: [
+                {username: data.user},
+                {email: data.user},
+            ],
+            AND: {
+                password: data.password
+            }
+        }
+    })
+
+    response.json(user)
+   
 });
 
 module.exports = router
