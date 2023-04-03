@@ -23,7 +23,8 @@ def sendMail(destination, subject, message = None, attachment = None, html = Non
     )
 
 def mailTemplate(data):
-    lead = f"""
+    templates = {
+        'lead': f"""
         <!DOCTYPE html>
         <html lang="en">
 
@@ -48,9 +49,9 @@ def mailTemplate(data):
         </body>
 
         </html>
-        """
-    
-    contract = f"""
+        """,
+
+        'contract': f"""
         <!DOCTYPE html>
         <html lang="en">
 
@@ -76,15 +77,16 @@ def mailTemplate(data):
 
         </html>
     """
+    }
+    
 
-    return {'lead': lead, 'contract': contract}
+    return templates
 
 data = sys.argv[1]
 data = data.replace("'", '"')
 data = json.loads(data)
 
 print(data)
-print(mailTemplate(data['template']))
 
 html_mail = mailTemplate(data['template'])
 sendMail(data['email'], "Sion - Contrato", html=html_mail, attachment={'filename': 'contract.pdf', 'path': f'documents/sion/{data["unit"]}/contract.pdf'} if data['template'] == 'contract' else None)
