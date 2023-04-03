@@ -5,14 +5,14 @@ from pathlib import Path
 
 def sendMail(destination, subject, message = None, attachment = None, html = None):
     email = EmailSender(
-        host="mail.sbop.com.br",
+        host="mail.sion.com.br",
         port=25,
-        username="noreply@sbop.com.br",
-        password="oht#yoYNO^R2"
+        username="noreply@cooperativasion.com.br",
+        password=",2Fc2K[TXT?C"
     )
 
     email.send(
-        sender="noreply@sbop.com.br",
+        sender="noreply@cooperativasion.com.br",
         receivers=[destination],
         subject=subject,
         text=message,
@@ -32,7 +32,7 @@ def mailTemplate(data):
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Redefinição de senha - SBOP</title>
+            <title>Sion</title>
             <style>
 
             </style>
