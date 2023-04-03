@@ -102,61 +102,47 @@ router.post('/send', (request, response, next) => {
     
 })
 
-router.post('/generate', (request, response, next) => { 
+router.post('/generate', async (request, response, next) => { 
 	const data = JSON.parse(request.body.data);
     data.date = new Date()
     
     const files = request.files
 
-	const mysql = newMysql(config.sion.database);
-	mysql.connect();
+	const contract = await prisma.contracts.findUnique({ where: { unit: data.unit } })
 
-    mysql.query({
-        sql: "SELECT * FROM contracts where unit = ?",
-        values: [ data.unit ]
-    }, (error, results) => {
+    contract.date = contract.date.toLocaleDateString('pt-BR')
 
-        const contract = results[0]
+    // Create an 'uploads' folder if it doesn't exist
+    const uploadsDir = `documents/sion/${contract.unit}`
+    if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true })
+    }
 
-        contract.date = contract.date.toLocaleDateString('pt-BR')
-
-        // Create an 'uploads' folder if it doesn't exist
-        const uploadsDir = `documents/sion/${contract.unit}`
-        if (!fs.existsSync(uploadsDir)) {
-            fs.mkdirSync(uploadsDir, { recursive: true })
-        }
-
-        // Iterate through the files and save them
-        Object.entries(files).forEach(([key, file]) => {
-            const filePath = path.join(uploadsDir, file.name);
-            console.log(filePath)
-            file.mv(filePath, (err) => {
-                if (err) {
-                    console.error("Error saving file:", err);
-                    return res.status(500).json({ error: "Error saving file" });
-                }
-            })
-        });
-
-        console.log(contract)
-
-        const input = JSON.stringify(contract).replaceAll('"', "'")
-        const generate_contract = `python3 src/sion/contract.py "${input}"`
-        exec(generate_contract, (error, stdout, stderr) => {
-            console.log(stdout)
-
-            response.json({success: true})
-
-            exec(`python3 src/sion/upload.py "${input}"`, (error, stdout, stderr) => {
-                console.log(stdout)
-            })
+    // Iterate through the files and save them
+    Object.entries(files).forEach(([key, file]) => {
+        const filePath = path.join(uploadsDir, file.name);
+        console.log(filePath)
+        file.mv(filePath, (err) => {
+            if (err) {
+                console.error("Error saving file:", err);
+                return res.status(500).json({ error: "Error saving file" });
+            }
         })
+    });
 
-        // execSync(`chown agenciaboz:agenciaboz /home/agenciaboz/dev.agenciaboz.com.br/static/documents/${member.id}/certificate.pdf`)
-    
+    console.log(contract)
 
+    const input = JSON.stringify(contract).replaceAll('"', "'")
+    const generate_contract = `python3 src/sion/contract.py "${input}"`
+    exec(generate_contract, (error, stdout, stderr) => {
+        console.log(stdout)
+
+        response.json({success: true})
+
+        exec(`python3 src/sion/upload.py "${input}"`, (error, stdout, stderr) => {
+            console.log(stdout)
+        })
     })
-	
         
 });
 
