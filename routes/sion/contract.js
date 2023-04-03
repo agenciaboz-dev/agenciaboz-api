@@ -6,6 +6,7 @@ const { execSync, exec } = require('child_process')
 const fs = require("fs");
 const path = require("path");
 const { PrismaClient } = require('@prisma/client')
+const rdstation = require('../../src/sion/rdstation')
 
 const prisma = new PrismaClient()
 
@@ -115,7 +116,7 @@ router.post('/send', async (request, response, next) => {
     data.template = 'contract'
     data.mail_list = [...data.email.split(','), seller.email] // falta email da sion
     console.log({mail_list: data.mail_list})
-    
+
     const input = JSON.stringify(data).replaceAll('"', "'")
     exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
         console.log(stdout)
