@@ -23,82 +23,65 @@ def sendMail(destination, subject, message = None, attachment = None, html = Non
     )
 
 def mailTemplate(data):
-    return f"""
-<!DOCTYPE html>
-<html lang="en">
+    lead = f"""
+        <!DOCTYPE html>
+        <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redefinição de senha - SBOP</title>
-    <style>
-        @font-face {{
-            font-family: Montserrats;
-            src: url("/static/fonts/Montserrat-Regular.otf");
-        }}
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Redefinição de senha - SBOP</title>
+            <style>
 
-        @font-face {{
-            font-family: Montserrats;
-            src: url("/static/fonts/Montserrat-Bold.otf");
-            font-weight: bold;
-        }}
+            </style>
+        </head>
 
-        * {{
-            box-sizing: border-box;
-            font-family: Montserrats;
-        }}
+        <body>
+            <div class="main-container">
+                <h1>novo lead</h1>
+                <h2>vendedor: {data['seller_name']}</h2>
+                <h3>cliente: {data['company'] or data['name']}
+                <p>unidade: {data['unit']}
+                </p>
+            </div>
+        </body>
 
-        .main-container {{
-            height: min-content;
-            width: 90%;
-            background-color: white;
-            border-radius: 2vw;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            margin: 4vw;
-            padding: 2vw;
-            outline: #0C6397 solid 0.4vw;
-            word-wrap: break-word;
-        }}
+        </html>
+        """
+    
+    contract = f"""
+        <!DOCTYPE html>
+        <html lang="en">
 
-        img {{
-            height: 100px;
-            width: auto;
-            margin: -20px 0;
-            pointer-events: none;
-        }}
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Redefinição de senha - SBOP</title>
+            <style>
 
-        h1 {{
-            color: #0C6397;
-            margin: 1vw 0;
-        }}
+            </style>
+        </head>
 
-        h2 {{
-            color: #6B6B6B;
-        }}
+        <body>
+            <div class="main-container">
+                <h1>contrato</h1>
+                <h2>vendedor: {data['seller_name']}</h2>
+                <h3>cliente: {data['company'] or data['name']}
+                <p>unidade: {data['unit']}
+                </p>
+            </div>
+        </body>
 
-        a {{
-            color: #0C6397;
-        }}
-    </style>
-</head>
+        </html>
+    """
 
-<body>
-    <div class="main-container">
-        <img src="https://sbop.com.br/wp-content/uploads/2020/08/SBOP-LOGO-AZUL-1x1-PNG.png" alt="">
-        <h1>Redefinição de senha - Sistema SBOP</h1>
-        <h2>Nome de usuário: {nome}</h2>
-        <p>Clique no link para redefinir sua senha: <a href="{link}">Clique aqui</a>
-        </p>
-    </div>
-</body>
-
-</html>
-"""
+    return {'lead': lead, 'contract': contract}
 
 data = sys.argv[1]
 data = data.replace("'", '"')
 data = json.loads(data)
 
-html_mail = mailTemplate(data)
-sendMail(data['email'], "Sion - Contrato", html=html_mail, attachment={'filename': 'contract.pdf', 'path': f'documents/sion/{data["unit"]}/contract.pdf'})
+html_mail = mailTemplate(data['template'])
+sendMail(data['email'], "Sion - Contrato", html=html_mail, attachment={'filename': 'contract.pdf', 'path': f'documents/sion/{data["unit"]}/contract.pdf'} if data['template'] == 'contract' else None)
