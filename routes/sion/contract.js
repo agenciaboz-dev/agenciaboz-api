@@ -93,12 +93,12 @@ router.post('/lead', async (request, response, next) => {
     }
 
     data.template = 'lead'
-        const input = JSON.stringify(data).replaceAll('"', "'")
-        exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
-            console.log(error)
-            console.log(stderr)
-            console.log(stdout)
-        })
+    const input = JSON.stringify(data).replaceAll('"', "'")
+    exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
+        console.log(error)
+        console.log(stderr)
+        console.log(stdout)
+    })
     
 })
 
@@ -151,6 +151,13 @@ router.post('/generate', async (request, response, next) => {
 
         exec(`python3 src/sion/upload.py "${input}"`, (error, stdout, stderr) => {
             console.log(stdout)
+
+            contract.template = 'contract'
+            exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
+                console.log(error)
+                console.log(stderr)
+                console.log(stdout)
+            })
         })
     })
         
