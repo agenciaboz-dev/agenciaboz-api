@@ -84,6 +84,7 @@ data = data.replace("'", '"')
 data = json.loads(data)
 
 print(data)
+print(mailTemplate(data['template']))
 
 html_mail = mailTemplate(data['template'])
 sendMail(data['email'], "Sion - Contrato", html=html_mail, attachment={'filename': 'contract.pdf', 'path': f'documents/sion/{data["unit"]}/contract.pdf'} if data['template'] == 'contract' else None)
