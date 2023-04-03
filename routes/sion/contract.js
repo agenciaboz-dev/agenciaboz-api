@@ -131,6 +131,11 @@ router.post('/send', async (request, response, next) => {
     data.mail_list = [...data.email.split(','), seller.email] // falta email da sion
     console.log({mail_list: data.mail_list})
 
+    // data 1 mes a partir de agora
+    const data1m = new Date()
+    data1m.setMonth(data1m.getMonth() + 1);
+    data.sign_limit = data1m.toLocaleDateString('pt-br');
+    
     const input = JSON.stringify(data).replaceAll('"', "'")
     exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
         console.log(stdout)
