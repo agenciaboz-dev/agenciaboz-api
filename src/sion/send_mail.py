@@ -5,7 +5,7 @@ from pathlib import Path
 
 def sendMail(destination, subject, message = None, attachment = None, html = None):
     email = EmailSender(
-        host="mail.sion.com.br",
+        host="mail.cooperativasion.com.br",
         port=25,
         username="noreply@cooperativasion.com.br",
         password=",2Fc2K[TXT?C"
