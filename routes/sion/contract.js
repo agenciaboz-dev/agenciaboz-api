@@ -152,12 +152,6 @@ router.post('/generate', async (request, response, next) => {
         exec(`python3 src/sion/upload.py "${input}"`, (error, stdout, stderr) => {
             console.log(stdout)
 
-            contract.template = 'contract'
-            exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
-                console.log(error)
-                console.log(stderr)
-                console.log(stdout)
-            })
         })
     })
         
