@@ -41,7 +41,7 @@ def mailTemplate(data):
         <body>
             <div class="main-container">
                 <h1>novo lead</h1>
-                <h2>vendedor: {data['seller_name']}</h2>
+                <h2>vendedor: {data['seller']['name']}</h2>
                 <h3>cliente: {data['company'] or data['name']}
                 <p>unidade: {data['unit']}
                 </p>
@@ -164,7 +164,7 @@ def mailTemplate(data):
         <p class="who-signs">Estará assinando:</p>
         <p>{data['email']}</p>
         <hr>
-        <p class="limit-date">Data limite de assinatura:<br>{data['sign_limit']}</p>
+        <p class="limit-date">Data limite de assinatura:<br>{data['sign_limit'] or ''}</p>
         <div class="footer">
             <p class="footer-title">Não compartilhe este e-mail:</p>
             <p>Para sua segurança, não encaminhe este e-mail para ninguém.</p>
