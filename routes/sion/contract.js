@@ -90,6 +90,8 @@ router.post('/lead', async (request, response, next) => {
         data.template = 'lead'
         const input = JSON.stringify(data).replaceAll('"', "'")
         exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
+            console.log(error)
+            console.log(stderr)
             console.log(stdout)
     })
     } catch {
