@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 router.post('/', async (request, response, next) => {    
     const data = request.body
 
-    const adm = await prisma.adms.findFirst({
+    const user = await prisma.users.findFirst({
         where: {
             OR: [
                 {username: data.user},
@@ -19,23 +19,7 @@ router.post('/', async (request, response, next) => {
         }
     })
 
-    if (adm) {
-        response.json(adm)
-    } else {
-        const user = await prisma.users.findFirst({
-            where: {
-                OR: [
-                    {username: data.user},
-                    {email: data.user},
-                ],
-                AND: {
-                    password: data.password
-                }
-            }
-        })
-    
-        response.json(user)
-    }
+    response.json(user)
 
    
 });
