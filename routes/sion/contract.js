@@ -123,6 +123,8 @@ router.post('/lead', async (request, response, next) => {
 router.post('/send', async (request, response, next) => {    
     const data = request.body
 
+    rdstation.sign(data)
+
     if ('emails' in data) {
         data.email = data.emails.toString()
     }

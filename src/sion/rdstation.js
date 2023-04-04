@@ -40,9 +40,10 @@ api.lead = (data) => {
     .catch(error => console.error(error))
 }
 
-api.sign = (data) => {
-    api.post('/deals'+api.token, data)
-    .then(response => response.data)
+api.sign = async (data) => {
+    const oportunity = await prisma.rdstation.findUnique({ where: { contract_id: data.id } })
+    api.put('/deals/'+oportunity.id+api.token, { deal_stage_id: stages.assinatura })
+    .then(response => prisma.rdstation.update({ where: { id: oportunity.id }, data: { state: 2 } }))
     .catch(error => console.error(error))
 }
 
@@ -50,5 +51,11 @@ const organization = { fields: {
     cnpj: { id: '5ef9e1ac2a89e4000e3cece5' },
     uc: { id: '5ef5ffafd59f1f000df749ce' }
 }}
+
+const stages = {
+    lead: '603392f33553ba0017383e14',
+    assinatura: '606e324d9d4e04000a159e8b',
+    fechado: '63ef72136c863d0017aded1a'
+}
 
 module.exports = api
