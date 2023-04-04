@@ -10,7 +10,7 @@ const token = '?token=6422e7534495ab000b1b42cd'
 api.token = token
 
 api.organization = (contract, callback) => {
-    const test = {
+    const data = {
         organization: {
             organization_custom_fields: [
                 {
@@ -23,9 +23,7 @@ api.organization = (contract, callback) => {
         }
     }
 
-    console.log(JSON.stringify(test))
-
-    api.post('/organizations'+api.token, test)
+    api.post('/organizations'+api.token, data)
     .then(response => callback(response.data))
     .catch(error => console.error(error))
 }
