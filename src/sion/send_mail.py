@@ -132,10 +132,7 @@ def mailTemplate(data):
         <hr>
         <p class="registered-data">Dados cadastrados:</p>
         <div class="registered-data-container">
-            <p>{data['company']}</p>
-            <p>{data['name']}</p>
-            <p>{data['phone']}</p>
-            <p>{data['email']}</p>
+
         </div>
         <div class="footer">
             <p class="footer-title">Não compartilhe este e-mail:</p>
@@ -251,10 +248,10 @@ def mailTemplate(data):
         <p>Segue contrato em anexo para revisão</p>
         <button>Assinar</button>
         <hr>
-        <p>Contrato_{data['company']}/{data['name']}_{data['date']}.pdf</p>
+        <p>Contrato_.pdf</p>
         <hr>
         <p class="who-signs">Estará assinando:</p>
-        <p>{data['email']}</p>
+        <p></p>
         <hr>
         <p class="limit-date">Data limite de assinatura:<br>{contract_limit}</p>
         <div class="footer">
@@ -393,9 +390,9 @@ def mailTemplate(data):
             <hr>
         </div>
         <p class="who-signs">Está assinando:</p>
-        <p>{data[email]}</p>
+        <p></p>
         <hr>
-        <p class="limit-date">Data limite de assinatura:<br>{data['sign_limit']}</p>
+        <p class="limit-date">Data limite de assinatura:<br></p>
         <div class="footer">
             <p class="footer-title">Não compartilhe este e-mail:</p>
             <p>Para sua segurança, não encaminhe este e-mail para ninguém.</p>
