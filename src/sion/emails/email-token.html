@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-mail - Assinatura</title>
+    <title>E-mail - Token</title>
     <style>
         @font-face {
             font-family: Poppins;
@@ -46,6 +46,10 @@
             font-weight: 600;
         }
 
+        .who-signs {
+            margin-bottom: 5vw;
+        }
+
         p {
             color: #333333;
             text-align: center;
@@ -53,15 +57,25 @@
             margin: 0;
         }
 
-        button {
-            border: none;
-            color: white;
-            background-color: #384974;
-            font-size: 5vw;
-            font-weight: 700;
-            padding: 2vw 0;
-            width: 90vw;
-            margin-top: 5vw;
+        .token-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 5vw 0;
+            height: 30vw;
+            background-color: #38497440;
+        }
+
+        .token-container hr {
+            margin: 0;
+            border-style: solid;
+            border-top: none;
+        }
+
+        .token-container p {
+            color: #384974;
+            font-size: 8vw;
+            font-weight: 600;
         }
 
         hr {
@@ -102,13 +116,14 @@
         <div class="logo-container">
             <img src="logo_branco.svg" class="logo" alt="">
         </div>
-        <h1>Solicitação de Assinatura da Cooperativa Sion</h1>
-        <p>Segue contrato em anexo para revisão</p>
-        <button>Assinar</button>
-        <hr>
-        <p>Contrato_[Razão Social/Nome do Responsável]_[data do contrato].pdf</p>
-        <hr>
-        <p class="who-signs">Estará assinando:</p>
+        <h1>Token de Verificação de Assinatura</h1>
+        <p>Utilize o token abaixo para confirmar sua assinatura. Por motivos de segurança, ele é válido apenas por 4 horas.</p>
+        <div class="token-container">
+            <hr>
+            <p>Q J S A S F 2 3</p>
+            <hr>
+        </div>
+        <p class="who-signs">Está assinando:</p>
         <p>[e-mail]</p>
         <hr>
         <p class="limit-date">Data limite de assinatura:<br>[um mês depois do dia de hoje]</p>
