@@ -1,57 +1,61 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-
-model adms {
-  id       Int     @id @default(autoincrement())
-  username String? @db.VarChar(55) @unique
-  email    String? @db.VarChar(55) @unique
-  password String? @db.VarChar(55)
-  name     String  @db.VarChar(55)
+    provider = "mysql"
+    url      = env("DATABASE_URL")
 }
 
 model contracts {
-  id          Int      @id @default(autoincrement())
-  unit        String   @unique(map: "unit") @db.VarChar(55)
-  date        DateTime @db.Date
-  pessoa      String   @db.VarChar(8)
-  supplier    String   @db.VarChar(55)
-  name        String   @db.VarChar(55)
-  email       String   @db.VarChar(55)
-  phone       String   @db.VarChar(55)
-  address     String   @db.VarChar(55)
-  cep         String   @db.VarChar(55)
-  cnpj        String?  @db.VarChar(55)
-  company     String?  @db.VarChar(55)
-  category    String?  @db.VarChar(55)
-  cpf         String?  @db.VarChar(55)
-  rg          String?  @db.VarChar(55)
-  seller      Int
-  seller_name String?  @db.VarChar(55)
+    id          Int      @id @default(autoincrement())
+    unit        String   @unique(map: "unit")
+    date        DateTime @db.Date
+    pessoa      String   
+    supplier    String  
+    name        String  
+    email       String  
+    phone       String  
+    address     String  
+    cep         String  
+    cnpj        String? 
+    company     String? 
+    category    String? 
+    cpf         String? 
+    rg          String? 
+    seller      users    @relation(fields: [seller_id], references: [id])
+    seller_id   Int      
+    rdstation   rdstation?
+    financial   financial?
 }
 
 model emails {
-  id    Int     @id @default(autoincrement())
-  email String? @db.VarChar(55)
+    id    Int     @id @default(autoincrement())
+    email String?
 }
 
 model users {
-  id       Int     @id @default(autoincrement())
-  username String? @db.VarChar(55) @unique
-  email    String? @db.VarChar(55) @unique
-  password String? @db.VarChar(55)
-  name     String  @db.VarChar(55)
+    id            Int       @id @default(autoincrement())
+    username      String?   @unique
+    email         String?   @unique
+    password      String?
+    name          String 
+    adm           Boolean   @default(false)
+    contracts     contracts[]
 }
 
 model financial {
-    id          Int     @id @default(autoincrement())
-    name        String  @db.VarChar(55)
-    phone       String  @db.VarChar(55)
-    email       String  @db.VarChar(512)
-    contract    Int     @unique
+    id          Int         @id @default(autoincrement())
+    name        String 
+    phone       String 
+    email       String  
+    contract    contracts   @relation(fields: [contract_id], references: [id])
+    contract_id Int         @unique
+}
+
+model rdstation {
+    id          Int         @id @default(autoincrement())
+    state       Int         @default(1)
+    contract    contracts   @relation(fields: [contract_id], references: [id])
+    contract_id Int         @unique
 }

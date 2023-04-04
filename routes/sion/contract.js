@@ -88,7 +88,6 @@ router.post('/lead', async (request, response, next) => {
         response.json(contract)
 
         rdstation.organization(data, (data => {
-            console.log(data)
             const organization = data._id
 
             const lead = rdstation.lead({
