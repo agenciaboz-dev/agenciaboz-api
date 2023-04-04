@@ -113,7 +113,7 @@ router.post('/lead', async (request, response, next) => {
         })
         
     } catch(error) {
-        console.log(error)
+        // console.log(error)
         // response.json(null)
     }
 
