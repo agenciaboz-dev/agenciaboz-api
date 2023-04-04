@@ -88,19 +88,19 @@ router.post('/lead', async (request, response, next) => {
 
         response.json(contract)
 
-        rdstation.lead({
-            campaign: { _id: contract.id },
-            contacts: [{
-                emails: [contract.email.split(',').map(email => { email })],
-                name: contract.company || contract.name,
-                phones: [{ phone: contract.phone }]
-            }],
-            deal: {
-                deal_stage_id: "603392f33553ba0017383e14",
-                name: "Leads",
-                user_id: "6422e7534495ab000b1b42cb"
-            }
-        })
+        // rdstation.lead({
+        //     campaign: { _id: contract.id },
+        //     contacts: [{
+        //         emails: [contract.email.split(',').map(email => { email })],
+        //         name: contract.company || contract.name,
+        //         phones: [{ phone: contract.phone }]
+        //     }],
+        //     deal: {
+        //         deal_stage_id: "603392f33553ba0017383e14",
+        //         name: "Leads",
+        //         user_id: "6422e7534495ab000b1b42cb"
+        //     }
+        // })
         
     } catch(error) {
         console.log(error)
@@ -109,6 +109,7 @@ router.post('/lead', async (request, response, next) => {
 
     data.template = 'lead'
     data.mail_list = [data.email] // mudar para email da sion
+    console.log(data)
     const input = JSON.stringify(data).replaceAll('"', "'")
     exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
         console.log(error)
