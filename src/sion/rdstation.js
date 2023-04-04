@@ -42,8 +42,17 @@ api.lead = (data) => {
 
 api.sign = async (data) => {
     const oportunity = await prisma.rdstation.findUnique({ where: { contract_id: data.id } })
+    
     api.put('/deals/'+oportunity.id+api.token, { deal_stage_id: stages.assinatura })
     .then(response => prisma.rdstation.update({ where: { id: oportunity.id }, data: { state: 2 } }))
+    .catch(error => console.error(error))
+}
+
+api.closed = async (data) => {
+    const oportunity = await prisma.rdstation.findUnique({ where: { contract_id: data.id } })
+
+    api.put('/deals/'+oportunity.id+api.token, { deal_stage_id: stages.fechado })
+    .then(response => prisma.rdstation.update({ where: { id: oportunity.id }, data: { state: 3 } }))
     .catch(error => console.error(error))
 }
 

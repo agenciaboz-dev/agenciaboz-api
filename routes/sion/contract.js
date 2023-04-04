@@ -194,4 +194,15 @@ router.post('/generate', async (request, response, next) => {
         
 });
 
+router.post('/confirm', (request, response, next) => {    
+    const data = JSON.parse(request.body.data);
+    data.date = new Date()
+    
+    const files = request.files
+
+    console.log(data)
+    console.log(files)
+
+})
+
 module.exports = router;
