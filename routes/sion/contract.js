@@ -127,7 +127,7 @@ router.post('/send', async (request, response, next) => {
         data.email = data.emails.toString()
     }
 
-    const seller = await prisma.users.findUnique({ where: { id: data.seller } })
+    const seller = data.seller
 
     data.template = 'contract'
     data.mail_list = [...data.email.split(','), seller.email] // falta email da sion
