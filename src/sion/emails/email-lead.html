@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-mail - Assinatura</title>
+    <title>E-mail - Lead</title>
     <style>
         @font-face {
             font-family: Poppins;
@@ -23,6 +23,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            height: 100%;
+            justify-content: space-between;
         }
 
         .logo-container, .footer {
@@ -39,13 +41,14 @@
             height: fit-content;
         }
 
-        h1, .who-signs {
+        h1, .registered-data {
             color: #384974;
             text-align: center;
             font-size: 6vw;
             font-weight: 600;
+            margin: 10vw 0;
         }
-
+        
         p {
             color: #333333;
             text-align: center;
@@ -53,25 +56,16 @@
             margin: 0;
         }
 
-        button {
-            border: none;
-            color: white;
-            background-color: #384974;
-            font-size: 5vw;
-            font-weight: 700;
-            padding: 2vw 0;
-            width: 90vw;
-            margin-top: 5vw;
-        }
-
         hr {
             width: 90vw;
-            margin: 5vw 0;
+            margin: 0;
         }
 
-        .limit-date {
-            color: #999999;
-            margin-bottom: 5vw;
+        .registered-data-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2vw;
+            margin-bottom: 10vw;
         }
 
         .footer {
@@ -102,16 +96,15 @@
         <div class="logo-container">
             <img src="logo_branco.svg" class="logo" alt="">
         </div>
-        <h1>Solicitação de Assinatura da Cooperativa Sion</h1>
-        <p>Segue contrato em anexo para revisão</p>
-        <button>Assinar</button>
+        <h1>Uma nova oportunidade foi cadastrada!</h1>
         <hr>
-        <p>Contrato_[Razão Social/Nome do Responsável]_[data do contrato].pdf</p>
-        <hr>
-        <p class="who-signs">Estará assinando:</p>
-        <p>[e-mail]</p>
-        <hr>
-        <p class="limit-date">Data limite de assinatura:<br>[um mês depois do dia de hoje]</p>
+        <p class="registered-data">Dados cadastrados:</p>
+        <div class="registered-data-container">
+            <p>[Razão Social]</p>
+            <p>[Nome do Responsável]</p>
+            <p>[Telefone]</p>
+            <p>[E-mail]</p>
+        </div>
         <div class="footer">
             <p class="footer-title">Não compartilhe este e-mail:</p>
             <p>Para sua segurança, não encaminhe este e-mail para ninguém.</p>

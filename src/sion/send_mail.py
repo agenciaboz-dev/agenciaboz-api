@@ -25,30 +25,120 @@ def sendMail(destination, subject, message = None, attachment = None, html = Non
 def mailTemplate(data):
     templates = {
         'lead': f"""
-        <!DOCTYPE html>
-        <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-mail - Lead</title>
+    <style>
+        @font-face {{
+            font-family: Poppins;
+            src: url('../../fonts/Poppins-Regular.ttf');
+            }}
 
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Sion</title>
-            <style>
+        * {{
+            font-family: Poppins;
+        }}
 
-            </style>
-        </head>
+        body {{
+            margin: 0;
+        }}
 
-        <body>
-            <div class="main-container">
-                <h1>novo lead</h1>
-                <h2>vendedor: {data['seller']['name']}</h2>
-                <h3>cliente: {data['company'] or data['name']}
-                <p>unidade: {data['unit']}
-                </p>
-            </div>
-        </body>
+        .main-container {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: space-between;
+        }}
 
-        </html>
+        .logo-container, .footer {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #384974;
+            height: 40vw;
+            width: 100vw;
+        }}
+
+        .logo {{
+            width: 70vw;
+            height: fit-content;
+        }}
+
+        h1, .registered-data {{
+            color: #384974;
+            text-align: center;
+            font-size: 6vw;
+            font-weight: 600;
+            margin: 10vw 0;
+        }}
+        
+        p {{
+            color: #333333;
+            text-align: center;
+            font-size: 5vw;
+            margin: 0;
+        }}
+
+        hr {{
+            width: 90vw;
+            margin: 0;
+        }}
+
+        .registered-data-container {{
+            display: flex;
+            flex-direction: column;
+            gap: 2vw;
+            margin-bottom: 10vw;
+        }}
+
+        .footer {{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 10vw;
+        }}
+        
+        .footer-title {{
+            color: white;
+            font-size: 4vw;
+            font-weight: 600;
+            text-align: start;
+        }}
+        
+        .footer p {{
+            color: white;
+            font-size: 3.5vw;
+            text-align: start;
+            word-wrap: normal;
+            width: 90vw;
+        }}
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="logo-container">
+            <img src="logo_branco.svg" class="logo" alt="">
+        </div>
+        <h1>Uma nova oportunidade foi cadastrada!</h1>
+        <hr>
+        <p class="registered-data">Dados cadastrados:</p>
+        <div class="registered-data-container">
+            <p>[Razão Social]</p>
+            <p>[Nome do Responsável]</p>
+            <p>[Telefone]</p>
+            <p>[E-mail]</p>
+        </div>
+        <div class="footer">
+            <p class="footer-title">Não compartilhe este e-mail:</p>
+            <p>Para sua segurança, não encaminhe este e-mail para ninguém.</p>
+        </div>
+    </div>
+</body>
+</html>
         """,
 
         'contract': f"""
@@ -121,9 +211,6 @@ def mailTemplate(data):
 
         .limit-date {{
             color: #999999;
-        }}
-
-        .limit-date {{
             margin-bottom: 5vw;
         }}
 
