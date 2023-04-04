@@ -1,4 +1,7 @@
 const axios = require('axios');
+const { PrismaClient } = require('@prisma/client')
+
+const prisma = new PrismaClient()
 
 const api = axios.create({
     baseURL: 'https://crm.rdstation.com/api/v1',
@@ -29,6 +32,15 @@ api.organization = (contract, callback) => {
 }
 
 api.lead = (data) => {
+    api.post('/deals'+api.token, data)
+    .then(async (response) => {
+        const lead = await prisma.rdstation.create({ data: { id: response.data._id, contract_id: data.id, state: 1 } })
+        console.log(lead)
+    })
+    .catch(error => console.error(error))
+}
+
+api.sign = (data) => {
     api.post('/deals'+api.token, data)
     .then(response => response.data)
     .catch(error => console.error(error))
