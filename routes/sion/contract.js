@@ -34,9 +34,6 @@ router.post('/financial', async (request, response, next) => {
 router.post('/unit', async (request, response, next) => {    
     const data = request.body
 
-    const mysql = newMysql(config.sion.database)
-    mysql.connect()
-
     const contract = await prisma.contracts.findUnique({
         where: { unit: data.unit }
     })
@@ -61,8 +58,6 @@ router.post('/lead', async (request, response, next) => {
         data.email = data.emails.toString()
     }
 
-    console.log(data)
-
     try {
         const contract = await prisma.contracts.create({
             data: {
@@ -80,11 +75,12 @@ router.post('/lead', async (request, response, next) => {
                 category: data.category,
                 cpf: data.cpf?.replaceAll('.', '').replaceAll('-', ''),
                 rg: data.rg?.replaceAll('.', '').replaceAll('-', ''),
-                seller: data.seller.id,
-                seller_name: data.seller.name,
+                seller_id: data.seller.id,
+            },
+            include: {
+                seller: true
             }
         })
-
         response.json(contract)
 
         rdstation.organization(data, (data => {
@@ -105,21 +101,22 @@ router.post('/lead', async (request, response, next) => {
             })
         }))
 
+        const input = { ...contract }
+
+        input.template = 'lead'
+        input.mail_list = [input.email] // mudar para email da sion
+        
+        input = JSON.stringify(input).replaceAll('"', "'")
+        exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
+            console.log(error)
+            console.log(stderr)
+            console.log(stdout)
+        })
         
     } catch(error) {
         console.log(error)
         // response.json(null)
     }
-
-    data.template = 'lead'
-    data.mail_list = [data.email] // mudar para email da sion
-    console.log(data)
-    const input = JSON.stringify(data).replaceAll('"', "'")
-    // exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
-    //     console.log(error)
-    //     console.log(stderr)
-    //     console.log(stdout)
-    // })
 
 })
 
