@@ -87,18 +87,25 @@ router.post('/lead', async (request, response, next) => {
 
         response.json(contract)
 
-        rdstation.lead({
-            contacts: [{
-                emails: [contract.email.split(',').map(email => { email })],
-                name: contract.name,
-                phones: [{ phone: contract.phone }]
-            }],
-            deal: {
-                deal_stage_id: "603392f33553ba0017383e14",
-                name: contract.company || contract.name,
-                user_id: "6422e7534495ab000b1b42cb"
-            }
-        })
+        rdstation.organization(data, (data => {
+            console.log(data)
+            const organization = data._id
+
+            const lead = rdstation.lead({
+                contacts: [{
+                    emails: [contract.email.split(',').map(email => { email })],
+                    name: contract.name,
+                    phones: [{ phone: contract.phone }]
+                }],
+                deal: {
+                    deal_stage_id: "603392f33553ba0017383e14",
+                    name: (contract.company || contract.name) + ` / ${contract.unit}`,
+                    user_id: "6422e7534495ab000b1b42cb"
+                },
+                organization: { _id: organization }
+            })
+        }))
+
         
     } catch(error) {
         console.log(error)
@@ -108,11 +115,11 @@ router.post('/lead', async (request, response, next) => {
     data.template = 'lead'
     data.mail_list = [data.email] // mudar para email da sion
     const input = JSON.stringify(data).replaceAll('"', "'")
-    exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
-        console.log(error)
-        console.log(stderr)
-        console.log(stdout)
-    })
+    // exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
+    //     console.log(error)
+    //     console.log(stderr)
+    //     console.log(stdout)
+    // })
 
 })
 
