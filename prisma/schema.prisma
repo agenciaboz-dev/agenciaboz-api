@@ -54,7 +54,7 @@ model financial {
 }
 
 model rdstation {
-    id          Int         @id @default(autoincrement())
+    id          Int         @id
     state       Int         @default(1)
     contract    contracts   @relation(fields: [contract_id], references: [id])
     contract_id Int         @unique
