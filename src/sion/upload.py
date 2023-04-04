@@ -13,7 +13,7 @@ path = f"documents/sion/{data['unit']}"
 if not os.path.exists(path):
     os.makedirs(path)
 
-seller = data['seller_name']
+seller = data['seller']['name']
 seller_folder = mkdir(cadastros, seller)
 
 files = [file for file in Path(path).glob("*") if file.is_file()]

@@ -153,7 +153,7 @@ router.post('/generate', async (request, response, next) => {
     
     const files = request.files
 
-	const contract = await prisma.contracts.findUnique({ where: { unit: data.unit } })
+	const contract = await prisma.contracts.findUnique({ where: { unit: data.unit }, include: { seller: true } })
 
     contract.date = contract.date.toLocaleDateString('pt-BR')
 
