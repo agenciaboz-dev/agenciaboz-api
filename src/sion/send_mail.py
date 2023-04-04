@@ -143,7 +143,7 @@ def mailTemplate(data):
         
         .footer p {{
             color: white;
-            font-size: 4vw;
+            font-size: 3.5vw;
             text-align: start;
             word-wrap: normal;
             width: 90vw;
