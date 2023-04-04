@@ -23,6 +23,11 @@ def sendMail(destination, subject, message = None, attachment = None, html = Non
     )
 
 def mailTemplate(data):
+    try:
+        contract_limit = data['sign_limit']
+    except:
+        contract_limit = ''
+        
     templates = {
         'lead': f"""
         <!DOCTYPE html>
@@ -164,7 +169,7 @@ def mailTemplate(data):
         <p class="who-signs">Estará assinando:</p>
         <p>{data['email']}</p>
         <hr>
-        <p class="limit-date">Data limite de assinatura:<br>{data['sign_limit'] or ''}</p>
+        <p class="limit-date">Data limite de assinatura:<br>{contract_limit}</p>
         <div class="footer">
             <p class="footer-title">Não compartilhe este e-mail:</p>
             <p>Para sua segurança, não encaminhe este e-mail para ninguém.</p>
