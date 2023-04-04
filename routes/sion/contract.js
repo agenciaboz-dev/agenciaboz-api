@@ -106,8 +106,7 @@ router.post('/lead', async (request, response, next) => {
         input.template = 'lead'
         input.mail_list = [input.email] // mudar para email da sion
         
-        input = JSON.stringify(input).replaceAll('"', "'")
-        exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
+        exec(`python3 src/sion/send_mail.py "${JSON.stringify(input).replaceAll('"', "'")}"`, (error, stdout, stderr) => {
             console.log(error)
             console.log(stderr)
             console.log(stdout)
