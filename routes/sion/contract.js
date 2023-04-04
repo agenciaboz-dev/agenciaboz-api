@@ -61,8 +61,7 @@ router.post('/lead', async (request, response, next) => {
         data.email = data.emails.toString()
     }
 
-    const mysql = newMysql(config.sion.database);
-    mysql.connect();
+    console.log(data)
 
     try {
         const contract = await prisma.contracts.create({
@@ -88,19 +87,18 @@ router.post('/lead', async (request, response, next) => {
 
         response.json(contract)
 
-        // rdstation.lead({
-        //     campaign: { _id: contract.id },
-        //     contacts: [{
-        //         emails: [contract.email.split(',').map(email => { email })],
-        //         name: contract.company || contract.name,
-        //         phones: [{ phone: contract.phone }]
-        //     }],
-        //     deal: {
-        //         deal_stage_id: "603392f33553ba0017383e14",
-        //         name: "Leads",
-        //         user_id: "6422e7534495ab000b1b42cb"
-        //     }
-        // })
+        rdstation.lead({
+            contacts: [{
+                emails: [contract.email.split(',').map(email => { email })],
+                name: contract.name,
+                phones: [{ phone: contract.phone }]
+            }],
+            deal: {
+                deal_stage_id: "603392f33553ba0017383e14",
+                name: contract.company || contract.name,
+                user_id: "6422e7534495ab000b1b42cb"
+            }
+        })
         
     } catch(error) {
         console.log(error)
