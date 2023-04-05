@@ -8,7 +8,7 @@
     <style>
         @font-face {
             font-family: Poppins;
-            src: url('../../fonts/Poppins-Regular.ttf');
+            src: url('https://app.agenciaboz.com.br:4000/documents/fonts/Poppins-Regular.ttf');
             }
 
         * {
@@ -94,16 +94,16 @@
 <body>
     <div class="main-container">
         <div class="logo-container">
-            <img src="logo_branco.svg" class="logo" alt="">
+            <img src="https://app.agenciaboz.com.br:4000/documents/images/sion/logo_branco.svg" class="logo" alt="">
         </div>
         <h1>Uma nova oportunidade foi cadastrada!</h1>
         <hr>
         <p class="registered-data">Dados cadastrados:</p>
         <div class="registered-data-container">
-            <p>[Razão Social]</p>
-            <p>[Nome do Responsável]</p>
-            <p>[Telefone]</p>
-            <p>[E-mail]</p>
+            {f"<p>{data['company']}</p>" if data['pessoa'] == 'juridica' else ''}
+            <p>{data['name']}</p>
+            <p>{data['phone']}</p>
+            <p>{data['email']}</p>
         </div>
         <div class="footer">
             <p class="footer-title">Não compartilhe este e-mail:</p>

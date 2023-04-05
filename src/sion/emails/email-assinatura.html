@@ -8,15 +8,11 @@
     <style>
         @font-face {
             font-family: Poppins;
-            src: url('../../fonts/Poppins-Regular.ttf');
+            src: url('https://app.agenciaboz.com.br:4000/documents/fonts/Poppins-Regular.ttf');
             }
 
         * {
             font-family: Poppins;
-        }
-
-        body {
-            margin: 0;
         }
 
         .main-container {
@@ -100,18 +96,18 @@
 <body>
     <div class="main-container">
         <div class="logo-container">
-            <img src="logo_branco.svg" class="logo" alt="">
+            <img src="https://app.agenciaboz.com.br:4000/documents/images/sion/logo_branco.svg" class="logo" alt="">
         </div>
         <h1>Solicitação de Assinatura da Cooperativa Sion</h1>
         <p>Segue contrato em anexo para revisão</p>
         <button>Assinar</button>
         <hr>
-        <p>Contrato_[Razão Social/Nome do Responsável]_[data do contrato].pdf</p>
+        <p>Contrato_{contract_name}_{data['date']}.pdf</p>
         <hr>
         <p class="who-signs">Estará assinando:</p>
-        <p>[e-mail]</p>
+        <p>{data['email']}</p>
         <hr>
-        <p class="limit-date">Data limite de assinatura:<br>[um mês depois do dia de hoje]</p>
+        <p class="limit-date">Data limite de assinatura:<br>{contract_limit}</p>
         <div class="footer">
             <p class="footer-title">Não compartilhe este e-mail:</p>
             <p>Para sua segurança, não encaminhe este e-mail para ninguém.</p>

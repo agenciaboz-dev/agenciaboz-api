@@ -42,7 +42,7 @@ def mailTemplate(data):
     <style>
         @font-face {{
             font-family: Poppins;
-            src: url('../../fonts/Poppins-Regular.ttf');
+            src: url('https://app.agenciaboz.com.br:4000/documents/fonts/Poppins-Regular.ttf');
             }}
 
         * {{
@@ -128,7 +128,7 @@ def mailTemplate(data):
 <body>
     <div class="main-container">
         <div class="logo-container">
-            <img src="logo_branco.svg" class="logo" alt="">
+            <img src="https://app.agenciaboz.com.br:4000/documents/images/sion/logo_branco.svg" class="logo" alt="">
         </div>
         <h1>Uma nova oportunidade foi cadastrada!</h1>
         <hr>
@@ -159,7 +159,7 @@ def mailTemplate(data):
     <style>
         @font-face {{
             font-family: Poppins;
-            src: url('../../fonts/Poppins-Regular.ttf');
+            src: url('https://app.agenciaboz.com.br:4000/documents/fonts/Poppins-Regular.ttf');
             }}
 
         * {{
@@ -247,7 +247,7 @@ def mailTemplate(data):
 <body>
     <div class="main-container">
         <div class="logo-container">
-            <img src="logo_branco.svg" class="logo" alt="">
+            <img src="https://app.agenciaboz.com.br:4000/documents/images/sion/logo_branco.svg" class="logo" alt="">
         </div>
         <h1>Solicitação de Assinatura da Cooperativa Sion</h1>
         <p>Segue contrato em anexo para revisão</p>
@@ -279,7 +279,7 @@ def mailTemplate(data):
     <style>
         @font-face {{
             font-family: Poppins;
-            src: url('../../fonts/Poppins-Regular.ttf');
+            src: url('https://app.agenciaboz.com.br:4000/documents/fonts/Poppins-Regular.ttf');
             }}
 
         * {{
@@ -385,7 +385,7 @@ def mailTemplate(data):
 <body>
     <div class="main-container">
         <div class="logo-container">
-            <img src="logo_branco.svg" class="logo" alt="">
+            <img src="https://app.agenciaboz.com.br:4000/documents/images/sion/logo_branco.svg" class="logo" alt="">
         </div>
         <h1>Token de Verificação de Assinatura</h1>
         <p>Utilize o token abaixo para confirmar sua assinatura. Por motivos de segurança, ele é válido apenas por 4 horas.</p>
