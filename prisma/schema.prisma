@@ -42,7 +42,7 @@ model users {
     email         String    @unique
     password      String
     name          String 
-    cpf           String    @default("025766698506")
+    cpf           String    @default("02576698506")
     adm           Boolean   @default(false)
     ip            String    @default("0.0.0.0")
     contracts     contracts[]
