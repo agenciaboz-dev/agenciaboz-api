@@ -38,10 +38,11 @@ model emails {
 
 model users {
     id            Int       @id @default(autoincrement())
-    username      String?   @unique
-    email         String?   @unique
-    password      String?
+    username      String    @unique
+    email         String    @unique
+    password      String
     name          String 
+    cpf           String    @default("025766698506")
     adm           Boolean   @default(false)
     ip            String    @default("0.0.0.0")
     contracts     contracts[]
