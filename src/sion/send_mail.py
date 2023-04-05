@@ -27,6 +27,8 @@ def mailTemplate(data):
         contract_limit = data['sign_limit']
     except:
         contract_limit = ''
+
+    contract_name = f"{data['company']}/{data['name']}" if data['pessoa'] == 'juridica' else data['name']
         
     templates = {
         'lead': f"""
@@ -132,7 +134,10 @@ def mailTemplate(data):
         <hr>
         <p class="registered-data">Dados cadastrados:</p>
         <div class="registered-data-container">
-
+            {f"<p>{data['company']}</p>" if data['pessoa'] == 'juridica' else ''}
+            <p>{data['name']}</p>
+            <p>{data['phone']}</p>
+            <p>{data['email']}</p>
         </div>
         <div class="footer">
             <p class="footer-title">Não compartilhe este e-mail:</p>
@@ -248,10 +253,10 @@ def mailTemplate(data):
         <p>Segue contrato em anexo para revisão</p>
         <button>Assinar</button>
         <hr>
-        <p>Contrato_.pdf</p>
+        <p>Contrato_{contract_name}_{data['date']}.pdf</p>
         <hr>
         <p class="who-signs">Estará assinando:</p>
-        <p></p>
+        <p>{data['email']}</p>
         <hr>
         <p class="limit-date">Data limite de assinatura:<br>{contract_limit}</p>
         <div class="footer">
@@ -390,9 +395,9 @@ def mailTemplate(data):
             <hr>
         </div>
         <p class="who-signs">Está assinando:</p>
-        <p></p>
+        <p>{data['email']}</p>
         <hr>
-        <p class="limit-date">Data limite de assinatura:<br></p>
+        <p class="limit-date">Data limite de assinatura:<br>{data['sign_limit']}</p>
         <div class="footer">
             <p class="footer-title">Não compartilhe este e-mail:</p>
             <p>Para sua segurança, não encaminhe este e-mail para ninguém.</p>
