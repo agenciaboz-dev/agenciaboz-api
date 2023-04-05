@@ -209,11 +209,23 @@ router.post('/confirm', async (request, response, next) => {
     
     const files = request.files
 
-    const contract = await prisma.contracts.findFirst({ where: { 
-        OR: [{ cpf: data.document }, { cnpj: data.document }],
-        AND: [{ id: data.id }]
-    }})
-    contract.token = generateRandomNumber(5)
+    let contract = null
+
+    const user = data.user
+    if (user) {
+        contract = await prisma.contracts.findFirst({ where: { seller_id: user.id }, include: { seller: true } })
+        if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name)) contract = null
+
+    } else {
+        contract = await prisma.contracts.findFirst({ where: { 
+            OR: [{ cpf: data.document }, { cnpj: data.document }],
+            AND: [{ id: data.id }]
+        }})
+    }
+
+    if (contract) contract.token = generateRandomNumber(5)
+
+    console.log(contract)
 
     response.json(contract)
 
