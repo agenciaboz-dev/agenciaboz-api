@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./bin/https",
     "debug": "DEBUG=express:* node ./bin/www",
+    "deploy": "ssh agenciaboz 'cd /home/agenciaboz/api && git pull'",
     "dev": "nodemon -L ./bin/www"
   },
   "dependencies": {

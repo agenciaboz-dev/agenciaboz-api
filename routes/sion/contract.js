@@ -107,11 +107,11 @@ router.post('/lead', async (request, response, next) => {
         input.template = 'lead'
         input.mail_list = [input.seller.email] // mudar para email da sion
         
-        // exec(`python3 src/sion/send_mail.py "${JSON.stringify(input).replaceAll('"', "'")}"`, (error, stdout, stderr) => {
-        //     console.log(error)
-        //     console.log(stderr)
-        //     console.log(stdout)
-        // })
+        exec(`python3 src/sion/send_mail.py "${JSON.stringify(input).replaceAll('"', "'")}"`, (error, stdout, stderr) => {
+            console.log(error)
+            console.log(stderr)
+            console.log(stdout)
+        })
         
     } catch(error) {
         // console.log(error)
@@ -141,11 +141,11 @@ router.post('/send', async (request, response, next) => {
     data.sign_limit = data1m.toLocaleDateString('pt-br');
     
     const input = JSON.stringify(data).replaceAll('"', "'")
-    // exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
-    //     console.log(stdout)
-    //     console.log(error)
-    //     console.log(stderr)
-    // })
+    exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
+        console.log(stdout)
+        console.log(error)
+        console.log(stderr)
+    })
     
 })
 
