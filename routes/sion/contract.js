@@ -63,7 +63,7 @@ router.post('/lead', async (request, response, next) => {
             data: {
                 unit: data.unit,
                 date: data.date,
-                ip: request.ip,
+                ip: request.socket.remoteAddress,
                 pessoa: data.pessoa,
                 supplier: data.supplier,
                 name: data.name,
@@ -245,7 +245,7 @@ router.post('/confirm', async (request, response, next) => {
         contract = await prisma.contracts.findFirst({ where: { 
             OR: [{ cpf: data.document }, { cnpj: data.document }],
             AND: [{ id: data.id }]
-        }})
+        }, include: { seller: true }})
     }
 
     if (contract) contract.token = generateRandomNumber(5)
@@ -253,6 +253,19 @@ router.post('/confirm', async (request, response, next) => {
     console.log(contract)
 
     response.json(contract)
+
+})
+
+router.post('/sign', async (request, response, next) => {    
+    const data = request.body
+
+    const contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+
+    await prisma.logs.create({ data: {
+        contract_id: contract.id,
+        seller_id: contract.seller_id,
+        text: `${data.name} assinou como parte. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: [Link da imagem no drive]. IP: ${request.socket.remoteAddress}.`
+    }})
 
 })
 
