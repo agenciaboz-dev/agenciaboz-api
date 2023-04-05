@@ -199,6 +199,7 @@ router.post('/generate', async (request, response, next) => {
         seller_id: contract.seller_id,
         text: `Operador com email ${contract.seller.email} criou este documento número ${contract.id}. Data limite para assinatura do documento: ${new Date().setMonth(data.date.getMonth() + 1)}.`
     }})
+    console.log(first_logs)
 
     await prisma.logs.create({ data: {
         contract_id: contract.id,
