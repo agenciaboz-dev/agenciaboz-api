@@ -397,7 +397,7 @@ def mailTemplate(data):
         <p class="who-signs">Está assinando:</p>
         <p>{data['email']}</p>
         <hr>
-        <p class="limit-date">Data limite de assinatura:<br>{data['sign_limit']}</p>
+        <p class="limit-date">Data limite de assinatura:<br>{contract_limit}</p>
         <div class="footer">
             <p class="footer-title">Não compartilhe este e-mail:</p>
             <p>Para sua segurança, não encaminhe este e-mail para ninguém.</p>
