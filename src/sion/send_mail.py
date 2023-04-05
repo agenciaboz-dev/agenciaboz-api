@@ -53,26 +53,20 @@ def mailTemplate(data):
             margin: 0;
         }}
 
-        .main-container {{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-            justify-content: space-between;
+        table {{
+            border-collapse: collapse;
+            width: 100%;
         }}
 
-        .logo-container, .footer {{
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .logo, .footer {{
             background-color: #384974;
-            height: 40vw;
-            width: 100vw;
         }}
 
-        .logo {{
-            width: 70vw;
-            height: fit-content;
+        .logo img {{
+            display: block;
+            width: 70%;
+            height: auto;
+            margin: 0 auto;
         }}
 
         h1, .registered-data {{
@@ -82,7 +76,7 @@ def mailTemplate(data):
             font-weight: 600;
             margin: 10vw 0;
         }}
-        
+
         p {{
             color: #333333;
             text-align: center;
@@ -91,59 +85,64 @@ def mailTemplate(data):
         }}
 
         hr {{
-            width: 90vw;
-            margin: 0;
+            width: 90%;
+            margin: 0 auto;
         }}
 
         .registered-data-container {{
-            display: flex;
-            flex-direction: column;
-            gap: 2vw;
             margin-bottom: 10vw;
         }}
 
         .footer {{
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
             padding-left: 10vw;
         }}
-        
+
         .footer-title {{
             color: white;
             font-size: 4vw;
             font-weight: 600;
-            text-align: start;
+            text-align: left;
         }}
-        
+
         .footer p {{
             color: white;
             font-size: 3.5vw;
-            text-align: start;
+            text-align: left;
             word-wrap: normal;
-            width: 90vw;
+            width: 90%;
+            margin: 0;
         }}
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="logo-container">
-            <img src="https://app.agenciaboz.com.br:4000/documents/images/sion/logo_branco.svg" class="logo" alt="">
-        </div>
-        <h1>Uma nova oportunidade foi cadastrada!</h1>
-        <hr>
-        <p class="registered-data">Dados cadastrados:</p>
-        <div class="registered-data-container">
-            {f"<p>{data['company']}</p>" if data['pessoa'] == 'juridica' else ''}
-            <p>{data['name']}</p>
-            <p>{data['phone']}</p>
-            <p>{data['email']}</p>
-        </div>
-        <div class="footer">
-            <p class="footer-title">Não compartilhe este e-mail:</p>
-            <p>Para sua segurança, não encaminhe este e-mail para ninguém.</p>
-        </div>
-    </div>
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="logo" height="40vw">
+                <img src="https://app.agenciaboz.com.br:4000/documents/images/sion/logo_branco.svg" alt="">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h1>Uma nova oportunidade foi cadastrada!</h1>
+                <hr>
+                <p class="registered-data">Dados cadastrados:</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="registered-data-container">
+                {f"<p>{data['company']}</p>" if data['pessoa'] == 'juridica' else ''}
+                <p>{data['name']}</p>
+                <p>{data['phone']}</p>
+                <p>{data['email']}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="footer">
+                <p class="footer-title">Não compartilhe este e-mail:</p>
+                <p>Para sua segurança, não encaminhe este e-mail para ninguém.</p>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
         """,

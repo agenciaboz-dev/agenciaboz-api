@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-mail - Token</title>
+    <style>
+        @font-face {
+            font-family: Poppins;
+            src: url('https://app.agenciaboz.com.br:4000/documents/fonts/Poppins-Regular.ttf');
+            }
+
+        * {
+            font-family: Poppins;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-container, .footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #384974;
+            height: 40vw;
+            width: 100vw;
+        }
+
+        .logo {
+            width: 70vw;
+            height: fit-content;
+        }
+
+        h1, .who-signs {
+            color: #384974;
+            text-align: center;
+            font-size: 6vw;
+            font-weight: 600;
+        }
+
+        .who-signs {
+            margin-bottom: 5vw;
+        }
+
+        p {
+            color: #333333;
+            text-align: center;
+            font-size: 5vw;
+            margin: 0;
+        }
+
+        .token-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 5vw 0;
+            height: 30vw;
+            background-color: #38497440;
+        }
+
+        .token-container hr {
+            margin: 0;
+            border-style: solid;
+            border-top: none;
+        }
+
+        .token-container p {
+            color: #384974;
+            font-size: 8vw;
+            font-weight: 600;
+        }
+
+        hr {
+            width: 90vw;
+            margin: 5vw 0;
+        }
+
+        .limit-date {
+            color: #999999;
+            margin-bottom: 5vw;
+        }
+
+        .footer {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 10vw;
+        }
+        
+        .footer-title {
+            color: white;
+            font-size: 4vw;
+            font-weight: 600;
+            text-align: start;
+        }
+        
+        .footer p {
+            color: white;
+            font-size: 3.5vw;
+            text-align: start;
+            word-wrap: normal;
+            width: 90vw;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="logo-container">
+            <img src="https://app.agenciaboz.com.br:4000/documents/images/sion/logo_branco.svg" class="logo" alt="">
+        </div>
+        <h1>Token de Verificação de Assinatura</h1>
+        <p>Utilize o token abaixo para confirmar sua assinatura. Por motivos de segurança, ele é válido apenas por 4 horas.</p>
+        <div class="token-container">
+            <hr>
+            <p>Q J S A S F 2 3</p>
+            <hr>
+        </div>
+        <p class="who-signs">Está assinando:</p>
+        <p>{data['email']}</p>
+        <hr>
+        <p class="limit-date">Data limite de assinatura:<br>{data['sign_limit']}</p>
+        <div class="footer">
+            <p class="footer-title">Não compartilhe este e-mail:</p>
+            <p>Para sua segurança, não encaminhe este e-mail para ninguém.</p>
+        </div>
+    </div>
+</body>
+</html>
