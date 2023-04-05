@@ -194,14 +194,27 @@ router.post('/generate', async (request, response, next) => {
         
 });
 
-router.post('/confirm', (request, response, next) => {    
+router.post('/confirm', async (request, response, next) => {   
+    const generateRandomNumber = (length) => {
+        const min = Math.pow(10, length - 1)
+        const max = Math.pow(10, length) - 1
+        return Math.floor(Math.random() * (max - min + 1)) + min
+    }
+
     const data = JSON.parse(request.body.data);
-    data.date = new Date()
+    data.id = parseInt(data.id)
+    data.document = data.document.replace(/\D/g, '')
+    console.log(data)
     
     const files = request.files
 
-    console.log(data)
-    console.log(files)
+    const contract = await prisma.contracts.findFirst({ where: { 
+        OR: [{ cpf: data.document }, { cnpj: data.document }],
+        AND: [{ id: data.id }]
+    }})
+    contract.token = generateRandomNumber(5)
+
+    response.json(contract)
 
 })
 
