@@ -19,7 +19,7 @@ router.post('/financial', async (request, response, next) => {
                 name: data.name,
                 phone: data.phone.replace(/\D/g, ''),
                 email: data.email,
-                contract: data.id
+                contract_id: data.id
             }
         })
 
