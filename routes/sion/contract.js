@@ -63,6 +63,7 @@ router.post('/lead', async (request, response, next) => {
             data: {
                 unit: data.unit,
                 date: data.date,
+                ip: request.ip,
                 pessoa: data.pessoa,
                 supplier: data.supplier,
                 name: data.name,
