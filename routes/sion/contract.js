@@ -238,7 +238,6 @@ router.post('/confirm', async (request, response, next) => {
     const data = JSON.parse(request.body.data);
     data.id = parseInt(data.id)
     data.document = data.document.replace(/\D/g, '')
-    data.birth = new Date(data.birth)
     console.log(data)
     
     const files = request.files
