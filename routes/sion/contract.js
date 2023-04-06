@@ -68,7 +68,7 @@ router.post('/lead', async (request, response, next) => {
                 pessoa: data.pessoa,
                 supplier: data.supplier,
                 name: data.name,
-                birth: moment(data.birth, 'DD/MM/YYY').toDate(),
+                birth: moment(data.birth, 'DD/MM/YYYY').toDate(),
                 email: data.email,
                 phone: data.phone.replace(/\D/g, ''),
                 address: data.address,
