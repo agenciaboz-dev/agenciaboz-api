@@ -267,6 +267,7 @@ router.post('/sign', async (request, response, next) => {
         text: `${data.name} assinou como parte. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: [Link da imagem no drive]. IP: ${request.socket.remoteAddress}.`
     }})
 
+    rdstation.closed(data)
 })
 
 module.exports = router;
