@@ -22,7 +22,7 @@ api.organization = (contract, callback) => {
                 },
             ],
             organization_segments: [contract.category],
-            name: contract.name
+            name: contract.company || contract.name
         }
     }
 
