@@ -14,7 +14,8 @@ model contracts {
     ip          String
     pessoa      String   
     supplier    String  
-    name        String  
+    name        String
+    birth       DateTime  
     email       String  
     phone       String  
     address     String  
@@ -41,7 +42,8 @@ model users {
     username      String    @unique
     email         String    @unique
     password      String
-    name          String 
+    name          String
+    birth         DateTime  @default(now()) 
     cpf           String    @default("02576698506")
     adm           Boolean   @default(false)
     ip            String    @default("0.0.0.0")
