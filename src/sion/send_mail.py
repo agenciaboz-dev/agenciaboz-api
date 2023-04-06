@@ -1458,7 +1458,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
                     <tbody>
                         <tr>
                             <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Arial; font-size: 16px; padding: 12px;">
-                                <a class="mcnButton " title="Assinar" href="" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Assinar</a>
+                                <a class="mcnButton " title="Assinar" href="https://vendas.cooperativasion.com.br/login/{data['id']}" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;cursor: pointer">Assinar</a>
                             </td>
                         </tr>
                     </tbody>
