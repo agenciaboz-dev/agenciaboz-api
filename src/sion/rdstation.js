@@ -26,34 +26,36 @@ api.organization = (contract, callback) => {
         }
     }
 
-    api.post('/organizations'+api.token, data)
-    .then(response => callback(response.data))
-    .catch(error => console.error(error))
+    console.warning('RDSTATION API CALLS COMMENTED')
+
+    // api.post('/organizations'+api.token, data)
+    // .then(response => callback(response.data))
+    // .catch(error => console.error(error))
 }
 
 api.lead = (data) => {
-    api.post('/deals'+api.token, data)
-    .then(async (response) => {
-        const lead = await prisma.rdstation.create({ data: { id: response.data._id, contract_id: data.id, state: 1 } })
-        console.log(lead)
-    })
-    .catch(error => console.error(error))
+    // api.post('/deals'+api.token, data)
+    // .then(async (response) => {
+    //     const lead = await prisma.rdstation.create({ data: { id: response.data._id, contract_id: data.id, state: 1 } })
+    //     console.log(lead)
+    // })
+    // .catch(error => console.error(error))
 }
 
 api.sign = async (data) => {
-    const oportunity = await prisma.rdstation.findUnique({ where: { contract_id: data.id } })
+    // const oportunity = await prisma.rdstation.findUnique({ where: { contract_id: data.id } })
     
-    api.put('/deals/'+oportunity.id+api.token, { deal_stage_id: stages.assinatura })
-    .then(response => prisma.rdstation.update({ where: { id: oportunity.id }, data: { state: 2 } }))
-    .catch(error => console.error(error))
+    // api.put('/deals/'+oportunity.id+api.token, { deal_stage_id: stages.assinatura })
+    // .then(response => prisma.rdstation.update({ where: { id: oportunity.id }, data: { state: 2 } }))
+    // .catch(error => console.error(error))
 }
 
 api.closed = async (data) => {
-    const oportunity = await prisma.rdstation.findUnique({ where: { contract_id: data.id } })
+    // const oportunity = await prisma.rdstation.findUnique({ where: { contract_id: data.id } })
 
-    api.put('/deals/'+oportunity.id+api.token, { deal_stage_id: stages.fechado })
-    .then(response => prisma.rdstation.update({ where: { id: oportunity.id }, data: { state: 3 } }))
-    .catch(error => console.error(error))
+    // api.put('/deals/'+oportunity.id+api.token, { deal_stage_id: stages.fechado })
+    // .then(response => prisma.rdstation.update({ where: { id: oportunity.id }, data: { state: 3 } }))
+    // .catch(error => console.error(error))
 }
 
 const organization = { fields: {
