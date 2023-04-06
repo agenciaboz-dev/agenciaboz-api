@@ -239,6 +239,7 @@ router.post('/confirm', async (request, response, next) => {
     const user = data.user
     if (user) {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+        if (contract) contract.mail_list = [contract.seller.email]
         if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name)) contract = null
 
     } else {
@@ -246,6 +247,7 @@ router.post('/confirm', async (request, response, next) => {
             OR: [{ cpf: data.document }, { cnpj: data.document }],
             AND: [{ id: data.id }]
         }, include: { seller: true }})
+        contract.mail_list = [contract.email]
     }
 
     if (contract) contract.token = generateRandomNumber(5)
@@ -253,6 +255,16 @@ router.post('/confirm', async (request, response, next) => {
     console.log(contract)
 
     response.json(contract)
+
+    if (contract) {
+        contract.template = 'token'
+        const input = JSON.stringify(contract).replaceAll('"', "'")
+        exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
+            console.log(stdout)
+            console.log(error)
+            console.log(stderr)
+        })
+    }
 
 })
 
