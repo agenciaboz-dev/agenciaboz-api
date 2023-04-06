@@ -1586,7 +1586,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
-                            <div style="text-align: center;"><span style="font-size:24px">&nbsp;{data['email']}</span></div>
+                            <div style="text-align: center;"><span style="font-size:24px">&nbsp;{data['mail_list'][0]}</span></div>
 
                         </td>
                     </tr>
@@ -2482,7 +2482,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
-                            <div style="text-align: center;"><span style="font-size:24px">&nbsp;{data['email']}</span></div>
+                            <div style="text-align: center;"><span style="font-size:24px">&nbsp;{data['mail_list'][0]}</span></div>
 
                         </td>
                     </tr>
@@ -2617,4 +2617,4 @@ data = json.loads(data)
 print(data)
 
 html_mail = mailTemplate(data)[data['template']]
-sendMail(data['mail_list'], "Sion - Contrato", html=html_mail, attachment={'filename': 'contract.pdf', 'path': f'documents/sion/{data["unit"]}/contract.pdf'} if data['template'] == 'contract' else None)
+sendMail(data['mail_list'], data['mail_subject'], html=html_mail, attachment={'filename': 'contract.pdf', 'path': f'documents/sion/{data["unit"]}/contract.pdf'} if data['template'] == 'contract' else None)

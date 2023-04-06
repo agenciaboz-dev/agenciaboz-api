@@ -106,6 +106,7 @@ router.post('/lead', async (request, response, next) => {
         const input = { ...contract }
 
         input.template = 'lead'
+        data.mail_subject = 'Sion - Novo lead'
         input.mail_list = [input.seller.email] // mudar para email da sion
         
         exec(`python3 src/sion/send_mail.py "${JSON.stringify(input).replaceAll('"', "'")}"`, (error, stdout, stderr) => {
@@ -133,20 +134,25 @@ router.post('/send', async (request, response, next) => {
     const seller = data.seller
 
     data.template = 'contract'
-    data.mail_list = [...data.email.split(','), seller.email] // falta email da sion
-    console.log({mail_list: data.mail_list})
+    data.mail_subject = 'Sion - Contrato'
+    const mail_list = [...data.email.split(','), seller.email] // falta email da sion
 
     // data 1 mes a partir de agora
     const data1m = new Date()
     data1m.setMonth(data1m.getMonth() + 1);
     data.sign_limit = data1m.toLocaleDateString('pt-br');
-    
-    const input = JSON.stringify(data).replaceAll('"', "'")
-    exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
-        console.log(stdout)
-        console.log(error)
-        console.log(stderr)
+
+    mail_list.map(mail => {
+        data.mail_list = [mail]
+
+        const input = JSON.stringify(data).replaceAll('"', "'")
+        exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
+            console.log(stdout)
+            console.log(error)
+            console.log(stderr)
+        })
     })
+    
     
 })
 
@@ -258,6 +264,7 @@ router.post('/confirm', async (request, response, next) => {
 
     if (contract) {
         contract.template = 'token'
+        data.mail_subject = contract.token + ' - Token de autenticação - Sion - Contrato'
         const input = JSON.stringify(contract).replaceAll('"', "'")
         exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
             console.log(stdout)
