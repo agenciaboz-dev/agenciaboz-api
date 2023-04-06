@@ -238,7 +238,7 @@ router.post('/confirm', async (request, response, next) => {
 
     const user = data.user
     if (user) {
-        contract = await prisma.contracts.findFirst({ where: { seller_id: user.id }, include: { seller: true } })
+        contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
         if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name)) contract = null
 
     } else {
