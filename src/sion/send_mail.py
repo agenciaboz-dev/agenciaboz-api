@@ -23,15 +23,16 @@ def sendMail(destination, subject, message = None, attachment = None, html = Non
     )
 
 def mailTemplate(data):
-    encoded_string = ''
-
-    with open("documents/images/sion/logo_branco.svg", "rb") as image_file:
-        encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
 
     try:
         contract_limit = data['sign_limit']
     except:
         contract_limit = ''
+
+    try:
+        token = data['token']
+    except:
+        token = ''
 
     contract_name = f"{data['company']}/{data['name']}" if data['pessoa'] == 'juridica' else data['name']
         
@@ -582,7 +583,7 @@ def mailTemplate(data):
 }}</style></head>
     <body>
         <!--*|IF:MC_PREVIEW_TEXT|*-->
-        <!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->
+        <!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;"></span><!--<![endif]-->
         <!--*|END:IF|*-->
         <center>
             <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
@@ -1344,7 +1345,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
 }}</style></head>
     <body>
         <!--*|IF:MC_PREVIEW_TEXT|*-->
-        <!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->
+        <!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;"></span><!--<![endif]-->
         <!--*|END:IF|*-->
         <center>
             <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
@@ -2256,7 +2257,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
 }}</style></head>
     <body>
         <!--*|IF:MC_PREVIEW_TEXT|*-->
-        <!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->
+        <!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;"></span><!--<![endif]-->
         <!--*|END:IF|*-->
         <center>
             <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
@@ -2369,7 +2370,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
                 <table class="mcnDividerContent" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width: 100%;border-top: 1px solid #000000;">
                     <tbody><tr>
                         <td>
-                            <span></span>
+                            <span>{token}</span>
                         </td>
                     </tr>
                 </tbody></table>
