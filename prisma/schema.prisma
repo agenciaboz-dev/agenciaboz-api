@@ -11,6 +11,7 @@ model contracts {
     id          Int      @id @default(autoincrement())
     unit        String   @unique(map: "unit")
     date        DateTime @db.Date
+    ip          String
     pessoa      String   
     supplier    String  
     name        String  
@@ -27,6 +28,7 @@ model contracts {
     seller_id   Int      
     rdstation   rdstation?
     financial   financial?
+    logs        logs[]
 }
 
 model emails {
@@ -36,12 +38,15 @@ model emails {
 
 model users {
     id            Int       @id @default(autoincrement())
-    username      String?   @unique
-    email         String?   @unique
-    password      String?
+    username      String    @unique
+    email         String    @unique
+    password      String
     name          String 
+    cpf           String    @default("02576698506")
     adm           Boolean   @default(false)
+    ip            String    @default("0.0.0.0")
     contracts     contracts[]
+    logs          logs[]
 }
 
 model financial {
@@ -58,4 +63,14 @@ model rdstation {
     state       Int         @default(1)
     contract    contracts   @relation(fields: [contract_id], references: [id])
     contract_id Int         @unique
+}
+
+model logs {
+    id              Int         @id @default(autoincrement())
+    date            DateTime    @default(now())
+    text            String
+    contract        contracts   @relation(fields: [contract_id], references: [id])
+    contract_id     Int          
+    seller          users       @relation(fields: [seller_id], references: [id])
+    seller_id       Int         
 }

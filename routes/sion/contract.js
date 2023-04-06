@@ -63,6 +63,7 @@ router.post('/lead', async (request, response, next) => {
             data: {
                 unit: data.unit,
                 date: data.date,
+                ip: request.socket.remoteAddress,
                 pessoa: data.pessoa,
                 supplier: data.supplier,
                 name: data.name,
@@ -185,23 +186,86 @@ router.post('/generate', async (request, response, next) => {
         console.log(stdout)
 
         response.json({success: true})
+        
 
         exec(`python3 src/sion/upload.py "${input}"`, (error, stdout, stderr) => {
             console.log(stdout)
 
         })
     })
+
+    await prisma.logs.create({ data: {
+        contract_id: contract.id,
+        seller_id: contract.seller_id,
+        text: `Operador com email ${contract.seller.email} criou este documento número ${contract.id}. Data limite para assinatura do documento: ${new Date().setMonth(data.date.getMonth() + 1)}.`
+    }})
+
+    await prisma.logs.create({ data: {
+        contract_id: contract.id,
+        seller_id: contract.seller_id,
+        text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.email} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
+    }})
+
+    await prisma.logs.create({ data: {
+        contract_id: contract.id,
+        seller_id: contract.seller_id,
+        text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  [EMAIL DA SION] para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
+    }})
+
+    await prisma.logs.create({ data: {
+        contract_id: contract.id,
+        seller_id: contract.seller_id,
+        text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.seller.email} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
+    }})
         
 });
 
-router.post('/confirm', (request, response, next) => {    
+router.post('/confirm', async (request, response, next) => {   
+    const generateRandomNumber = (length) => {
+        const min = Math.pow(10, length - 1)
+        const max = Math.pow(10, length) - 1
+        return Math.floor(Math.random() * (max - min + 1)) + min
+    }
+
     const data = JSON.parse(request.body.data);
-    data.date = new Date()
+    data.id = parseInt(data.id)
+    data.document = data.document.replace(/\D/g, '')
+    console.log(data)
     
     const files = request.files
 
-    console.log(data)
-    console.log(files)
+    let contract = null
+
+    const user = data.user
+    if (user) {
+        contract = await prisma.contracts.findFirst({ where: { seller_id: user.id }, include: { seller: true } })
+        if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name)) contract = null
+
+    } else {
+        contract = await prisma.contracts.findFirst({ where: { 
+            OR: [{ cpf: data.document }, { cnpj: data.document }],
+            AND: [{ id: data.id }]
+        }, include: { seller: true }})
+    }
+
+    if (contract) contract.token = generateRandomNumber(5)
+
+    console.log(contract)
+
+    response.json(contract)
+
+})
+
+router.post('/sign', async (request, response, next) => {    
+    const data = request.body
+
+    const contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+
+    await prisma.logs.create({ data: {
+        contract_id: contract.id,
+        seller_id: contract.seller_id,
+        text: `${data.name} assinou como parte. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: [Link da imagem no drive]. IP: ${request.socket.remoteAddress}.`
+    }})
 
 })
 

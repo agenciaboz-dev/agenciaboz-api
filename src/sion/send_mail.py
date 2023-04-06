@@ -1,4 +1,4 @@
-import sys, json
+import sys, json, base64
 from redmail import EmailSender
 from pathlib import Path
 
@@ -23,6 +23,11 @@ def sendMail(destination, subject, message = None, attachment = None, html = Non
     )
 
 def mailTemplate(data):
+    encoded_string = ''
+
+    with open("documents/images/sion/logo_branco.svg", "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
+
     try:
         contract_limit = data['sign_limit']
     except:
