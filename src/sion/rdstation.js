@@ -21,7 +21,7 @@ api.organization = (contract, callback) => {
                     value: contract.cnpj
                 },
             ],
-            organization_segments: contract.category,
+            organization_segments: [contract.category],
             name: contract.name
         }
     }
