@@ -688,7 +688,7 @@ def mailTemplate(data):
                         
                         <td valign="top" class="mcnTextContent" style="padding: 0px 18px 9px;color: #384974;font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, Verdana, sans-serif;">
                         
-                            <h1 style="text-align: center;"><span style="color:#384974"><span style="font-size:36px">Dados&nbsp;cadastrados:</span></span></h1>
+                            <h1 style="text-align: center;"><span style="color:#384974"><span style="font-size:36px">Dados<br>cadastrados:</span></span></h1>
 
                         </td>
                     </tr>
@@ -721,9 +721,9 @@ def mailTemplate(data):
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
-                            <div style="text-align: center;"><span style="font-size:24px">&nbsp;{{f"{{data['company']}}" if data['pessoa'] == 'juridica' else ''}}<br>
-&nbsp;{{data['name']}}<br>
-&nbsp;{{data['phone']}}</span></div>
+                            <div style="text-align: center;"><span style="font-size:24px">&nbsp;{f"{data['company']}" if data['pessoa'] == 'juridica' else ''}<br>
+&nbsp;{data['name']}<br>
+&nbsp;{data['phone']}</span></div>
 
 <div style="text-align: center;"><span style="font-size:24px">&nbsp;{data['email']}</span></div>
 
@@ -799,7 +799,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
         """,
 
         'contract': f"""
-        <!doctype html>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
     <head>
         <!-- NAME: 1 COLUMN -->
@@ -1399,7 +1399,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
                         
                         <td valign="top" class="mcnTextContent" style="padding: 0px 18px 9px;color: #384974;font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, Verdana, sans-serif;">
                         
-                            <h1 style="text-align: center;"><span style="color:#384974"><span style="font-size:36px">Solicitação de Assinatura da Cooperativa Sion</span></span></h1>
+                            <h1 style="text-align: center"><span style="color:#384974"><span style="font-size:36px">Solicitação de Assinatura da Cooperativa Sion</span></span></h1>
 
                         </td>
                     </tr>
@@ -1433,7 +1433,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
                             <div style="text-align: center;"><br>
-<span style="font-size:30px">Segue contrato em anexo para revisão</span><br>
+<span style="font-size:24px">Segue contrato em anexo para revisão</span><br>
 &nbsp;</div>
 
                         </td>
@@ -1454,7 +1454,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
     <tbody class="mcnButtonBlockOuter">
         <tr>
             <td style="padding-top:0; padding-right:18px; padding-bottom:18px; padding-left:18px;" valign="top" align="center" class="mcnButtonBlockInner">
-                <table border="0" cellpadding="0" cellspacing="0" class="mcnButtonContentContainer" style="border-collapse: separate !important;border-radius: 0px;background-color: #384974;">
+                <table border="0" cellpadding="0" cellspacing="0" class="mcnButtonContentContainer" style="border-collapse: separate !important;border-radius: 0px;background-color: #384974; width: 240px;">
                     <tbody>
                         <tr>
                             <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Arial; font-size: 16px; padding: 12px;">
@@ -2345,7 +2345,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
                             <div style="text-align: center;"><br>
-<span style="font-size:30px">Utilize o token abaixo para confirmar sua assinatura. Por motivos de segurança, ele é válido apenas por 4 horas.</span><br>
+<span style="font-size:24px">Utilize o token abaixo para confirmar sua assinatura. Por motivos de segurança, ele é válido apenas por 4 horas.</span><br>
 &nbsp;</div>
 
                         </td>
