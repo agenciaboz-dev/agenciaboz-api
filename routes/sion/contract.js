@@ -264,7 +264,7 @@ router.post('/confirm', async (request, response, next) => {
 
     if (contract) {
         contract.template = 'token'
-        data.mail_subject = contract.token + ' - Token de autenticação - Sion - Contrato'
+        contract.mail_subject = contract.token + ' - Token de autenticação - Sion - Contrato'
         const input = JSON.stringify(contract).replaceAll('"', "'")
         exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
             console.log(stdout)
