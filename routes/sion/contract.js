@@ -7,6 +7,7 @@ const fs = require("fs");
 const path = require("path");
 const { PrismaClient } = require('@prisma/client')
 const rdstation = require('../../src/sion/rdstation')
+const moment = require('moment');
 
 const prisma = new PrismaClient()
 
@@ -67,6 +68,7 @@ router.post('/lead', async (request, response, next) => {
                 pessoa: data.pessoa,
                 supplier: data.supplier,
                 name: data.name,
+                birth: moment(data.birth, 'DD/MM/YYYY').toDate(),
                 email: data.email,
                 phone: data.phone.replace(/\D/g, ''),
                 address: data.address,
