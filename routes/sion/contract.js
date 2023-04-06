@@ -264,7 +264,7 @@ router.post('/sign', async (request, response, next) => {
     await prisma.logs.create({ data: {
         contract_id: contract.id,
         seller_id: contract.seller_id,
-        text: `${data.name} assinou como parte. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: [Link da imagem no drive]. IP: ${request.socket.remoteAddress}.`
+        text: `${data.name} assinou como parte. Pontos de autenticação: Token via E-mail ${data.email} ${contract.pessoa == 'fisica' ? `CPF informado: ${data.cpf}` : `CNPJ informado: ${data.cnpj}`}. Biometria Facial: [Link da imagem no drive]. IP: ${request.socket.remoteAddress}.`
     }})
 
     rdstation.closed(data)
