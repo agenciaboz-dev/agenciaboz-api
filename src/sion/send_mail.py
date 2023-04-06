@@ -2370,7 +2370,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
                 <table class="mcnDividerContent" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width: 100%;border-top: 1px solid #000000;">
                     <tbody><tr>
                         <td>
-                            <span>{token}</span>
+                            <span></span>
                         </td>
                     </tr>
                 </tbody></table>
@@ -2398,7 +2398,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-left:18px;">
                         
-                            <div style="text-align: center; padding: 40px 0 35px; background: rgba(56, 73, 116, 0.25);"><span style="color:#384974"><span style="font-size:30px; font-weight: 600;">T O K E N</span></span></div>
+                            <div style="text-align: center; padding: 40px 0 35px; background: rgba(56, 73, 116, 0.25);"><span style="color:#384974"><span style="font-size:30px; font-weight: 600;">{token}</span></span></div>
 
                         </td>
                     </tr>
