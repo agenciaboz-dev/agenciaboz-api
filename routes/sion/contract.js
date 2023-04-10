@@ -250,9 +250,16 @@ router.post('/confirm', async (request, response, next) => {
 
     const user = data.user
     if (user) {
-        contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
-        if (contract) contract.mail_list = [contract.seller.email]
-        if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name) || (new Date(contract.seller.birth).getTime() != data.birth)) contract = null
+        if (user.adm) {
+            contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+            // if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name) || (new Date(contract.seller.birth).getTime() != data.birth)) contract = null
+            
+        } else {
+            contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+            if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name) || (new Date(contract.seller.birth).getTime() != data.birth)) contract = null
+        }
+        
+        if (contract) contract.mail_list = [user.email]
         
     } else {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true }})
