@@ -289,16 +289,17 @@ router.post('/sign', async (request, response, next) => {
     if (!signatures.includes(data.email)) signatures.push(data.email)
 
     const document = data.cpf ? 'CPF' : 'CNPJ'
+    const sign_type = data.user ? (data.user.adm ? 'parte' : 'testemunha') : 'parte'
 
     await prisma.logs.create({ data: {
         contract_id: contract.id,
         seller_id: contract.seller_id,
-        text: `${data.name} assinou como parte. Pontos de autenticação: Token via E-mail ${data.email} ${document} informado: ${data.cpf || data.cnpj}. Biometria Facial: [Link da imagem no drive]. IP: ${request.ip}.`
+        text: `${data.name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${data.email} ${document} informado: ${data.cpf || data.cnpj}. Biometria Facial: [Link da imagem no drive]. IP: ${request.ip}.`
     }})
 
     await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
 
-    if (!data.user) rdstation.closed(data)
+    if (signatures.length == 3) rdstation.closed(data)
     
 })
 
