@@ -1,3 +1,9 @@
+/*
+  Warnings:
+
+  - You are about to drop the column `birth` on the `users` table. All the data in the column will be lost.
+
+*/
 -- DropIndex
 DROP INDEX `contracts_seller_id_fkey` ON `contracts`;
 
@@ -11,7 +17,7 @@ DROP INDEX `logs_seller_id_fkey` ON `logs`;
 ALTER TABLE `contracts` MODIFY `birth` DATE NOT NULL;
 
 -- AlterTable
-ALTER TABLE `users` MODIFY `birth` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
+ALTER TABLE `users` DROP COLUMN `birth`;
 
 -- AddForeignKey
 ALTER TABLE `contracts` ADD CONSTRAINT `contracts_seller_id_fkey` FOREIGN KEY (`seller_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
