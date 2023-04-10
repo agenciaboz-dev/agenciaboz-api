@@ -20,7 +20,7 @@ model contracts {
     phone       String  
     address     String  
     cep         String  
-    cnpj        String? 
+    cnpj        String?
     company     String? 
     category    String? 
     cpf         String? 
@@ -71,7 +71,7 @@ model rdstation {
 model logs {
     id              Int         @id @default(autoincrement())
     date            DateTime    @default(now())
-    text            String
+    text            String      @db.Text
     contract        contracts   @relation(fields: [contract_id], references: [id])
     contract_id     Int          
     seller          users       @relation(fields: [seller_id], references: [id])
