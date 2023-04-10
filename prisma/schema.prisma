@@ -24,7 +24,8 @@ model contracts {
     company     String? 
     category    String? 
     cpf         String? 
-    rg          String? 
+    rg          String?
+    signatures  String   @default("") 
     seller      users    @relation(fields: [seller_id], references: [id])
     seller_id   Int      
     rdstation   rdstation?
