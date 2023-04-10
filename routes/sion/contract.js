@@ -281,6 +281,8 @@ router.post('/sign', async (request, response, next) => {
     const data = request.body
 
     const contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+    const signatures = contract.signatures.split(',')
+    if (!signatures.includes(data.email)) signatures.push(data.email)
 
     const document = data.cpf ? 'CPF' : 'CNPJ'
 
@@ -289,6 +291,8 @@ router.post('/sign', async (request, response, next) => {
         seller_id: contract.seller_id,
         text: `${data.name} assinou como parte. Pontos de autenticação: Token via E-mail ${data.email} ${document} informado: ${data.cpf || data.cnpj}. Biometria Facial: [Link da imagem no drive]. IP: ${request.socket.remoteAddress}.`
     }})
+
+    await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
 
     if (!data.user) rdstation.closed(data)
     
