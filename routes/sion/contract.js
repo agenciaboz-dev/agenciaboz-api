@@ -258,7 +258,7 @@ router.post('/confirm', async (request, response, next) => {
             contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
             if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name) || (new Date(contract.seller.birth).getTime() != data.birth)) contract = null
         }
-        
+
         if (contract) contract.mail_list = [user.email]
         
     } else {
@@ -305,7 +305,15 @@ router.post('/sign', async (request, response, next) => {
 
     await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
 
-    if (signatures.length == 3) rdstation.closed(data)
+    if (signatures.length == 3) {
+        rdstation.closed(data)
+        // arrumar aqui
+        await prisma.logs.create({ data: {
+            contract_id: contract.id,
+            seller_id: contract.seller_id,
+            text: `O processo de assinatura foi finalizado automaticamente. Motivo: finalização automática após a última assinatura habilitada. Processo de assinatura concluído para o documento número  ${contract.id}.`
+        }})
+    }
     
 })
 
