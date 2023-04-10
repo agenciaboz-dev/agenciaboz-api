@@ -34,10 +34,14 @@ router.post('/financial', async (request, response, next) => {
 
 router.post('/unit', async (request, response, next) => {    
     const data = request.body
+    console.log(request.socket.remoteAddress)
+    console.log(request.ip)
 
     const contract = await prisma.contracts.findUnique({
         where: { unit: data.unit }
     })
+
+    console.log()
 
     response.json(contract ? {error: 'Unidade consumidora já cadastrada'} : {success: true})
 
@@ -283,7 +287,7 @@ router.post('/sign', async (request, response, next) => {
     const contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
     const signed = !!contract.signatures
     const signatures = signed ? contract.signatures.split(',') : []
-    
+
     if (!signatures.includes(data.email)) signatures.push(data.email)
 
     const document = data.cpf ? 'CPF' : 'CNPJ'
