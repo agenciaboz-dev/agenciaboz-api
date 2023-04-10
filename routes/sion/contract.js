@@ -34,8 +34,6 @@ router.post('/financial', async (request, response, next) => {
 
 router.post('/unit', async (request, response, next) => {    
     const data = request.body
-    console.log(request.socket.remoteAddress)
-    console.log(request.ip)
 
     const contract = await prisma.contracts.findUnique({
         where: { unit: data.unit }
@@ -68,7 +66,7 @@ router.post('/lead', async (request, response, next) => {
             data: {
                 unit: data.unit,
                 date: data.date,
-                ip: request.socket.remoteAddress,
+                ip: request.ip,
                 pessoa: data.pessoa,
                 supplier: data.supplier,
                 name: data.name,
@@ -295,7 +293,7 @@ router.post('/sign', async (request, response, next) => {
     await prisma.logs.create({ data: {
         contract_id: contract.id,
         seller_id: contract.seller_id,
-        text: `${data.name} assinou como parte. Pontos de autenticação: Token via E-mail ${data.email} ${document} informado: ${data.cpf || data.cnpj}. Biometria Facial: [Link da imagem no drive]. IP: ${request.socket.remoteAddress}.`
+        text: `${data.name} assinou como parte. Pontos de autenticação: Token via E-mail ${data.email} ${document} informado: ${data.cpf || data.cnpj}. Biometria Facial: [Link da imagem no drive]. IP: ${request.ip}.`
     }})
 
     await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
