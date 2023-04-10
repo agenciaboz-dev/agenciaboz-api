@@ -205,25 +205,25 @@ router.post('/generate', async (request, response, next) => {
         })
     })
 
-    await prisma.logs.create({ data: {
+    prisma.logs.create({ data: {
         contract_id: contract.id,
         seller_id: contract.seller_id,
         text: `Operador com email ${contract.seller.email} criou este documento número ${contract.id}. Data limite para assinatura do documento: ${new Date().setMonth(data.date.getMonth() + 1)}.`
     }})
 
-    await prisma.logs.create({ data: {
+    prisma.logs.create({ data: {
         contract_id: contract.id,
         seller_id: contract.seller_id,
         text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.email} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
     }})
 
-    await prisma.logs.create({ data: {
+    prisma.logs.create({ data: {
         contract_id: contract.id,
         seller_id: contract.seller_id,
         text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  [EMAIL DA SION] para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
     }})
 
-    await prisma.logs.create({ data: {
+    prisma.logs.create({ data: {
         contract_id: contract.id,
         seller_id: contract.seller_id,
         text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.seller.email} para assinar como testemunha, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
@@ -297,18 +297,18 @@ router.post('/sign', async (request, response, next) => {
 
     const sign_type = data.user ? (data.user.adm ? 'parte' : 'testemunha') : 'parte'
 
-    await prisma.logs.create({ data: {
+    prisma.logs.create({ data: {
         contract_id: contract.id,
         seller_id: contract.seller_id,
         text: `${data.name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: [Link da imagem no drive]. IP: ${request.ip}.`
     }})
 
-    await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
+    prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
 
     if (signatures.length == 3) {
         rdstation.closed(data)
         // arrumar aqui
-        await prisma.logs.create({ data: {
+        prisma.logs.create({ data: {
             contract_id: contract.id,
             seller_id: contract.seller_id,
             text: `O processo de assinatura foi finalizado automaticamente. Motivo: finalização automática após a última assinatura habilitada. Processo de assinatura concluído para o documento número  ${contract.id}.`
