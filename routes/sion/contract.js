@@ -251,13 +251,11 @@ router.post('/confirm', async (request, response, next) => {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
         if (contract) contract.mail_list = [contract.seller.email]
         if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name) || (contract.seller.birth != data.birth)) contract = null
-
+        
     } else {
-        contract = await prisma.contracts.findFirst({ where: { 
-            OR: [{ cpf: data.document }, { cnpj: data.document }],
-            AND: [{ id: data.id }, { birth: data.birth }]
-        }, include: { seller: true }})
-        contract.mail_list = [contract.email]
+        contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true }})
+        if (contract) contract.mail_list = [contract.email]
+        if (((contract.cpf != data.document) && (contract.cnpj != data.document)) || (contract.name != data.name) || (contract.birth != data.birth)) contract = null
     }
 
     if (contract) contract.token = generateRandomNumber(5)
