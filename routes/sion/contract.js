@@ -239,7 +239,7 @@ router.post('/confirm', async (request, response, next) => {
     const data = JSON.parse(request.body.data);
     data.id = parseInt(data.id)
     data.document = data.document.replace(/\D/g, '')
-    data.birth = new Date(data.birth)
+    data.birth = new Date(data.birth).getTime()
     console.log(data)
     
     const files = request.files
@@ -250,12 +250,12 @@ router.post('/confirm', async (request, response, next) => {
     if (user) {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
         if (contract) contract.mail_list = [contract.seller.email]
-        if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name) || (contract.seller.birth != data.birth)) contract = null
+        if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name) || (new Date(contract.seller.birth).getTime() != data.birth)) contract = null
         
     } else {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true }})
         if (contract) contract.mail_list = [contract.email]
-        if (((contract.cpf != data.document) && (contract.cnpj != data.document)) || (contract.name != data.name) || (contract.birth != data.birth)) contract = null
+        if (((contract.cpf != data.document) && (contract.cnpj != data.document)) || (contract.name != data.name) || (new Date(contract.birth).getTime() != data.birth)) contract = null
     }
 
     if (contract) contract.token = generateRandomNumber(5)
