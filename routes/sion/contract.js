@@ -281,7 +281,9 @@ router.post('/sign', async (request, response, next) => {
     const data = request.body
 
     const contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
-    const signatures = contract.signatures.split(',') || []
+    const signed = !!contract.signatures
+    const signatures = signed ? contract.signatures.split(',') : []
+    
     if (!signatures.includes(data.email)) signatures.push(data.email)
 
     const document = data.cpf ? 'CPF' : 'CNPJ'
