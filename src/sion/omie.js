@@ -22,7 +22,6 @@ api.signup = ( contract ) => {
                 nome_fantasia: contract.name,
                 endereco: contract.address,
                 cep: contract.cep,
-                tipo_atividade: contract.category || "",
                 pessoa_fisica: !contract.cnpj && "S",
 
             }
