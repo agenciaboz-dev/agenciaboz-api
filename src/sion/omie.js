@@ -26,6 +26,7 @@ api.signup = ( contract ) => {
     api.post('/geral/clientes/', data)
     .then(async (response) => {
         const id = response.data.codigo_cliente_omie
+        console.log({omie_id: id})
         await prisma.omie.create({ data: { id, contract_id: contract.id } })
     })
     .catch(error => console.error(error))
