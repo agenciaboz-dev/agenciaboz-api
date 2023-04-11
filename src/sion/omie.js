@@ -19,7 +19,12 @@ api.signup = ( contract ) => {
                 codigo_cliente_integracao: 's'+contract.id.toString(),
                 email: contract.email,
                 razao_social: contract.company || contract.name,
-                nome_fantasia: contract.name
+                nome_fantasia: contract.name,
+                endereco: contract.address,
+                cep: contract.cep,
+                tipo_atividade: contract.category || "",
+                pessoa_fisica: !contract.cnpj && "S",
+                
             }
         ]
     }
