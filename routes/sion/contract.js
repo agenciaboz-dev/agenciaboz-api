@@ -8,6 +8,7 @@ const path = require("path");
 const { PrismaClient } = require('@prisma/client')
 const rdstation = require('../../src/sion/rdstation')
 const omie = require('../../src/sion/omie')
+const pdf = require('../../src/pdf_handler.ts')
 
 const prisma = new PrismaClient()
 
@@ -28,8 +29,6 @@ router.post('/financial', async (request, response, next) => {
     } catch {
         response.json(null)
     }
-
-
 })
 
 router.post('/unit', async (request, response, next) => {    
@@ -192,6 +191,13 @@ router.post('/generate', async (request, response, next) => {
     });
 
     console.log(contract)
+
+    pdf.replaceText({
+        pdfPath: "src/sion/templates/contract_juridica.pdf",
+        outputPath: `documents/sion/${contract.unit}/contract_node.pdf`,
+        findText: "<<email>>",
+        replaceText: "teste@teste.com.br"
+    })
 
     const input = JSON.stringify(contract).replaceAll('"', "'")
     const generate_contract = `python3 src/sion/contract.py "${input}"`
