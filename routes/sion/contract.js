@@ -87,26 +87,26 @@ router.post('/lead', async (request, response, next) => {
         })
         response.json(contract)
 
-        omie.signup(contract)
+        // omie.signup(contract)
 
-        rdstation.organization(data, (data => {
-            const organization = data._id
+        // rdstation.organization(data, (data => {
+        //     const organization = data._id
 
-            const lead = rdstation.lead({
-                id: contract.id,
-                contacts: [{
-                    emails: [contract.email.split(',').map(email => { email })],
-                    name: contract.name,
-                    phones: [{ phone: contract.phone }]
-                }],
-                deal: {
-                    deal_stage_id: "603392f33553ba0017383e14",
-                    name: (contract.company || contract.name) + ` / ${contract.unit}`,
-                    user_id: "6422e7534495ab000b1b42cb"
-                },
-                organization: { _id: organization }
-            })
-        }))
+        //     // const lead = rdstation.lead({
+        //         id: contract.id,
+        //         contacts: [{
+        //             emails: [contract.email.split(',').map(email => { email })],
+        //             name: contract.name,
+        //             phones: [{ phone: contract.phone }]
+        //         }],
+        //         deal: {
+        //             deal_stage_id: "603392f33553ba0017383e14",
+        //             name: (contract.company || contract.name) + ` / ${contract.unit}`,
+        //             user_id: "6422e7534495ab000b1b42cb"
+        //         },
+        //         organization: { _id: organization }
+        //     })
+        // }))
 
         const input = { ...contract }
 
@@ -131,7 +131,7 @@ router.post('/lead', async (request, response, next) => {
 router.post('/send', async (request, response, next) => {    
     const data = request.body
 
-    rdstation.sign(data)
+    // rdstation.sign(data)
 
     if ('emails' in data) {
         data.email = data.emails.toString()
@@ -169,7 +169,7 @@ router.post('/generate', async (request, response, next) => {
     const files = request.files
 
 	const contract = await prisma.contracts.findUnique({ where: { unit: data.unit }, include: { seller: true } })
-    omie.bill(contract)
+    // omie.bill(contract)
 
     contract.date = contract.date.toLocaleDateString('pt-BR')
 
@@ -341,8 +341,8 @@ router.post('/sign', async (request, response, next) => {
     await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
 
     if (signatures.length == 3) {
-        rdstation.closed(data)
-        omie.bill(contract)
+        // rdstation.closed(data)
+        // omie.bill(contract)
         // arrumar aqui
         await prisma.logs.create({ data: {
             contract_id: contract.id,
