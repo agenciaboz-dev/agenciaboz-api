@@ -8,7 +8,7 @@ const path = require("path");
 const { PrismaClient } = require('@prisma/client')
 const rdstation = require('../../src/sion/rdstation')
 const omie = require('../../src/sion/omie')
-const pdf = require('../../src/pdf_handler.ts')
+const pdf = require('../../src/pdf_handler.js')
 
 const prisma = new PrismaClient()
 

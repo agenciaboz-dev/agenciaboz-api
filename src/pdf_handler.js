@@ -1,14 +1,7 @@
 const { PDFDocument } = require('pdf-lib');
 const fs = require('fs');
 
-interface replaceProps {
-    pdfPath: string
-    outputPath: string
-    findText: string
-    replaceText: string
-}
-
-const replaceText = async (options: replaceProps) => {
+const replaceText = async (options) => {
     // Load the PDF document
     const pdfBuffer = await fs.promises.readFile(options.pdfPath);
     const pdfDoc = await PDFDocument.load(pdfBuffer);
