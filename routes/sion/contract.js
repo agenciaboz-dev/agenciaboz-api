@@ -196,11 +196,11 @@ router.post('/generate', async (request, response, next) => {
     Object.entries(contract).map(([key, value]) => { fields.push({ name: key, value }) })
     console.log(fields)
 
-    pdf.fillForm({
-        pdfPath: "src/sion/templates/teste.pdf",
-        outputPath: `documents/sion/${contract.unit}/contract_node.pdf`,
-        fields
-    })
+    // pdf.fillForm({
+    //     pdfPath: "src/sion/templates/teste.pdf",
+    //     outputPath: `documents/sion/${contract.unit}/contract_node.pdf`,
+    //     fields
+    // })
 
     const input = JSON.stringify(contract).replaceAll('"', "'")
     const generate_contract = `python3 src/sion/contract.py "${input}"`

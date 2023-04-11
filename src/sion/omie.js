@@ -27,7 +27,7 @@ api.signup = ( contract ) => {
     .catch(error => console.error(error))
 }
 
-const KEY = '2937495729168'
-const SECRET = 'd8bc84dfc0e30d30a188f70a5ddf5550'
+const KEY = '38333295000'
+const SECRET = 'fed2163e2e8dccb53ff914ce9e2f1258'
 
 module.exports = api
