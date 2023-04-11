@@ -7,7 +7,7 @@ const fs = require("fs");
 const path = require("path");
 const { PrismaClient } = require('@prisma/client')
 const rdstation = require('../../src/sion/rdstation')
-const moment = require('moment');
+const omie = require('../../src/sion/omie')
 
 const prisma = new PrismaClient()
 
@@ -87,6 +87,8 @@ router.post('/lead', async (request, response, next) => {
             }
         })
         response.json(contract)
+
+        omie.signup(contract)
 
         rdstation.organization(data, (data => {
             const organization = data._id
