@@ -198,7 +198,7 @@ router.post('/generate', async (request, response, next) => {
     console.log(fields)
 
     pdf.fillForm({
-        pdfPath: "src/sion/templates/teste.pdf",
+        pdfPath: "src/sion/templates/contract_juridica.pdf",
         outputPath: `documents/sion/${contract.unit}/contract_node.pdf`,
         fields
     })
