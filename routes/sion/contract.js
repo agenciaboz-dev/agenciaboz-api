@@ -341,6 +341,7 @@ router.post('/sign', async (request, response, next) => {
 
     if (signatures.length == 3) {
         rdstation.closed(data)
+        omie.bill(contract)
         // arrumar aqui
         await prisma.logs.create({ data: {
             contract_id: contract.id,

@@ -33,7 +33,49 @@ api.signup = ( contract ) => {
     .catch(error => console.error(error))
 }
 
+api.bill = async ( contract ) => {
+    const omie = await prisma.omie.findFirst({ where: { contract_id: contract.id } })
+    const data = {
+        call: "IncluirContaReceber",
+        app_key: KEY,
+        app_secret: SECRET,
+        param: [
+          {
+            codigo_lancamento_integracao: "s"+contract.id.toString(),
+            codigo_cliente_fornecedor: omie.id,
+            data_vencimento: new Date().toLocaleDateString('pt-BR'),
+            valor_documento: 100,
+            codigo_categoria: "1.01.02",
+            data_previsao: new Date().toLocaleDateString('pt-BR'),
+            id_conta_corrente: CONTACORRENTE
+          }
+        ]
+    }
+
+    api.post('/financas/contareceber/', data)
+    .then(response => {
+        const bill_id = response.data.codigo_lancamento_omie
+        const data = {
+            call: "GerarBoleto",
+            app_key: KEY,
+            app_secret: SECRET,
+            param: [
+              {
+                nCodTitulo: bill_id,
+                cCodIntTitulo: ""
+              }
+            ]
+        }
+        api.post('/financas/contareceberboleto/', data)
+        .then(response => console.log(response.data))
+        .catch(error => console.error(error))
+    })
+    .catch(error => console.error(error))
+    
+}
+
 const KEY = '2937495729168'
 const SECRET = 'd8bc84dfc0e30d30a188f70a5ddf5550'
+const CONTACORRENTE = 5802920977
 
 module.exports = api
