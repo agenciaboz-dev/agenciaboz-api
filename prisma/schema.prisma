@@ -29,6 +29,7 @@ model contracts {
     seller      users    @relation(fields: [seller_id], references: [id])
     seller_id   Int      
     rdstation   rdstation?
+    omie        omie?
     financial   financial?
     logs        logs[]
 }
@@ -64,6 +65,12 @@ model financial {
 model rdstation {
     id          String      @unique
     state       Int         @default(1)
+    contract    contracts   @relation(fields: [contract_id], references: [id])
+    contract_id Int         @unique
+}
+
+model omie {
+    id          Int         @id
     contract    contracts   @relation(fields: [contract_id], references: [id])
     contract_id Int         @unique
 }
