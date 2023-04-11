@@ -24,7 +24,7 @@ api.signup = ( contract ) => {
                 cep: contract.cep,
                 tipo_atividade: contract.category || "",
                 pessoa_fisica: !contract.cnpj && "S",
-                
+
             }
         ]
     }
@@ -60,6 +60,7 @@ api.bill = async ( contract ) => {
     api.post('/financas/contareceber/', data)
     .then(response => {
         const bill_id = response.data.codigo_lancamento_omie
+        console.log({bill_id})
         const data = {
             call: "GerarBoleto",
             app_key: KEY,
