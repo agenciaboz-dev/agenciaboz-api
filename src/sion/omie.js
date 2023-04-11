@@ -16,7 +16,7 @@ api.signup = ( contract ) => {
         param: [
             {
                 cnpj_cpf: contract.cnpj || contract.cpf,
-                codigo_cliente_integracao: contract.id.toString(),
+                codigo_cliente_integracao: contract.id.toString()+'-boz',
                 email: contract.email,
                 razao_social: contract.company || contract.name,
                 nome_fantasia: contract.name
