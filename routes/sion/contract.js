@@ -282,6 +282,29 @@ router.post('/confirm', async (request, response, next) => {
             console.log(error)
             console.log(stderr)
         })
+
+        const uploadsDir = `documents/sion/${contract.unit}`
+        if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir, { recursive: true })
+        }
+
+        // Iterate through the files and save them
+        Object.entries(files).forEach(([key, file]) => {
+            const filePath = path.join(uploadsDir, file.name);
+            console.log(filePath)
+            contract.file_name = file.name
+            file.mv(filePath, (err) => {
+                if (err) {
+                    console.error("Error saving file:", err);
+                }
+            })
+        })
+        const upload_input = JSON.stringify(contract).replaceAll('"', "'")
+
+        exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
+            console.log(stdout)
+
+        })
     }
 
 })
