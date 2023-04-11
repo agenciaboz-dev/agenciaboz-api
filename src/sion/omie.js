@@ -29,3 +29,5 @@ api.signup = ( contract ) => {
 
 const KEY = '2937495729168'
 const SECRET = 'd8bc84dfc0e30d30a188f70a5ddf5550'
+
+module.exports = api
