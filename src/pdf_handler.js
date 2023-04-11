@@ -10,8 +10,9 @@ const fillForm = async (options) => {
 
     // Get all fields in the PDF by their names
     options.fields.map(field => {
-        const fieldForm = form.getTextField(field.name)
-        fieldForm.setText(field.value)
+        try {
+            form.getTextField(field.name).setText(field.value)
+        } catch {}
     })
 
     // Save the modified PDF document to a file

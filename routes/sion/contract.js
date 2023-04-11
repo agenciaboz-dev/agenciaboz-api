@@ -192,12 +192,14 @@ router.post('/generate', async (request, response, next) => {
 
     console.log(contract)
 
+    const fields = []
+    Object.entries(contract).map(([key, value]) => { fields.push({ name: key, value }) })
+    console.log(fields)
+
     pdf.fillForm({
         pdfPath: "src/sion/templates/teste.pdf",
         outputPath: `documents/sion/${contract.unit}/contract_node.pdf`,
-        fields: [
-            { name: 'company', value: contract.company }
-        ]
+        fields
     })
 
     const input = JSON.stringify(contract).replaceAll('"', "'")
