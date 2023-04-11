@@ -70,7 +70,7 @@ model rdstation {
 }
 
 model omie {
-    id          Int         @id
+    id          String      @unique
     contract    contracts   @relation(fields: [contract_id], references: [id])
     contract_id Int         @unique
 }
