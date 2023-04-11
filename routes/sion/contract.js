@@ -192,11 +192,12 @@ router.post('/generate', async (request, response, next) => {
 
     console.log(contract)
 
-    pdf.replaceText({
-        pdfPath: "src/sion/templates/contract_juridica.pdf",
+    pdf.fillForm({
+        pdfPath: "src/sion/templates/teste.pdf",
         outputPath: `documents/sion/${contract.unit}/contract_node.pdf`,
-        findText: "<<email>>",
-        replaceText: "teste@teste.com.br"
+        fields: [
+            { name: 'company', value: contract.company }
+        ]
     })
 
     const input = JSON.stringify(contract).replaceAll('"', "'")

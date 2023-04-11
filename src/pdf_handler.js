@@ -1,19 +1,18 @@
 const { PDFDocument } = require('pdf-lib');
 const fs = require('fs');
 
-const replaceText = async (options) => {
+const fillForm = async (options) => {
     // Load the PDF document
     const pdfBuffer = await fs.promises.readFile(options.pdfPath);
     const pdfDoc = await PDFDocument.load(pdfBuffer);
 
-    // Find all occurrences of the findText and replace them with the replaceText
-    const pages = pdfDoc.getPages();
-    for (let i = 0; i < pages.length; i++) {
-        const page = pages[i];
-        const text = page.getText();
-        const newText = text.replace(new RegExp(options.findText, 'g'), options.replaceText);
-        page.setText(newText);
-    }
+    const form = pdfDoc.getForm()
+
+    // Get all fields in the PDF by their names
+    options.fields.map(field => {
+        const fieldForm = form.getTextField(field.name)
+        fieldForm.setText(field.value)
+    })
 
     // Save the modified PDF document to a file
     const modifiedPdf = await pdfDoc.save();
@@ -21,7 +20,7 @@ const replaceText = async (options) => {
 }
 
 const pdf = {
-    replaceText
+    fillForm
 }
 
 module.exports = pdf
