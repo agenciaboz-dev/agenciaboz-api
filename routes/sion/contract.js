@@ -255,10 +255,12 @@ router.post('/generate', async (request, response, next) => {
         })
     })
 
+    const filename = `documents/sion/${contract.unit}/Contrato-${(contract.company || contract.name).replace(/ /g, '')}-${data.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`
+
     // filling pdf form
     pdf.fillForm({
         pdfPath: `src/sion/templates/contract.${contract.pessoa}.pdf`,
-        outputPath: `documents/sion/${contract.unit}/Contrato-${(contract.company || contract.name).replace(/ /g, '')}-${data.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`,
+        outputPath: filename,
         font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
         fields
     })
@@ -268,6 +270,8 @@ router.post('/generate', async (request, response, next) => {
         console.log(stdout)
 
     })
+
+    await prisma.contracts.update({ data: { filename }, where: { id: contract.id } })
         
 });
 
@@ -394,17 +398,15 @@ router.post('/sign', async (request, response, next) => {
         })
     })
 
-    const contract_file_name = `documents/sion/${contract.unit}/Contrato-${(contract.company || contract.name).replace(/ /g, '')}-${contract.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`
-    console.log({contract_file_name})
+    console.log({contract_file_name: contract.filename})
 
     pdf.fillForm({
-        pdfPath: contract_file_name,
-        outputPath: contract_file_name,
+        pdfPath: contract.filename,
+        outputPath: contract.filename,
         font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
         fields
     })
 
-    contract.file_name = contract_file_name.split('documents/sion/')[1]
     const upload_input = JSON.stringify(contract).replaceAll('"', "'")
 
     exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
