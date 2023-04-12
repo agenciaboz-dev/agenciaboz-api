@@ -232,7 +232,7 @@ router.post('/generate', async (request, response, next) => {
     console.log(fields)
 
     // signatures
-    fields.push({ name: "sion.name", value: "Sion Energia", font: 'Poppins-Bold' })
+    fields.push({ name: "sion.name", value: "Sion Energia", font: 'Poppins Bold' })
     fields.push({ name: "sion.cpf", value: "CPF: 00000000000" })
     fields.push({ name: "seller.name", value: contract.seller.name, font: '../../src/fonts/Poppins-Bold.ttf' })
     fields.push({ name: "seller.cpf", value: `CPF: ${contract.seller.cpf}` })
