@@ -256,7 +256,7 @@ router.post('/generate', async (request, response, next) => {
     // filling pdf form
     pdf.fillForm({
         pdfPath: `src/sion/templates/contract.${contract.pessoa}.pdf`,
-        outputPath: `documents/sion/${contract.unit}/Contrato-${contract.company || contract.name}-${data.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`,
+        outputPath: `documents/sion/${contract.unit}/Contrato-${(contract.company || contract.name).replace(/ /g, '')}-${data.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`,
         font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
         fields
     })
@@ -392,7 +392,7 @@ router.post('/sign', async (request, response, next) => {
         })
     })
 
-    const contract_file_name = `documents/sion/${contract.unit}/Contrato-${contract.company || contract.name}-${contract.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`
+    const contract_file_name = `documents/sion/${contract.unit}/Contrato-${(contract.company || contract.name).replace(/ /g, '')}-${contract.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`
 
     pdf.fillForm({
         pdfPath: contract_file_name,
