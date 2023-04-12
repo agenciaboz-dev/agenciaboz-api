@@ -231,6 +231,11 @@ router.post('/generate', async (request, response, next) => {
     Object.entries(contract).map(([key, value]) => { fields.push({ name: key, value }) })
     console.log(fields)
 
+    // signatures
+    fields.push({ name: "sion.name", value: "Sion Energia" })
+    fields.push({ name: "seller.name", value: contract.seller.name })
+    fields.push({ name: "contract.name", value: contract.name })
+
     // mapping logs to build datetime and text logs fields
     logs.map(log => {
         const index = logs.indexOf(log) + 1
