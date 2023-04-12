@@ -1,5 +1,6 @@
 const { PDFDocument } = require('pdf-lib');
 const fontkit = require('@pdf-lib/fontkit')
+const path = require('path')
 const fs = require('fs');
 
 const fillForm = async (options) => {
