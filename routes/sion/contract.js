@@ -376,6 +376,28 @@ router.post('/sign', async (request, response, next) => {
             text: `O processo de assinatura foi finalizado automaticamente. Motivo: finalização automática após a última assinatura habilitada. Processo de assinatura concluído para o documento número  ${contract.id}.`
         }})
     }
+
+    const fields = []
+    const logs = await prisma.logs.findMany({ where: { contract_id: contract.id } })
+    logs.map(log => {
+        const index = logs.indexOf(log) + 1
+        fields.push({
+            name: `log_${index}_datetime`,
+            value: log.date.toLocaleString('pt-BR')
+        })
+
+        fields.push({
+            name: `log_${index}_text`,
+            value: log.text
+        })
+    })
+
+    pdf.fillForm({
+        pdfPath: `documents/sion/${contract.unit}/Contrato-${contract.company || contract.name}-${data.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`,
+        outputPath: `documents/sion/${contract.unit}/Contrato-${contract.company || contract.name}-${data.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`,
+        font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
+        fields
+    })
     
 })
 
