@@ -392,11 +392,21 @@ router.post('/sign', async (request, response, next) => {
         })
     })
 
+    const contract_file_name = `documents/sion/${contract.unit}/Contrato-${contract.company || contract.name}-${data.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`
+
     pdf.fillForm({
-        pdfPath: `documents/sion/${contract.unit}/Contrato-${contract.company || contract.name}-${data.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`,
-        outputPath: `documents/sion/${contract.unit}/Contrato-${contract.company || contract.name}-${data.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`,
+        pdfPath: contract_file_name,
+        outputPath: contract_file_name,
         font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
         fields
+    })
+
+    contract.file_name = contract_file_name.split('documents/sion/')[1]
+    const upload_input = JSON.stringify(contract).replaceAll('"', "'")
+
+    exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
+        console.log(stdout)
+
     })
     
 })
