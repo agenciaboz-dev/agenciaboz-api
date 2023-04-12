@@ -336,7 +336,7 @@ router.post('/confirm', async (request, response, next) => {
         Object.entries(files).forEach(([key, file]) => {
             const filePath = path.join(uploadsDir, file.name);
             console.log(filePath)
-            contract.file_name = file.name
+            contract.filename = file.name
             file.mv(filePath, (err) => {
                 if (err) {
                     console.error("Error saving file:", err);
@@ -397,8 +397,6 @@ router.post('/sign', async (request, response, next) => {
             value: log.text
         })
     })
-
-    console.log({contract_file_name: contract.filename})
 
     pdf.fillForm({
         pdfPath: contract.filename,

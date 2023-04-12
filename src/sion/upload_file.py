@@ -18,6 +18,6 @@ seller_folder = mkdir(cadastros, seller)
 
 files = [file for file in Path(path).glob("*") if file.is_file()]
 for file in files:
-    if file.name == data['file_name']:
+    if file.name == data['filename']:
         print(os.path.join(Path(path), file.name))
         upload(seller_folder['id'], data['unit'], os.path.join(Path(path), file.name))
