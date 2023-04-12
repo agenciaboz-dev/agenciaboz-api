@@ -233,8 +233,11 @@ router.post('/generate', async (request, response, next) => {
 
     // signatures
     fields.push({ name: "sion.name", value: "Sion Energia" })
+    fields.push({ name: "sion.cpf", value: "000.000.000-00" })
     fields.push({ name: "seller.name", value: contract.seller.name })
+    fields.push({ name: "seller.cpf", value: contract.seller.cpf })
     fields.push({ name: "contract.name", value: contract.name })
+    fields.push({ name: "contract.cpf", value: contract.cpf })
 
     // mapping logs to build datetime and text logs fields
     logs.map(log => {
