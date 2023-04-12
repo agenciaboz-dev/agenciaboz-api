@@ -7,7 +7,7 @@ const fillForm = async (options) => {
     const pdfBuffer = await fs.promises.readFile(options.pdfPath);
     const pdfDoc = await PDFDocument.load(pdfBuffer);
     pdfDoc.registerFontkit(fontkit)
-    const fontBytes = fs.readFileSync(`./fonts/${options.font}`)
+    const fontBytes = fs.readFileSync(path.join(__dirname, `./fonts/${options.font}`))
     const customFont = await pdfDoc.embedFont(fontBytes)
     
     const form = pdfDoc.getForm()
@@ -22,7 +22,7 @@ const fillForm = async (options) => {
         try {
             form.getTextField(field.name).setText(field.value.toString(), text_options)
             if (field.font) {
-                const fontBytes = fs.readFileSync(`./fonts/${field.font}`)
+                const fontBytes = fs.readFileSync(path.join(__dirname, `./fonts/${field.font}`))
                 const customFont = await pdfDoc.embedFont(fontBytes)
                 form.getTextField(field.name).updateAppearances(customFont)
             } else {
