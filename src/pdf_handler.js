@@ -22,7 +22,7 @@ const fillForm = async (options) => {
         try {
             form.getTextField(field.name).setText(field.value.toString(), text_options)
             if (field.font) {
-                const fontBytes = fs.readFileSync(`./fonts/${field.font}.ttf`)
+                const fontBytes = fs.readFileSync(`./fonts/${field.font}`)
                 const customFont = await pdfDoc.embedFont(fontBytes)
                 form.getTextField(field.name).updateAppearances(customFont)
             } else {
