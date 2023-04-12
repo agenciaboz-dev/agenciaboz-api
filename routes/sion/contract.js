@@ -232,11 +232,11 @@ router.post('/generate', async (request, response, next) => {
     console.log(fields)
 
     // signatures
-    fields.push({ name: "sion.name", value: "Sion Energia", font: 'Poppins-Bold' })
+    fields.push({ name: "sion.name", value: "Sion Energia", bold: true })
     fields.push({ name: "sion.cpf", value: "CPF: 00000000000" })
-    fields.push({ name: "seller.name", value: contract.seller.name, font: 'Poppins-Bold' })
+    fields.push({ name: "seller.name", value: contract.seller.name, bold: true })
     fields.push({ name: "seller.cpf", value: `CPF: ${contract.seller.cpf}` })
-    fields.push({ name: "contract.name", value: contract.name, font: 'Poppins-Bold' })
+    fields.push({ name: "contract.name", value: contract.name, bold: true })
     fields.push({ name: "contract.cpf", value: `CPF: ${contract.cpf}` })
 
     // mapping logs to build datetime and text logs fields
