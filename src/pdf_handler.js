@@ -10,8 +10,12 @@ const fillForm = async (options) => {
 
     // Get all fields in the PDF by their names
     options.fields.map(field => {
+        const text_options = {
+            font: field.font && pdfDoc.embedFont(field.font)
+        }
+
         try {
-            form.getTextField(field.name).setText(field.value.toString())
+            form.getTextField(field.name).setText(field.value.toString(), text_options)
         } catch {}
     })
 
