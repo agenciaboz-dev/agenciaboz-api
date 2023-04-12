@@ -61,8 +61,9 @@ api.bill = async ( contract ) => {
     }
 
     api.post('/financas/contareceber/', data)
-    .then(response => {
+    .then(async (response) => {
         const bill_id = response.data.codigo_lancamento_omie
+        await prisma.omie.update({ where: { id: omie.id }, data: { bill: bill_id } })
         console.log({bill_id})
         const data = {
             call: "GerarBoleto",
