@@ -336,7 +336,7 @@ router.post('/confirm', async (request, response, next) => {
         Object.entries(files).forEach(([key, file]) => {
             const filePath = path.join(uploadsDir, file.name);
             console.log(filePath)
-            contract.filename = file.name
+            contract.upload_file = file.name
             file.mv(filePath, (err) => {
                 if (err) {
                     console.error("Error saving file:", err);
@@ -405,6 +405,7 @@ router.post('/sign', async (request, response, next) => {
         fields
     })
 
+    contract.upload_file = contract.filename
     const upload_input = JSON.stringify(contract).replaceAll('"', "'")
 
     exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
