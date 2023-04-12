@@ -16,14 +16,10 @@ const fillForm = async (options) => {
     const form = pdfDoc.getForm()
     
     // Get all fields in the PDF by their names
-    options.fields.map(async (field) => {
-        const text_options = {
-            font: field.font && pdfDoc.embedFont(field.font)
-        }
-        console.log(field.font && text_options)
+    options.fields.map(field => {
         
         try {
-            form.getTextField(field.name).setText(field.value.toString(), text_options)
+            form.getTextField(field.name).setText(field.value.toString())
             form.getTextField(field.name).updateAppearances(field.bold ? customFontBold : customFontRegular)
         } catch {}
     })
