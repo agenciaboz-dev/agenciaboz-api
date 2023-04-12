@@ -221,17 +221,21 @@ router.post('/generate', async (request, response, next) => {
         text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.seller.email} para assinar como testemunha, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
     }}))
 
+    // building contract
+
     contract.birthdate = contract.birth.toLocaleDateString('pt-BR')
     console.log(contract)
 
     const fields = []
+    // mapping contract to build every field from it's keys
     Object.entries(contract).map(([key, value]) => { fields.push({ name: key, value }) })
     console.log(fields)
 
+    // mapping logs to build datetime and text logs fields
     logs.map(log => {
         const index = logs.indexOf(log) + 1
         fields.push({
-            name: `log_${index}_date`,
+            name: `log_${index}_datetime`,
             value: log.date.toLocaleDateString('pt-BR')
         })
 
@@ -241,6 +245,7 @@ router.post('/generate', async (request, response, next) => {
         })
     })
 
+    // filling pdf form
     pdf.fillForm({
         pdfPath: `src/sion/templates/contract.${contract.pessoa}.pdf`,
         outputPath: `documents/sion/${contract.unit}/contract_node.pdf`,
