@@ -42,6 +42,7 @@ api.signup = ( contract ) => {
 }
 
 api.bill = async ( contract ) => {
+    console.warning('O CEP TEM QUE SER VÁLIDO')
     const omie = await prisma.omie.findFirst({ where: { contract_id: contract.id } })
     const data = {
         call: "IncluirContaReceber",
