@@ -26,7 +26,7 @@ api.signup = ( contract ) => {
                 endereco_numero: contract.number,
                 bairro: contract.district,
                 estado: contract.state,
-                cidade: contract.city,
+                cidade: contract.city.toUpperCase()+' '+contract.state,
 
             }
         ]
