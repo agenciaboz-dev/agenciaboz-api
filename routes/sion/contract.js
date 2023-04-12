@@ -195,6 +195,8 @@ router.post('/generate', async (request, response, next) => {
         })
     });
 
+    response.json({success: true})
+
     const logs = []
 
     logs.push(await prisma.logs.create({ data: {
