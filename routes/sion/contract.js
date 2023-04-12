@@ -87,7 +87,7 @@ router.post('/lead', async (request, response, next) => {
         })
         response.json(contract)
 
-        // omie.signup(contract)
+        omie.signup(contract)
 
         // rdstation.organization(data, (data => {
         //     const organization = data._id
@@ -169,7 +169,7 @@ router.post('/generate', async (request, response, next) => {
     const files = request.files
 
 	const contract = await prisma.contracts.findUnique({ where: { unit: data.unit }, include: { seller: true } })
-    // omie.bill(contract)
+    omie.bill(contract)
 
     contract.date = contract.date.toLocaleDateString('pt-BR')
 
