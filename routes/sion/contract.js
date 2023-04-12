@@ -232,11 +232,11 @@ router.post('/generate', async (request, response, next) => {
     console.log(fields)
 
     // signatures
-    fields.push({ name: "sion.name", value: "Sion Energia", font: '../../src/fonts/Poppins-Bold' })
+    fields.push({ name: "sion.name", value: "Sion Energia", font: 'Poppins-Bold' })
     fields.push({ name: "sion.cpf", value: "CPF: 00000000000" })
-    fields.push({ name: "seller.name", value: contract.seller.name, font: '../../src/fonts/Poppins-Bold' })
+    fields.push({ name: "seller.name", value: contract.seller.name, font: 'Poppins-Bold' })
     fields.push({ name: "seller.cpf", value: `CPF: ${contract.seller.cpf}` })
-    fields.push({ name: "contract.name", value: contract.name, font: '../../src/fonts/Poppins-Bold' })
+    fields.push({ name: "contract.name", value: contract.name, font: 'Poppins-Bold' })
     fields.push({ name: "contract.cpf", value: `CPF: ${contract.cpf}` })
 
     // mapping logs to build datetime and text logs fields
@@ -257,7 +257,7 @@ router.post('/generate', async (request, response, next) => {
     pdf.fillForm({
         pdfPath: `src/sion/templates/contract.${contract.pessoa}.pdf`,
         outputPath: `documents/sion/${contract.unit}/contract_node.pdf`,
-        font: '../../src/fonts/Poppins-Regular.ttf',
+        font: 'Poppins-Regular.ttf',
         fields
     })
 
