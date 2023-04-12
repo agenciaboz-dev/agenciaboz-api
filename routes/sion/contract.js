@@ -236,7 +236,7 @@ router.post('/generate', async (request, response, next) => {
         const index = logs.indexOf(log) + 1
         fields.push({
             name: `log_${index}_datetime`,
-            value: log.date.toLocaleDateString('pt-BR')
+            value: log.date.toLocaleString('pt-BR')
         })
 
         fields.push({
