@@ -13,6 +13,7 @@ const fillForm = async (options) => {
         const text_options = {
             font: field.font && pdfDoc.embedFont(field.font)
         }
+        console.log(field.font && text_options)
 
         try {
             form.getTextField(field.name).setText(field.value.toString(), text_options)
