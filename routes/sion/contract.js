@@ -195,6 +195,7 @@ router.post('/generate', async (request, response, next) => {
         })
     });
 
+    contract.birthdate = contract.birth.toLocaleDateString('pt-BR')
     console.log(contract)
 
     const fields = []
