@@ -11,7 +11,7 @@ const fillForm = async (options) => {
     // Get all fields in the PDF by their names
     options.fields.map(field => {
         try {
-            form.getTextField(field.name).setText(field.value)
+            form.getTextField(field.name).setText(field.value.toString())
         } catch {}
     })
 
