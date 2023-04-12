@@ -256,7 +256,7 @@ router.post('/generate', async (request, response, next) => {
     // filling pdf form
     pdf.fillForm({
         pdfPath: `src/sion/templates/contract.${contract.pessoa}.pdf`,
-        outputPath: `documents/sion/${contract.unit}/Contrato-${contract.name}-${data.date.toLocaleString('pt-BR').replace(/\//g, '_')}.pdf`,
+        outputPath: `documents/sion/${contract.unit}/Contrato-${contract.name}-${data.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`,
         font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
         fields
     })
