@@ -20,9 +20,13 @@ api.signup = ( contract ) => {
                 email: contract.email,
                 razao_social: contract.company || contract.name,
                 nome_fantasia: contract.name,
-                endereco: contract.address,
-                cep: contract.cep,
                 pessoa_fisica: !contract.cnpj && "S",
+                cep: contract.cep,
+                endereco: contract.address,
+                endereco_numero: contract.number,
+                bairro: contract.district,
+                estado: contract.state,
+                cidade: contract.city,
 
             }
         ]
