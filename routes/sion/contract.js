@@ -393,6 +393,7 @@ router.post('/sign', async (request, response, next) => {
     })
 
     const contract_file_name = `documents/sion/${contract.unit}/Contrato-${(contract.company || contract.name).replace(/ /g, '')}-${contract.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`
+    console.warning({contract_file_name})
 
     pdf.fillForm({
         pdfPath: contract_file_name,
