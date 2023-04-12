@@ -29,6 +29,7 @@ model contracts {
     category    String? 
     cpf         String? 
     rg          String?
+    filename    String?
     signatures  String   @default("") 
     seller      users    @relation(fields: [seller_id], references: [id])
     seller_id   Int      
