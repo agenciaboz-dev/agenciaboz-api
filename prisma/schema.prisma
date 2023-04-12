@@ -18,8 +18,12 @@ model contracts {
     birth       DateTime @db.Date
     email       String  
     phone       String  
-    address     String  
     cep         String  
+    address     String  
+    district    String
+    number      String
+    city        String
+    state       String
     cnpj        String?
     company     String? 
     category    String? 
