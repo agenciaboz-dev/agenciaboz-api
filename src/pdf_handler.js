@@ -7,7 +7,7 @@ const fillForm = async (options) => {
     const pdfBuffer = await fs.promises.readFile(options.pdfPath);
     const pdfDoc = await PDFDocument.load(pdfBuffer);
     pdfDoc.registerFontkit(fontkit)
-    const fontBytes = fs.readFileSync(`./fonts/${options.font}.ttf`)
+    const fontBytes = fs.readFileSync(`./fonts/${options.font}`)
     const customFont = await pdfDoc.embedFont(fontBytes)
     
     const form = pdfDoc.getForm()
