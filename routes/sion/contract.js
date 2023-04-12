@@ -195,12 +195,42 @@ router.post('/generate', async (request, response, next) => {
         })
     });
 
+    const logs = []
+
+    logs.push(await prisma.logs.create({ data: {
+        contract_id: contract.id,
+        seller_id: contract.seller_id,
+        text: `Operador com email ${contract.seller.email} criou este documento número ${contract.id}. Data limite para assinatura do documento: ${new Date(new Date().setMonth(data.date.getMonth() + 1)).toLocaleDateString('pt-BR')}.`
+    }}))
+
+    logs.push(await prisma.logs.create({ data: {
+        contract_id: contract.id,
+        seller_id: contract.seller_id,
+        text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.email} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
+    }}))
+
+    logs.push(await prisma.logs.create({ data: {
+        contract_id: contract.id,
+        seller_id: contract.seller_id,
+        text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  [EMAIL DA SION] para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
+    }}))
+
+    logs.push(await prisma.logs.create({ data: {
+        contract_id: contract.id,
+        seller_id: contract.seller_id,
+        text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.seller.email} para assinar como testemunha, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
+    }}))
+
+    console.log(logs)
+
     contract.birthdate = contract.birth.toLocaleDateString('pt-BR')
     console.log(contract)
 
     const fields = []
     Object.entries(contract).map(([key, value]) => { fields.push({ name: key, value }) })
     console.log(fields)
+
+    fields.push({ name: 'log_1_date' })
 
     pdf.fillForm({
         pdfPath: `src/sion/templates/contract.${contract.pessoa}.pdf`,
@@ -209,42 +239,10 @@ router.post('/generate', async (request, response, next) => {
     })
 
     const input = JSON.stringify(contract).replaceAll('"', "'")
-    const generate_contract = `python3 src/sion/contract.py "${input}"`
-    exec(generate_contract, (error, stdout, stderr) => {
+    exec(`python3 src/sion/upload.py "${input}"`, (error, stdout, stderr) => {
         console.log(stdout)
 
-        response.json({success: true})
-        
-
-        exec(`python3 src/sion/upload.py "${input}"`, (error, stdout, stderr) => {
-            console.log(stdout)
-
-        })
     })
-
-    await prisma.logs.create({ data: {
-        contract_id: contract.id,
-        seller_id: contract.seller_id,
-        text: `Operador com email ${contract.seller.email} criou este documento número ${contract.id}. Data limite para assinatura do documento: ${new Date(new Date().setMonth(data.date.getMonth() + 1)).toLocaleDateString('pt-BR')}.`
-    }})
-
-    await prisma.logs.create({ data: {
-        contract_id: contract.id,
-        seller_id: contract.seller_id,
-        text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.email} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
-    }})
-
-    await prisma.logs.create({ data: {
-        contract_id: contract.id,
-        seller_id: contract.seller_id,
-        text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  [EMAIL DA SION] para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
-    }})
-
-    await prisma.logs.create({ data: {
-        contract_id: contract.id,
-        seller_id: contract.seller_id,
-        text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.seller.email} para assinar como testemunha, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
-    }})
         
 });
 
