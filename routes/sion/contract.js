@@ -12,6 +12,14 @@ const pdf = require('../../src/pdf_handler.js')
 
 const prisma = new PrismaClient()
 
+router.post('/', async (request, response, next) => {    
+    const data = request.body
+
+    const contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+    response.json(contract)
+
+})
+
 router.post('/financial', async (request, response, next) => {    
     const data = request.body
 
