@@ -12,7 +12,7 @@ const updateImage = async (options) => {
 
     try {
         form.getTextField(options.field).setImage(image)
-    } catch {}
+    } catch(error) { console.log(error) }
 
     // Save the modified PDF document to a file
     const modifiedPdf = await pdfDoc.save();
