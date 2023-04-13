@@ -401,7 +401,7 @@ router.post('/sign', async (request, response, next) => {
             value: `Assinou como ${field_name == 'seller' ? 'testemunha' : 'parte'} em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
         })
 
-        pdf.updateImage({
+        await pdf.updateImage({
             pdfPath: contract.filename,
             outputPath: contract.filename,
             field: field_name+'_check',
