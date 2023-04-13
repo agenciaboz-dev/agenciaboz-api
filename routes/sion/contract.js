@@ -402,7 +402,7 @@ router.post('/sign', async (request, response, next) => {
         })
 
         fields.push({
-            name: field_name+'.check',
+            name: field_name+'_check',
             value: `sion/images/check.png`
         })
         
