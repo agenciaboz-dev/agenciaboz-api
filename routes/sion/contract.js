@@ -323,7 +323,6 @@ router.post('/confirm', async (request, response, next) => {
 
     console.log(contract)
 
-    response.json(contract)
 
     if (contract) {
         contract.template = 'token'
@@ -345,12 +344,16 @@ router.post('/confirm', async (request, response, next) => {
             const filePath = path.join(uploadsDir, file.name);
             console.log(filePath)
             contract.upload_file = file.name
+            contract.biometry = filePath
             file.mv(filePath, (err) => {
                 if (err) {
                     console.error("Error saving file:", err);
                 }
             })
         })
+
+        response.json(contract)
+
         const upload_input = JSON.stringify(contract).replaceAll('"', "'")
 
         exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
