@@ -404,7 +404,7 @@ router.post('/sign', async (request, response, next) => {
         pdf.updateImage({
             pdfPath: contract.filename,
             outputPath: contract.filename,
-            field: field_name+'_check',
+            field: field_name+'.check',
             image: 'sion/images/check.png'
         })
         
@@ -427,7 +427,6 @@ router.post('/sign', async (request, response, next) => {
             pdfPath: contract.filename,
             outputPath: contract.filename,
             font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
-            image: 'sion/images/check.png',
             fields
         })
 
