@@ -394,12 +394,12 @@ router.post('/sign', async (request, response, next) => {
         }
 
         const fields = []
-        if (user?.adm) {
+        if (data.user?.adm) {
             fields.push({
                 name: 'sion.signed',
                 value: `Assinou como parte em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
             })
-        } else if (user) {
+        } else if (data.user) {
             fields.push({
                 name: 'seller.signed',
                 value: `Assinou como testemunha em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
