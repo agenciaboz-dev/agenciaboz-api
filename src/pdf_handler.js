@@ -11,7 +11,7 @@ const updateImage = async (options) => {
     const image = await pdfDoc.embedPng(imageBytes)
 
     try {
-        form.getTextField(options.field).setImage(image)
+        form.getButton(options.field).setImage(image)
     } catch(error) { console.log(error) }
 
     // Save the modified PDF document to a file
