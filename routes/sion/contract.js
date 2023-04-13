@@ -380,7 +380,7 @@ router.post('/sign', async (request, response, next) => {
         await prisma.logs.create({ data: {
             contract_id: contract.id,
             seller_id: contract.seller_id,
-            text: `${data.name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: [Link da imagem no drive]. IP: ${request.ip}.`
+            text: `${data.name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: https://app.agenciaboz.com.br:4000/${data.biometry}. IP: ${request.ip}.`
         }})
 
         await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
