@@ -10,17 +10,23 @@ const fillForm = async (options) => {
     pdfDoc.registerFontkit(fontkit)
     const fontRegularBytes = fs.readFileSync(path.join(__dirname, `./fonts/${options.font.regular}`))
     const fontBoldBytes = fs.readFileSync(path.join(__dirname, `./fonts/${options.font.bold}`))
+    
     const customFontRegular = await pdfDoc.embedFont(fontRegularBytes)
     const customFontBold = await pdfDoc.embedFont(fontBoldBytes)
     
     const form = pdfDoc.getForm()
     
     // Get all fields in the PDF by their names
-    options.fields.map(field => {
-        
+    options.fields.map(async (field) => {
         try {
-            form.getTextField(field.name).setText(field.value.toString())
-            form.getTextField(field.name).updateAppearances(field.bold ? customFontBold : customFontRegular)
+            if (field.image) {
+                const imageBytes = fs.readFileSync(path.join(__dirname, `./${field.value}`))
+                const image = await pdfDoc.embedPng(imageBytes)
+                form.getTextField(field.name).setImage(image)
+            } else {
+                form.getTextField(field.name).setText(field.value.toString())
+                form.getTextField(field.name).updateAppearances(field.bold ? customFontBold : customFontRegular)
+            }
         } catch {}
     })
 

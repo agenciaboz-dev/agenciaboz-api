@@ -394,22 +394,17 @@ router.post('/sign', async (request, response, next) => {
         }
 
         const fields = []
-        if (data.user?.adm) {
-            fields.push({
-                name: 'sion.signed',
-                value: `Assinou como parte em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
-            })
-        } else if (data.user) {
-            fields.push({
-                name: 'seller.signed',
-                value: `Assinou como testemunha em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
-            })
-        } else {
-            fields.push({
-                name: 'contract.signed',
-                value: `Assinou como parte em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
-            })
-        }
+        const field_name = data.user?.adm ? 'sion' : (data.user ? 'seller' : 'contract')
+
+        fields.push({
+            name: field_name+'.signed',
+            value: `Assinou como ${field_name == 'seller' ? 'testemunha' : 'parte'} em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
+        })
+
+        fields.push({
+            name: field_name+'.check',
+            value: `sion/images/check.png`
+        })
         
 
         const logs = await prisma.logs.findMany({ where: { contract_id: contract.id } })
@@ -430,6 +425,7 @@ router.post('/sign', async (request, response, next) => {
             pdfPath: contract.filename,
             outputPath: contract.filename,
             font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
+            image: 'sion/images/check.png',
             fields
         })
 
