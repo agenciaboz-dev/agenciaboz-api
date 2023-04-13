@@ -15,7 +15,7 @@ const prisma = new PrismaClient()
 router.post('/', async (request, response, next) => {    
     const data = request.body
 
-    const contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+    const contract = await prisma.contracts.findUnique({ where: { id: Number(data.id) }, include: { seller: true } })
     response.json(contract)
 
 })
