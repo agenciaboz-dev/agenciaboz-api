@@ -401,9 +401,11 @@ router.post('/sign', async (request, response, next) => {
             value: `Assinou como ${field_name == 'seller' ? 'testemunha' : 'parte'} em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
         })
 
-        fields.push({
-            name: field_name+'_check',
-            value: `sion/images/check.png`
+        pdf.updateImage({
+            pdfPath: contract.filename,
+            outputPath: contract.filename,
+            field: field_name+'_check',
+            image: 'sion/images/check.png'
         })
         
 
