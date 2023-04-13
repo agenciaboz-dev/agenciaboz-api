@@ -266,7 +266,7 @@ router.post('/generate', async (request, response, next) => {
     const filename = `documents/sion/${contract.unit}/Contrato-${(contract.company || contract.name).replace(/ /g, '')}-${data.date.toLocaleDateString('pt-BR').replace(/\//g, '_')}.pdf`
 
     // filling pdf form
-    pdf.fillForm({
+    await pdf.fillForm({
         pdfPath: `src/sion/templates/contract.${contract.pessoa}.pdf`,
         outputPath: filename,
         font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
@@ -423,7 +423,7 @@ router.post('/sign', async (request, response, next) => {
             })
         })
 
-        pdf.fillForm({
+        await pdf.fillForm({
             pdfPath: contract.filename,
             outputPath: contract.filename,
             font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
