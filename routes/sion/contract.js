@@ -368,58 +368,82 @@ router.post('/sign', async (request, response, next) => {
     const signed = !!contract.signatures
     const signatures = signed ? contract.signatures.split(',') : []
 
-    if (!signatures.includes(data.email)) signatures.push(data.email)
+    if (!signatures.includes(data.email)) {
+        response.json({ success: true })
+        signatures.push(data.email)
 
-    const sign_type = data.user ? (data.user.adm ? 'parte' : 'testemunha') : 'parte'
+        const sign_type = data.user ? (data.user.adm ? 'parte' : 'testemunha') : 'parte'
 
-    await prisma.logs.create({ data: {
-        contract_id: contract.id,
-        seller_id: contract.seller_id,
-        text: `${data.name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: [Link da imagem no drive]. IP: ${request.ip}.`
-    }})
-
-    await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
-
-    if (signatures.length == 3) {
-        // rdstation.closed(data)
-        // omie.bill(contract)
-        // arrumar aqui
         await prisma.logs.create({ data: {
             contract_id: contract.id,
             seller_id: contract.seller_id,
-            text: `O processo de assinatura foi finalizado automaticamente. Motivo: finalização automática após a última assinatura habilitada. Processo de assinatura concluído para o documento número  ${contract.id}.`
+            text: `${data.name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: [Link da imagem no drive]. IP: ${request.ip}.`
         }})
+
+        await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
+
+        if (signatures.length == 3) {
+            // rdstation.closed(data)
+            // omie.bill(contract)
+            // arrumar aqui
+            await prisma.logs.create({ data: {
+                contract_id: contract.id,
+                seller_id: contract.seller_id,
+                text: `O processo de assinatura foi finalizado automaticamente. Motivo: finalização automática após a última assinatura habilitada. Processo de assinatura concluído para o documento número  ${contract.id}.`
+            }})
+        }
+
+        const fields = []
+        if (user?.adm) {
+            fields.push({
+                name: 'sion.signed',
+                value: `Assinou como parte em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
+            })
+        } else if (user) {
+            fields.push({
+                name: 'seller.signed',
+                value: `Assinou como testemunha em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
+            })
+        } else {
+            fields.push({
+                name: 'contract.signed',
+                value: `Assinou como parte em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
+            })
+        }
+        
+
+        const logs = await prisma.logs.findMany({ where: { contract_id: contract.id } })
+        logs.map(log => {
+            const index = logs.indexOf(log) + 1
+            fields.push({
+                name: `log_${index}_datetime`,
+                value: log.date.toLocaleString('pt-BR')
+            })
+
+            fields.push({
+                name: `log_${index}_text`,
+                value: log.text
+            })
+        })
+
+        pdf.fillForm({
+            pdfPath: contract.filename,
+            outputPath: contract.filename,
+            font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
+            fields
+        })
+
+        contract.upload_file = contract.filename
+        const upload_input = JSON.stringify(contract).replaceAll('"', "'")
+
+        exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
+            console.log(stdout)
+            console.log(stderr)
+        })
+
+    } else {
+        response.json({error: true})
     }
-
-    const fields = []
-    const logs = await prisma.logs.findMany({ where: { contract_id: contract.id } })
-    logs.map(log => {
-        const index = logs.indexOf(log) + 1
-        fields.push({
-            name: `log_${index}_datetime`,
-            value: log.date.toLocaleString('pt-BR')
-        })
-
-        fields.push({
-            name: `log_${index}_text`,
-            value: log.text
-        })
-    })
-
-    pdf.fillForm({
-        pdfPath: contract.filename,
-        outputPath: contract.filename,
-        font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
-        fields
-    })
-
-    contract.upload_file = contract.filename
-    const upload_input = JSON.stringify(contract).replaceAll('"', "'")
-
-    exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
-        console.log(stdout)
-        console.log(stderr)
-    })
     
 })
 
