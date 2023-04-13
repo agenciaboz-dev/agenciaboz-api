@@ -12,6 +12,7 @@ const updateImage = async (options) => {
 
     try {
         form.getButton(options.field).setImage(image)
+        console.log('image updated')
     } catch(error) { console.log(error) }
 
     // Save the modified PDF document to a file
