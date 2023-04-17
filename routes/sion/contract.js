@@ -425,12 +425,13 @@ router.post('/sign', async (request, response, next) => {
             image: 'sion/images/check.png'
         })
 
-        await pdf.updateImage({
+        field_name != 'seller' && await pdf.updateImage({
             pdfPath: contract.filename,
             outputPath: contract.filename,
             field: field_name+'.rubric',
             base64: data.rubric
         })
+        
         
 
         const logs = await prisma.logs.findMany({ where: { contract_id: contract.id } })
