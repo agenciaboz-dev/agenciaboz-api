@@ -327,7 +327,7 @@ router.post('/confirm', async (request, response, next) => {
         const signatures = signed ? contract.signatures.split(',') : []
         contract.signed = signatures.includes(contract.email)
         if (contract) contract.mail_list = [contract.email]
-        console.log(contract)
+        console.log(new Date(contract.birth).getTime())
         if (((contract.cpf != data.document) && (contract.cnpj != data.document)) || (contract.name != data.name) || (new Date(contract.birth).getTime() != data.birth)) contract = null
     }
 
