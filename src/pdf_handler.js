@@ -7,9 +7,8 @@ const updateImage = async (options) => {
     const pdfBuffer = await fs.promises.readFile(options.pdfPath);
     const pdfDoc = await PDFDocument.load(pdfBuffer);
     const form = pdfDoc.getForm()
-    const imageBytes = fs.readFileSync(path.join(__dirname, `./${options.image}`))
-    const imageBase64 = options.base64
-    const image = await pdfDoc.embedPng(imageBase64 || imageBytes)
+    const imageBytes = options.image && fs.readFileSync(path.join(__dirname, `./${options.image}`))
+    const image = await pdfDoc.embedPng(options.base64 || imageBytes)
 
     try {
         form.getButton(options.field).setImage(image)
