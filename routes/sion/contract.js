@@ -298,8 +298,7 @@ router.post('/confirm', async (request, response, next) => {
     
     const files = request.files
 
-    const signed = !!contract.signatures
-    const signatures = signed ? contract.signatures.split(',') : []
+    
 
     let contract = null
 
@@ -307,11 +306,15 @@ router.post('/confirm', async (request, response, next) => {
     if (user) {
         if (user.adm) {
             contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+            const signed = !!contract.signatures
+            const signatures = signed ? contract.signatures.split(',') : []
             contract.signed = signatures.includes(user.email)
             // if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name) || (new Date(contract.seller.birth).getTime() != data.birth)) contract = null
             
         } else {
             contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+            const signed = !!contract.signatures
+            const signatures = signed ? contract.signatures.split(',') : []
             contract.signed = signatures.includes(contract.seller.email)
             if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name) || (new Date(contract.seller.birth).getTime() != data.birth)) contract = null
         }
@@ -320,6 +323,8 @@ router.post('/confirm', async (request, response, next) => {
         
     } else {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true }})
+        const signed = !!contract.signatures
+        const signatures = signed ? contract.signatures.split(',') : []
         contract.signed = signatures.includes(contract.email)
         if (contract) contract.mail_list = [contract.email]
         if (((contract.cpf != data.document) && (contract.cnpj != data.document)) || (contract.name != data.name) || (new Date(contract.birth).getTime() != data.birth)) contract = null
