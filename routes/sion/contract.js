@@ -337,6 +337,7 @@ router.post('/confirm', async (request, response, next) => {
 
 
     if (contract) {
+        contract.rubric = data.rubric
         contract.template = 'token'
         contract.mail_subject = contract.token + ' - Token de autenticação - Sion - Contrato'
         const input = JSON.stringify(contract).replaceAll('"', "'")
@@ -422,6 +423,13 @@ router.post('/sign', async (request, response, next) => {
             outputPath: contract.filename,
             field: field_name+'_check',
             image: 'sion/images/check.png'
+        })
+
+        await pdf.updateImage({
+            pdfPath: contract.filename,
+            outputPath: contract.filename,
+            field: field_name+'.rubric',
+            base64: data.rubric
         })
         
 
