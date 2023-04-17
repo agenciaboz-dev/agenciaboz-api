@@ -364,15 +364,16 @@ router.post('/confirm', async (request, response, next) => {
             })
         })
 
-        response.json(contract)
-
+        
         const upload_input = JSON.stringify(contract).replaceAll('"', "'")
-
+        
         exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
             console.log(stdout)
-
+            
         })
     }
+    
+    response.json(contract)
 
 })
 
