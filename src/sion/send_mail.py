@@ -1434,7 +1434,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
                             <div style="text-align: center;"><br>
-<span style="font-size:24px">Segue contrato em anexo para revisão</span><br>
+<span style="font-size:24px">Clique no botão abaixo para visualizar o contrato</span><br>
 &nbsp;</div>
 
                         </td>
@@ -1459,7 +1459,7 @@ Para sua segurança, não encaminhe este e-mail para ninguém.</span></span><br>
                     <tbody>
                         <tr>
                             <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Arial; font-size: 16px; padding: 12px;">
-                                <a class="mcnButton " title="Assinar" href="https://vendas.cooperativasion.com.br/login/{data['id']}" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;cursor: pointer">Assinar</a>
+                                <a class="mcnButton " title="Ver documento" href="https://vendas.cooperativasion.com.br/login/{data['id']}" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;cursor: pointer">Assinar</a>
                             </td>
                         </tr>
                     </tbody>
