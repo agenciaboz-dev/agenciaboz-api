@@ -2617,4 +2617,4 @@ data = json.loads(data)
 print(data)
 
 html_mail = mailTemplate(data)[data['template']]
-sendMail(data['mail_list'], data['mail_subject'], html=html_mail, attachment={'filename': data['filename'] or '', 'path': f'documents/sion/{data["unit"]}/contract.pdf'} if data['template'] == 'contract' else None)
+sendMail(data['mail_list'], data['mail_subject'], html=html_mail)
