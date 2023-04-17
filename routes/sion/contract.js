@@ -352,6 +352,10 @@ router.post('/confirm', async (request, response, next) => {
             })
         })
 
+        const signed = !!contract.signatures
+        const signatures = signed ? contract.signatures.split(',') : []
+        contract.signed = signatures.includes(data.email)
+
         response.json(contract)
 
         const upload_input = JSON.stringify(contract).replaceAll('"', "'")
