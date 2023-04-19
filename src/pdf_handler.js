@@ -3,6 +3,27 @@ const fontkit = require('@pdf-lib/fontkit')
 const path = require('path')
 const fs = require('fs');
 
+const rasterize = async (options) => {
+    const pdfBuffer = await fs.promises.readFile(options.inputPath);
+    const pdfDoc = await PDFDocument.load(pdfBuffer);
+    const newPdfDoc = await PDFDocument.create();
+
+    for (let i = 0; i < pdfDoc.getPageCount(); i++) {
+        const [width, height] = pdfDoc.getPageSizes()[i];
+        const pngImage = await pdfDoc.embedPageAsPNG(i);
+        const page = newPdfDoc.addPage([width, height]);
+        page.drawImage(pngImage, {
+          x: 0,
+          y: 0,
+          width: width,
+          height: height,
+        });
+    }
+
+    const newPdfBytes = await newPdfDoc.save();
+    fs.writeFileSync(options.outputPath, newPdfBytes);
+}
+
 const updateImage = async (options) => {
     const pdfBuffer = await fs.promises.readFile(options.pdfPath);
     const pdfDoc = await PDFDocument.load(pdfBuffer);
@@ -17,7 +38,8 @@ const updateImage = async (options) => {
 
     // Save the modified PDF document to a file
     const modifiedPdf = await pdfDoc.save();
-    await fs.promises.writeFile(options.outputPath, modifiedPdf);
+    await fs.promises.writeFile(options.outputPath.split('.pdf')[0]+'.dev.pdf', modifiedPdf);
+    rasterize({inputPath: options.pdfPath, outputPath: options.outputPath})
     
 }
 
@@ -44,7 +66,8 @@ const fillForm = async (options) => {
 
     // Save the modified PDF document to a file
     const modifiedPdf = await pdfDoc.save();
-    await fs.promises.writeFile(options.outputPath, modifiedPdf);
+    await fs.promises.writeFile(options.outputPath.split('.pdf')[0]+'.dev.pdf', modifiedPdf);
+    rasterize({inputPath: options.pdfPath, outputPath: options.outputPath})
 }
 
 const pdf = {
