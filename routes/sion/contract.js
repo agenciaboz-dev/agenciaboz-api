@@ -420,14 +420,14 @@ router.post('/sign', async (request, response, next) => {
         })
 
         await pdf.updateImage({
-            pdfPath: contract.filename,
+            pdfPath: contract.filename.split('.pdf')[0]+'.dev.pdf',
             outputPath: contract.filename,
             field: field_name+'_check',
             image: 'sion/images/check.png'
         })
 
         field_name != 'seller' && await pdf.updateImage({
-            pdfPath: contract.filename,
+            pdfPath: contract.filename.split('.pdf')[0]+'.dev.pdf',
             outputPath: contract.filename,
             field: field_name+'.rubric',
             base64: data.rubric
@@ -450,7 +450,7 @@ router.post('/sign', async (request, response, next) => {
         })
 
         await pdf.fillForm({
-            pdfPath: contract.filename,
+            pdfPath: contract.filename.split('.pdf')[0]+'.dev.pdf',
             outputPath: contract.filename,
             font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
             fields
