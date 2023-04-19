@@ -11,6 +11,7 @@ const omie = require('../../src/sion/omie')
 const pdf = require('../../src/pdf_handler.js')
 
 const prisma = new PrismaClient()
+const SION_MAIL = 'leonardo@sionenergia.com.br'
 
 router.post('/', async (request, response, next) => {    
     const data = request.body
@@ -124,7 +125,7 @@ router.post('/lead', async (request, response, next) => {
 
         input.template = 'lead'
         input.mail_subject = 'Sion - Novo lead'
-        input.mail_list = [input.seller.email] // mudar para email da sion
+        input.mail_list = [SION_MAIL]
         
         exec(`python3 src/sion/send_mail.py "${JSON.stringify(input).replaceAll('"', "'")}"`, (error, stdout, stderr) => {
             console.log(error)
@@ -153,7 +154,7 @@ router.post('/send', async (request, response, next) => {
 
     data.template = 'contract'
     data.mail_subject = 'Sion - Contrato'
-    const mail_list = [...data.email.split(','), seller.email] // falta email da sion
+    const mail_list = [...data.email.split(','), seller.email, SION_MAIL]
 
     // data 1 mes a partir de agora
     const data1m = new Date()
@@ -222,7 +223,7 @@ router.post('/generate', async (request, response, next) => {
     logs.push(await prisma.logs.create({ data: {
         contract_id: contract.id,
         seller_id: contract.seller_id,
-        text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  [EMAIL DA SION] para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
+        text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${SION_MAIL} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`
     }}))
 
     logs.push(await prisma.logs.create({ data: {
