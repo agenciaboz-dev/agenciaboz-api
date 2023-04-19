@@ -9,16 +9,19 @@ const rasterize = async (options) => {
     const newPdfDoc = await PDFDocument.create();
 
     for (let i = 0; i < pdfDoc.getPageCount(); i++) {
-        const [width, height] = pdfDoc.getPageSizes()[i];
+        const page = pdfDoc.getPage(i);
+        const [width, height] = page.getSize();
         const pngImage = await pdfDoc.embedPageAsPNG(i);
-        const page = newPdfDoc.addPage([width, height]);
-        page.drawImage(pngImage, {
+        const imageWidth = height * (pngImage.width / pngImage.height);
+        const imageHeight = height;
+        const newPage = newPdfDoc.addPage([width, height]);
+        newPage.drawImage(pngImage, {
           x: 0,
           y: 0,
-          width: width,
-          height: height,
+          width: imageWidth,
+          height: imageHeight,
         });
-    }
+      }
 
     const newPdfBytes = await newPdfDoc.save();
     fs.writeFileSync(options.outputPath, newPdfBytes);
