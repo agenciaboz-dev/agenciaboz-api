@@ -244,7 +244,7 @@ router.post('/generate', async (request, response, next) => {
 
     // signatures
     fields.push({ name: "sion.name", value: "Sion Energia", bold: true })
-    fields.push({ name: "sion.cpf", value: "CPF: 00000000000" })
+    fields.push({ name: "sion.cpf", value: "CPF: 90667476253" })
     fields.push({ name: "seller.name", value: contract.seller.name, bold: true })
     fields.push({ name: "seller.cpf", value: `CPF: ${contract.seller.cpf}` })
     fields.push({ name: "contract.name", value: contract.name, bold: true })
