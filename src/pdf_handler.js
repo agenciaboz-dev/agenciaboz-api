@@ -10,7 +10,7 @@ const rasterize = async (options) => {
 
     for (let i = 0; i < pdfDoc.getPageCount(); i++) {
         const page = pdfDoc.getPage(i);
-        const [width, height] = page.getSize();
+        const { width, height } = page.getSize()
         const pngImage = await pdfDoc.embedPageAsPNG(i);
         const imageWidth = height * (pngImage.width / pngImage.height);
         const imageHeight = height;
