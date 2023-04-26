@@ -13,34 +13,34 @@ const pdf = require('../../src/pdf_handler.js')
 const prisma = new PrismaClient()
 const SION_MAIL = 'leonardo@sionenergia.com.br'
 
-router.post('/', async (request, response, next) => {    
-    const data = request.body
-    console.log({ data })
+router.post("/", async (request, response, next) => {
+  const data = request.body
+  console.log({ data })
 
-    const contract = await prisma.contracts.findUnique({ where: { id: parseInt(data.id) }, include: { seller: true } })
-    response.json(contract)
-
+  const contract = await prisma.contracts.findUnique({ where: { id: Number(data.id) }, include: { seller: true } })
+  response.json(contract)
 })
 
-router.post('/financial', async (request, response, next) => {    
-    const data = request.body
+router.post("/financial", async (request, response, next) => {
+  const data = request.body
+  console.log({ financial: data })
 
-    try {
-        const financial = await prisma.financial.create({
-          data: {
-            name: data.name,
-            phone: data.phone.replace(/\D/g, ""),
-            email: data.email,
-            login: data.login,
-            password: data.password,
-            contract_id: data.id,
-          },
-        })
+  try {
+    const financial = await prisma.financial.create({
+      data: {
+        name: data.name,
+        phone: data.phone.replace(/\D/g, ""),
+        email: data.email,
+        login: data.login,
+        password: data.password,
+        contract_id: data.id,
+      },
+    })
 
-        response.json(financial)
-    } catch {
-        response.json(null)
-    }
+    response.json(financial)
+  } catch {
+    response.json(null)
+  }
 })
 
 router.post('/unit', async (request, response, next) => {    
