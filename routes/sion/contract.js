@@ -23,7 +23,6 @@ router.post("/", async (request, response, next) => {
 
 router.post("/financial", async (request, response, next) => {
   const data = request.body
-  console.log({ financial: data })
 
   try {
     const financial = await prisma.financial.create({
@@ -38,7 +37,8 @@ router.post("/financial", async (request, response, next) => {
     })
 
     response.json(financial)
-  } catch {
+  } catch(error) {
+    console.error(error)
     response.json(null)
   }
 })
