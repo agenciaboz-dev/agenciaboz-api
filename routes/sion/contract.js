@@ -15,6 +15,7 @@ const SION_MAIL = 'leonardo@sionenergia.com.br'
 
 router.post('/', async (request, response, next) => {    
     const data = request.body
+    console.log({ data: { ...data, id: parseInt(data.id) } })
 
     const contract = await prisma.contracts.findUnique({ where: { id: parseInt(data.id) }, include: { seller: true } })
     response.json(contract)
