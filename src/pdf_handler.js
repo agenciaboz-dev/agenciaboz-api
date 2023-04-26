@@ -70,7 +70,7 @@ const fillForm = async (options) => {
     // Save the modified PDF document to a file
     const modifiedPdf = await pdfDoc.save();
     await fs.promises.writeFile(options.outputPath.split('.pdf')[0]+'.dev.pdf', modifiedPdf);
-    rasterize({inputPath: options.pdfPath, outputPath: options.outputPath})
+    rasterize({ inputPath: options.outputPath.split(".pdf")[0] + ".dev.pdf", outputPath: options.outputPath })
 }
 
 const pdf = {
