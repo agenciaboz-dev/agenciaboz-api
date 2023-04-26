@@ -63,6 +63,8 @@ model financial {
     name        String 
     phone       String 
     email       String  
+    login       String?
+    password    String?
     contract    contracts   @relation(fields: [contract_id], references: [id])
     contract_id Int         @unique
 }
