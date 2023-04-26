@@ -422,40 +422,39 @@ router.post('/sign', async (request, response, next) => {
         })
 
         await pdf.updateImage({
-            pdfPath: contract.filename.split('.pdf')[0]+'.dev.pdf',
-            outputPath: contract.filename,
-            field: field_name+'_check',
-            image: 'sion/images/check.png'
+          pdfPath: contract.filename,
+          outputPath: contract.filename,
+          field: field_name + "_check",
+          image: "sion/images/check.png",
         })
 
-        field_name != 'seller' && await pdf.updateImage({
-            pdfPath: contract.filename.split('.pdf')[0]+'.dev.pdf',
+        field_name != "seller" &&
+          (await pdf.updateImage({
+            pdfPath: contract.filename,
             outputPath: contract.filename,
-            field: field_name+'.rubric',
-            base64: data.rubric
-        })
-        
-        
+            field: field_name + ".rubric",
+            base64: data.rubric,
+          }))
 
         const logs = await prisma.logs.findMany({ where: { contract_id: contract.id } })
-        logs.map(log => {
-            const index = logs.indexOf(log) + 1
-            fields.push({
-                name: `log_${index}_datetime`,
-                value: log.date.toLocaleString('pt-BR')
-            })
+        logs.map((log) => {
+          const index = logs.indexOf(log) + 1
+          fields.push({
+            name: `log_${index}_datetime`,
+            value: log.date.toLocaleString("pt-BR"),
+          })
 
-            fields.push({
-                name: `log_${index}_text`,
-                value: log.text
-            })
+          fields.push({
+            name: `log_${index}_text`,
+            value: log.text,
+          })
         })
 
         await pdf.fillForm({
-            pdfPath: contract.filename.split('.pdf')[0]+'.dev.pdf',
-            outputPath: contract.filename,
-            font: { regular: 'Poppins-Regular.ttf', bold: 'Poppins-Bold.ttf' },
-            fields
+          pdfPath: contract.filename,
+          outputPath: contract.filename,
+          font: { regular: "Poppins-Regular.ttf", bold: "Poppins-Bold.ttf" },
+          fields,
         })
 
         contract.upload_file = contract.filename
