@@ -26,12 +26,14 @@ router.post('/financial', async (request, response, next) => {
 
     try {
         const financial = await prisma.financial.create({
-            data: {
-                name: data.name,
-                phone: data.phone.replace(/\D/g, ''),
-                email: data.email,
-                contract_id: data.id
-            }
+          data: {
+            name: data.name,
+            phone: data.phone.replace(/\D/g, ""),
+            email: data.email,
+            login: data.login,
+            password: data.password,
+            contract_id: data.id,
+          },
         })
 
         response.json(financial)
