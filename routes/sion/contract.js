@@ -157,22 +157,23 @@ router.post('/send', async (request, response, next) => {
 
     data.template = 'contract'
     data.mail_subject = 'Sion - Contrato'
-    const mail_list = [...data.email.split(','), seller.email, SION_MAIL]
+    const mail_list = [...data.email.split(",")]
 
     // data 1 mes a partir de agora
     const data1m = new Date()
-    data1m.setMonth(data1m.getMonth() + 1);
-    data.sign_limit = data1m.toLocaleDateString('pt-br');
+    data1m.setMonth(data1m.getMonth() + 1)
+    data.sign_limit = data1m.toLocaleDateString("pt-br")
 
-    mail_list.map(mail => {
-        data.mail_list = [mail]
+    mail_list.map((mail) => {
+      data.mail_list = [mail]
+      data.signing = "client"
 
-        const input = JSON.stringify(data).replaceAll('"', "'")
-        exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
-            console.log(stdout)
-            console.log(error)
-            console.log(stderr)
-        })
+      const input = JSON.stringify(data).replaceAll('"', "'")
+      exec(`python3 src/sion/send_contract_mail.py "${input}"`, (error, stdout, stderr) => {
+        console.log(stdout)
+        console.log(error)
+        console.log(stderr)
+      })
     })
     
     
