@@ -29,6 +29,9 @@ data = json.loads(data)
 
 print(data)
 
+contract_name = f"{data['company']}/{data['name']}" if data['pessoa'] == 'juridica' else data['name']
+contract_limit = data['sign_limit']
+
 template = f"""
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
