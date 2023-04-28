@@ -405,6 +405,7 @@ router.post('/sign', async (request, response, next) => {
       data1m.setMonth(data1m.getMonth() + 1)
         data.sign_limit = data1m.toLocaleDateString("pt-br")
         data.pessoa = contract.pessoa
+        data.filename = contract.filename
 
       const signing = data.signing
       if (data.signing == "client") {
