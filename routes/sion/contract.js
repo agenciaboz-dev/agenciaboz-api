@@ -42,7 +42,7 @@ router.post("/financial", async (request, response, next) => {
 
         response.json(financial)
 
-        weni.add(financial)
+        // weni.add(financial)
     } catch (error) {
         console.error(error)
         response.json(null)
