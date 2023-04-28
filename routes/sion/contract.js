@@ -308,38 +308,42 @@ router.post('/confirm', async (request, response, next) => {
     let contract = null
 
     const user = data.user
-    if (user) {
-        if (user.adm) {
-            contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
-            const signed = !!contract.signatures
-            const signatures = signed ? contract.signatures.split(',') : []
-            contract.signed = signatures.includes(user.email)
-            // if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name) || (new Date(contract.seller.birth).getTime() != data.birth)) contract = null
-            
-        } else {
-            contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
-            const signed = !!contract.signatures
-            const signatures = signed ? contract.signatures.split(',') : []
-            contract.signed = signatures.includes(contract.seller.email)
-            if ((contract.seller.cpf != data.document) || (contract.seller.name != data.name) || (new Date(contract.seller.birth).getTime() != data.birth)) contract = null
-        }
-        
-        if (contract) contract.mail_list = [user.email]
-        
+    if (data.signing == "sion") {
+      contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+      const signed = !!contract.signatures
+      const signatures = signed ? contract.signatures.split(",") : []
+      contract.signed = signatures.includes(user.email)
+      if (contract) contract.mail_list = [SION_MAIL]
+    } else if (data.signing == "seller") {
+      contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+      const signed = !!contract.signatures
+      const signatures = signed ? contract.signatures.split(",") : []
+      contract.signed = signatures.includes(contract.seller.email)
+      if (
+        contract.seller.cpf != data.document ||
+        contract.seller.name != data.name ||
+        new Date(contract.seller.birth).getTime() != data.birth
+      )
+        contract = null
+      if (contract) contract.mail_list = [contract.seller.email]
     } else {
-        contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true }})
-        const signed = !!contract.signatures
-        const signatures = signed ? contract.signatures.split(',') : []
-        contract.signed = signatures.includes(contract.email)
-        if (contract) contract.mail_list = [contract.email]
-        console.log(new Date(contract.birth).getTime())
-        if (((contract.cpf != data.document) && (contract.cnpj != data.document)) || (contract.name != data.name) || (new Date(contract.birth).getTime() != data.birth)) contract = null
+      contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+      const signed = !!contract.signatures
+      const signatures = signed ? contract.signatures.split(",") : []
+      contract.signed = signatures.includes(contract.email)
+      if (contract) contract.mail_list = [contract.email]
+      console.log(new Date(contract.birth).getTime())
+      if (
+        (contract.cpf != data.document && contract.cnpj != data.document) ||
+        contract.name != data.name ||
+        new Date(contract.birth).getTime() != data.birth
+      )
+        contract = null
     }
 
     if (contract) contract.token = generateRandomNumber(5)
 
     console.log(contract)
-
 
     if (contract) {
         contract.rubric = data.rubric
