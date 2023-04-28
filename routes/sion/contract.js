@@ -403,7 +403,8 @@ router.post('/sign', async (request, response, next) => {
       // data 1 mes a partir de agora
       const data1m = new Date()
       data1m.setMonth(data1m.getMonth() + 1)
-      data.sign_limit = data1m.toLocaleDateString("pt-br")
+        data.sign_limit = data1m.toLocaleDateString("pt-br")
+        data.pessoa = contract.pessoa
 
       const signing = data.signing
       if (data.signing == "client") {
