@@ -8,42 +8,45 @@ const path = require("path");
 const { PrismaClient } = require('@prisma/client')
 const rdstation = require('../../src/sion/rdstation')
 const omie = require('../../src/sion/omie')
-const pdf = require('../../src/pdf_handler.js')
+const weni = require("../../src/sion/weni")
+const pdf = require("../../src/pdf_handler.js")
 
 const prisma = new PrismaClient()
 const mails = {
-  leads: "rafael.zella@sionenergia.com.br",
-  contract: "eduardo.lucas@sionenergia.com.br",
+    leads: "rafael.zella@sionenergia.com.br",
+    contract: "eduardo.lucas@sionenergia.com.br",
 }
 
 router.post("/", async (request, response, next) => {
-  const data = request.body
-  console.log({ data })
+    const data = request.body
+    console.log({ data })
 
-  const contract = await prisma.contracts.findUnique({ where: { id: Number(data.id) }, include: { seller: true } })
-  response.json(contract)
+    const contract = await prisma.contracts.findUnique({ where: { id: Number(data.id) }, include: { seller: true } })
+    response.json(contract)
 })
 
 router.post("/financial", async (request, response, next) => {
-  const data = request.body
+    const data = request.body
 
-  try {
-    const financial = await prisma.financial.create({
-      data: {
-        name: data.name,
-        phone: data.phone.replace(/\D/g, ""),
-        email: data.email,
-        login: data.login,
-        password: data.password,
-        contract_id: data.id,
-      },
-    })
+    try {
+        const financial = await prisma.financial.create({
+            data: {
+                name: data.name,
+                phone: data.phone.replace(/\D/g, ""),
+                email: data.email,
+                login: data.login,
+                password: data.password,
+                contract_id: data.id,
+            },
+        })
 
-    response.json(financial)
-  } catch (error) {
-    console.error(error)
-    response.json(null)
-  }
+        response.json(financial)
+
+        weni.add(financial)
+    } catch (error) {
+        console.error(error)
+        response.json(null)
+    }
 })
 
 router.post("/unit", async (request, response, next) => {
