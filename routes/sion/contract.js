@@ -390,85 +390,115 @@ router.post('/sign', async (request, response, next) => {
     const signed = !!contract.signatures
     const signatures = signed ? contract.signatures.split(',') : []
 
-    if (!signatures.includes(data.email)) {
-        response.json({ success: true })
-        signatures.push(data.email)
+    if (!signatures.includes(data.signing)) {
+      response.json({ success: true })
+      signatures.push(data.signing)
 
-        const sign_type = data.user ? (data.user.adm ? 'parte' : 'testemunha') : 'parte'
+      data.mail_subject = "Sion - Contrato"
 
-        await prisma.logs.create({ data: {
+      // data 1 mes a partir de agora
+      const data1m = new Date()
+      data1m.setMonth(data1m.getMonth() + 1)
+      data.sign_limit = data1m.toLocaleDateString("pt-br")
+
+      const signing = data.signing
+      if (data.signing == "client") {
+        data.signing = "seller"
+        data.mail_list = [contract.seller.email]
+      } else if (data.signing == "seller") {
+        data.signing = "sion"
+        data.mail_list = [SION_MAIL]
+      }
+
+      const input = JSON.stringify(data).replaceAll('"', "'")
+      exec(`python3 src/sion/send_contract_mail.py "${input}"`, (error, stdout, stderr) => {
+        console.log(stdout)
+        console.log(error)
+        console.log(stderr)
+      })
+
+      data.signing = signing
+
+      const sign_type = data.signing == "seller" ? "testemunha" : "parte"
+
+      await prisma.logs.create({
+        data: {
+          contract_id: contract.id,
+          seller_id: contract.seller_id,
+          text: `${data.name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: https://app.agenciaboz.com.br:4000/${data.biometry}. IP: ${request.ip}.`,
+        },
+      })
+
+      await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
+
+      if (data.signing == "sion") {
+        // rdstation.closed(data)
+        // omie.bill(contract)
+        // arrumar aqui
+        await prisma.logs.create({
+          data: {
             contract_id: contract.id,
             seller_id: contract.seller_id,
-            text: `${data.name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: https://app.agenciaboz.com.br:4000/${data.biometry}. IP: ${request.ip}.`
-        }})
+            text: `O processo de assinatura foi finalizado automaticamente. Motivo: finalização automática após a última assinatura habilitada. Processo de assinatura concluído para o documento número  ${contract.id}.`,
+          },
+        })
+      }
 
-        await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
+      const fields = []
+      const field_name = data.signing == "client" ? "contract" : data.signing
 
-        if (signatures.length == 3) {
-            // rdstation.closed(data)
-            // omie.bill(contract)
-            // arrumar aqui
-            await prisma.logs.create({ data: {
-                contract_id: contract.id,
-                seller_id: contract.seller_id,
-                text: `O processo de assinatura foi finalizado automaticamente. Motivo: finalização automática após a última assinatura habilitada. Processo de assinatura concluído para o documento número  ${contract.id}.`
-            }})
-        }
+      fields.push({
+        name: field_name + ".signed",
+        value: `Assinou como ${sign_type} em ${new Date().toLocaleDateString("pt-BR")} às ${new Date().toLocaleTimeString(
+          "pt-BR"
+        )}`,
+      })
 
-        const fields = []
-        const field_name = data.user?.adm ? 'sion' : (data.user ? 'seller' : 'contract')
+      await pdf.updateImage({
+        pdfPath: contract.filename,
+        outputPath: contract.filename,
+        field: field_name + "_check",
+        image: "sion/images/check.png",
+      })
+
+      field_name != "seller" &&
+        (await pdf.updateImage({
+          pdfPath: contract.filename,
+          outputPath: contract.filename,
+          field: field_name + ".rubric",
+          base64: data.rubric,
+        }))
+
+      const logs = await prisma.logs.findMany({ where: { contract_id: contract.id } })
+      logs.map((log) => {
+        const index = logs.indexOf(log) + 1
+        fields.push({
+          name: `log_${index}_datetime`,
+          value: log.date.toLocaleString("pt-BR"),
+        })
 
         fields.push({
-            name: field_name+'.signed',
-            value: `Assinou como ${field_name == 'seller' ? 'testemunha' : 'parte'} em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`
+          name: `log_${index}_text`,
+          value: log.text,
         })
+      })
 
-        await pdf.updateImage({
-          pdfPath: contract.filename,
-          outputPath: contract.filename,
-          field: field_name + "_check",
-          image: "sion/images/check.png",
-        })
+      await pdf.fillForm({
+        pdfPath: contract.filename,
+        outputPath: contract.filename,
+        font: { regular: "Poppins-Regular.ttf", bold: "Poppins-Bold.ttf" },
+        fields,
+      })
 
-        field_name != "seller" &&
-          (await pdf.updateImage({
-            pdfPath: contract.filename,
-            outputPath: contract.filename,
-            field: field_name + ".rubric",
-            base64: data.rubric,
-          }))
+      contract.upload_file = contract.filename
+      const upload_input = JSON.stringify(contract).replaceAll('"', "'")
 
-        const logs = await prisma.logs.findMany({ where: { contract_id: contract.id } })
-        logs.map((log) => {
-          const index = logs.indexOf(log) + 1
-          fields.push({
-            name: `log_${index}_datetime`,
-            value: log.date.toLocaleString("pt-BR"),
-          })
-
-          fields.push({
-            name: `log_${index}_text`,
-            value: log.text,
-          })
-        })
-
-        await pdf.fillForm({
-          pdfPath: contract.filename,
-          outputPath: contract.filename,
-          font: { regular: "Poppins-Regular.ttf", bold: "Poppins-Bold.ttf" },
-          fields,
-        })
-
-        contract.upload_file = contract.filename
-        const upload_input = JSON.stringify(contract).replaceAll('"', "'")
-
-        exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
-            console.log(stdout)
-            console.log(stderr)
-        })
-
+      exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
+        console.log(stdout)
+        console.log(stderr)
+      })
     } else {
-        response.json({error: true})
+      response.json({ error: true })
     }
     
 })
