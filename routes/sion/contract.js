@@ -414,6 +414,9 @@ router.post('/sign', async (request, response, next) => {
         data.mail_list = [SION_MAIL]
       }
 
+      console.log("......")
+      console.log(`sending contract to ${data.mail_list}`)
+      console.log("......")
       const input = JSON.stringify(data).replaceAll('"', "'")
       exec(`python3 src/sion/send_contract_mail.py "${input}"`, (error, stdout, stderr) => {
         console.log(stdout)
