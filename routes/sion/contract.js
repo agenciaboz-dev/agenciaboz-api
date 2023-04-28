@@ -11,7 +11,7 @@ const omie = require('../../src/sion/omie')
 const pdf = require('../../src/pdf_handler.js')
 
 const prisma = new PrismaClient()
-const SION_MAIL = 'leonardo@sionenergia.com.br'
+const SION_MAIL = "fernando.1998@alunos.utfpr.edu.br"
 
 router.post("/", async (request, response, next) => {
   const data = request.body
