@@ -53,7 +53,7 @@ router.post("/unit", async (request, response, next) => {
   const data = request.body
 
   const contract = await prisma.contracts.findUnique({
-    where: { unit: data.unit },
+      where: { unit: data.unit },
   })
 
   console.log()
