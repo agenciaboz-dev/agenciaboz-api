@@ -29,7 +29,7 @@ data = json.loads(data)
 
 print(data)
 
-contract_name = f"{data['company']}/{data['name']}" if data['pessoa'] == 'juridica' else data['name']
+contract_name = data['filename'].split('Contrato-')[1]
 contract_limit = data['sign_limit']
 
 template = f"""
@@ -735,7 +735,7 @@ template = f"""
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
-                            <div style="text-align: center;"><span style="font-size:24px">Contrato_{contract_name}_{data['date']}.pdf</span></div>
+                            <div style="text-align: center;"><span style="font-size:24px">{contract_name}</span></div>
 
                         </td>
                     </tr>
