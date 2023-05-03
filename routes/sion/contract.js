@@ -60,7 +60,7 @@ router.post("/unit", async (request, response, next) => {
 
     response.json(contract ? { error: "Unidade consumidora já cadastrada" } : { success: true })
 
-    if (!contract) {
+    if (data.seller && !contract) {
         const input = JSON.stringify(data).replaceAll('"', "'")
         const command = `python3 src/sion/unit.py "${input}"`
         console.log(command)
