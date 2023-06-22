@@ -279,7 +279,7 @@ router.post("/generate", async (request, response, next) => {
     // mapping contract to build every field from it's keys
     Object.entries(contract).map(([key, value]) => {
         if (key == "unit") {
-            fields.push({ name: key, value: value + contract.subunits ? ", " + contract.subunits : "" })
+            fields.push({ name: key, value: contract.unit + contract.subunits ? ", " + contract.subunits : "" })
         } else {
             fields.push({ name: key, value })
         }
