@@ -10,6 +10,7 @@ datasource db {
 model contracts {
     id          Int      @id @default(autoincrement())
     unit        String   @unique(map: "unit")
+    subunits    String?  @db.Text
     date        DateTime @db.Date
     ip          String
     pessoa      String   
@@ -31,6 +32,10 @@ model contracts {
     rg          String?
     filename    String?
     signatures  String?   
+    active      Boolean  @default(false)
+    archived    Boolean  @default(false)
+    reproved    Boolean  @default(false)
+    wrong       Boolean  @default(false)
     seller      users    @relation(fields: [seller_id], references: [id])
     seller_id   Int      
     rdstation   rdstation?
@@ -50,12 +55,20 @@ model users {
     email         String    @unique
     password      String
     name          String
+    phone         String    @default("4134221864")
     birth         DateTime  @db.Date
     cpf           String    @default("02576698506")
+    rg            String?    
+    address       String?    
+    number        String?    
+    district      String?    
+    cep           String?    
     adm           Boolean   @default(false)
     ip            String    @default("0.0.0.0")
     contracts     contracts[]
     logs          logs[]
+    texts         texts[]
+    images        images[]
 }
 
 model financial {
@@ -67,6 +80,11 @@ model financial {
     password    String?
     contract    contracts   @relation(fields: [contract_id], references: [id])
     contract_id Int         @unique
+}
+
+model settings {
+    id          Int         @id @default(autoincrement())
+    rate        Float       @default(1)
 }
 
 model rdstation {
@@ -91,4 +109,24 @@ model logs {
     contract_id     Int          
     seller          users       @relation(fields: [seller_id], references: [id])
     seller_id       Int         
+}
+
+model texts {
+    id              Int         @id @default(autoincrement())
+    section         Int
+    text            String      @db.Text()
+    date            DateTime    @default(now())
+    user            users       @relation(fields: [user_id], references: [id])
+    user_id         Int
+}
+
+model images {
+    id              Int         @id @default(autoincrement())
+    src             String      @db.Text
+    name            String
+    title           String
+    date            DateTime    @default(now())
+    user            users       @relation(fields: [user_id], references: [id])
+    user_id         Int         @default(2)
+    size            String      @default("1280x720")
 }
