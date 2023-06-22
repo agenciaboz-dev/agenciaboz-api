@@ -353,7 +353,7 @@ router.post("/confirm", async (request, response, next) => {
         contract.signed = signatures.includes(contract.seller.email)
         if (
             contract.seller.cpf != data.document ||
-            contract.seller.name != data.name ||
+            contract.seller.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
             new Date(contract.seller.birth).getTime() != data.birth
         )
             contract = null
@@ -367,7 +367,7 @@ router.post("/confirm", async (request, response, next) => {
         console.log(new Date(contract.birth).getTime())
         if (
             (contract.cpf != data.document && contract.cnpj != data.document) ||
-            contract.name != data.name ||
+            contract.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
             new Date(contract.birth).getTime() != data.birth
         )
             contract = null
