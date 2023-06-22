@@ -10,6 +10,7 @@ const rdstation = require('../../src/sion/rdstation')
 const omie = require('../../src/sion/omie')
 const weni = require("../../src/sion/weni")
 const pdf = require("../../src/pdf_handler.js")
+const { default: axios } = require("axios")
 
 const prisma = new PrismaClient()
 const mails = {
@@ -386,6 +387,12 @@ router.post("/confirm", async (request, response, next) => {
             console.log(error)
             console.log(stderr)
         })
+
+        if (data.signing == "client") {
+            axios
+                .post("https://app.agenciaboz.com.br:4101/api/whatsapp", { number: contract.phone, token: contract.token })
+                .then((response) => console.log(response.data))
+        }
 
         const uploadsDir = `documents/sion/${contract.unit}`
         if (!fs.existsSync(uploadsDir)) {
