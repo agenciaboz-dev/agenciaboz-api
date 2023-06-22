@@ -390,7 +390,10 @@ router.post("/confirm", async (request, response, next) => {
 
         if (data.signing == "client") {
             axios
-                .post("https://app.agenciaboz.com.br:4101/api/whatsapp", { number: contract.phone, token: contract.token })
+                .post("https://app.agenciaboz.com.br:4101/api/whatsapp/token", {
+                    number: contract.phone,
+                    token: contract.token,
+                })
                 .then((response) => console.log(response.data))
         }
 
