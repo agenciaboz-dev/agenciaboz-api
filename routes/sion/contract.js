@@ -200,6 +200,8 @@ router.post("/generate", async (request, response, next) => {
     const contract = await prisma.contracts.findUnique({ where: { unit: data.unit }, include: { seller: true } })
     // omie.bill(contract)
 
+    console.log(contract)
+
     contract.date = contract.date.toLocaleDateString("pt-BR")
 
     // Create an 'uploads' folder if it doesn't exist
