@@ -82,6 +82,7 @@ router.post("/lead", async (request, response, next) => {
         const contract = await prisma.contracts.create({
             data: {
                 unit: data.unit,
+                subunits: data.subunits,
                 date: data.date,
                 ip: request.ip,
                 pessoa: data.pessoa,
