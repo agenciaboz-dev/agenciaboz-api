@@ -488,7 +488,7 @@ router.post("/sign", async (request, response, next) => {
             data: {
                 contract_id: contract.id,
                 seller_id: contract.seller_id,
-                text: `${sign_name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${sign_email} CPF informado: ${sign_cpf}. Biometria Facial: https://app.agenciaboz.com.br:4000/${data.biometry}. IP: ${request.ip}.`,
+                text: `${sign_name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${sign_email} CPF informado: ${sign_cpf}. Documentação: https://app.agenciaboz.com.br:4000/${data.biometry}. IP: ${request.ip}.`,
             },
         })
 
