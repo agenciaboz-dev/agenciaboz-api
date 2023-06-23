@@ -288,7 +288,7 @@ router.post("/generate", async (request, response, next) => {
 
     // signatures
     fields.push({ name: "sion.name", value: "Sion Energia", bold: true })
-    fields.push({ name: "sion.cpf", value: "CPF: 90667476253" })
+    fields.push({ name: "sion.cpf", value: "CPF: 05003138903" })
     fields.push({ name: "seller.name", value: contract.seller.name, bold: true })
     fields.push({ name: "seller.cpf", value: `CPF: ${contract.seller.cpf}` })
     fields.push({ name: "contract.name", value: contract.name, bold: true })
@@ -482,7 +482,7 @@ router.post("/sign", async (request, response, next) => {
             data.signing == "seller" ? contract.seller.email : data.signing == "client" ? contract.email : mails.contract
 
         const sign_cpf =
-            data.signing == "seller" ? contract.seller.cpf : data.signing == "client" ? contract.cpf : "90667476253"
+            data.signing == "seller" ? contract.seller.cpf : data.signing == "client" ? contract.cpf : "05003138903"
 
         await prisma.logs.create({
             data: {
