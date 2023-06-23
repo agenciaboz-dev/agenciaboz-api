@@ -245,7 +245,7 @@ router.post("/generate", async (request, response, next) => {
             data: {
                 contract_id: contract.id,
                 seller_id: contract.seller_id,
-                text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.email} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`,
+                text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.email} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Documentação; Endereço de IP.`,
             },
         })
     )
@@ -255,7 +255,7 @@ router.post("/generate", async (request, response, next) => {
             data: {
                 contract_id: contract.id,
                 seller_id: contract.seller_id,
-                text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${mails.contract} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`,
+                text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${mails.contract} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Documentação; Endereço de IP.`,
             },
         })
     )
@@ -265,7 +265,7 @@ router.post("/generate", async (request, response, next) => {
             data: {
                 contract_id: contract.id,
                 seller_id: contract.seller_id,
-                text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.seller.email} para assinar como testemunha, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Biometria Facial; Endereço de IP.`,
+                text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.seller.email} para assinar como testemunha, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Documentação; Endereço de IP.`,
             },
         })
     )
