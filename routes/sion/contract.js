@@ -475,11 +475,20 @@ router.post("/sign", async (request, response, next) => {
 
         const sign_type = data.signing == "seller" ? "testemunha" : "parte"
 
+        const sign_name =
+            data.signing == "seller" ? contract.seller.name : data.signing == "client" ? contract.name : "Cooperativa Sion"
+
+        const sign_email =
+            data.signing == "seller" ? contract.seller.email : data.signing == "client" ? contract.email : mails.contract
+
+        const sign_cpf =
+            data.signing == "seller" ? contract.seller.cpf : data.signing == "client" ? contract.cpf : "90667476253"
+
         await prisma.logs.create({
             data: {
                 contract_id: contract.id,
                 seller_id: contract.seller_id,
-                text: `${data.name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${data.email} CPF informado: ${data.cpf}. Biometria Facial: https://app.agenciaboz.com.br:4000/${data.biometry}. IP: ${request.ip}.`,
+                text: `${sign_name} assinou como ${sign_type}. Pontos de autenticação: Token via E-mail ${sign_email} CPF informado: ${sign_cpf}. Biometria Facial: https://app.agenciaboz.com.br:4000/${data.biometry}. IP: ${request.ip}.`,
             },
         })
 
