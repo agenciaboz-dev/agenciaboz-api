@@ -329,7 +329,7 @@ router.post("/generate", async (request, response, next) => {
         console.log(stdout)
     })
 
-    const newContract = await prisma.contracts.update({ data: { filename }, where: { id: contract.id } })
+    const newContract = await prisma.contracts.update({ data: { filename }, where: { id: contract.id }, include: { seller: true, status: true } })
     io.emit("contract:new", newContract)
 })
 
@@ -496,7 +496,11 @@ router.post("/sign", async (request, response, next) => {
             },
         })
 
-        const newContract = await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
+        const newContract = await prisma.contracts.update({
+            where: { id: contract.id },
+            data: { signatures: signatures.toString() },
+            include: { seller: true, status: true },
+        })
         io.emit("contract:update", newContract)
 
         if (data.signing == "sion") {
