@@ -11,7 +11,7 @@ const omie = require('../../src/sion/omie')
 const weni = require("../../src/sion/weni")
 const pdf = require("../../src/pdf_handler.js")
 const { default: axios } = require("axios")
-const { io } = require("../../src/io")
+const io = require("../../src/io")
 
 const prisma = new PrismaClient()
 const mails = {
