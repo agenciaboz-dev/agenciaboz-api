@@ -330,6 +330,7 @@ router.post("/generate", async (request, response, next) => {
     })
 
     const newContract = await prisma.contracts.update({ data: { filename }, where: { id: contract.id }, include: { seller: true, status: true } })
+    newContract.status = { id: 1 }
     io.emit("contract:new", newContract)
 })
 
@@ -479,14 +480,11 @@ router.post("/sign", async (request, response, next) => {
 
         const sign_type = data.signing == "seller" ? "testemunha" : "parte"
 
-        const sign_name =
-            data.signing == "seller" ? contract.seller.name : data.signing == "client" ? contract.name : "Cooperativa Sion"
+        const sign_name = data.signing == "seller" ? contract.seller.name : data.signing == "client" ? contract.name : "Cooperativa Sion"
 
-        const sign_email =
-            data.signing == "seller" ? contract.seller.email : data.signing == "client" ? contract.email : mails.contract
+        const sign_email = data.signing == "seller" ? contract.seller.email : data.signing == "client" ? contract.email : mails.contract
 
-        const sign_cpf =
-            data.signing == "seller" ? contract.seller.cpf : data.signing == "client" ? contract.cpf : "05003138903"
+        const sign_cpf = data.signing == "seller" ? contract.seller.cpf : data.signing == "client" ? contract.cpf : "05003138903"
 
         await prisma.logs.create({
             data: {
@@ -501,6 +499,7 @@ router.post("/sign", async (request, response, next) => {
             data: { signatures: signatures.toString() },
             include: { seller: true, status: true },
         })
+        newContract.status = { id: 1 }
         io.emit("contract:update", newContract)
 
         if (data.signing == "sion") {
@@ -521,9 +520,7 @@ router.post("/sign", async (request, response, next) => {
 
         fields.push({
             name: field_name + ".signed",
-            value: `Assinou como ${sign_type} em ${new Date().toLocaleDateString(
-                "pt-BR"
-            )} às ${new Date().toLocaleTimeString("pt-BR")}`,
+            value: `Assinou como ${sign_type} em ${new Date().toLocaleDateString("pt-BR")} às ${new Date().toLocaleTimeString("pt-BR")}`,
         })
 
         await pdf.updateImage({
