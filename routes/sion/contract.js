@@ -11,6 +11,7 @@ const omie = require('../../src/sion/omie')
 const weni = require("../../src/sion/weni")
 const pdf = require("../../src/pdf_handler.js")
 const { default: axios } = require("axios")
+const { io } = require("../../src/io")
 
 const prisma = new PrismaClient()
 const mails = {
@@ -233,9 +234,7 @@ router.post("/generate", async (request, response, next) => {
                 seller_id: contract.seller_id,
                 text: `Operador com email ${contract.seller.email} criou este documento número ${
                     contract.id
-                }. Data limite para assinatura do documento: ${new Date(
-                    new Date().setMonth(data.date.getMonth() + 1)
-                ).toLocaleDateString("pt-BR")}.`,
+                }. Data limite para assinatura do documento: ${new Date(new Date().setMonth(data.date.getMonth() + 1)).toLocaleDateString("pt-BR")}.`,
             },
         })
     )
@@ -308,10 +307,9 @@ router.post("/generate", async (request, response, next) => {
         })
     })
 
-    const filename = `documents/sion/${contract.unit}/Contrato-${(contract.company || contract.name).replace(
-        / /g,
-        ""
-    )}-${data.date.toLocaleDateString("pt-BR").replace(/\//g, "_")}.pdf`
+    const filename = `documents/sion/${contract.unit}/Contrato-${(contract.company || contract.name).replace(/ /g, "")}-${data.date
+        .toLocaleDateString("pt-BR")
+        .replace(/\//g, "_")}.pdf`
 
     // filling pdf form
     await pdf.fillForm({
@@ -326,7 +324,8 @@ router.post("/generate", async (request, response, next) => {
         console.log(stdout)
     })
 
-    await prisma.contracts.update({ data: { filename }, where: { id: contract.id } })
+    const newContract = await prisma.contracts.update({ data: { filename }, where: { id: contract.id } })
+    io.emit("contract:new", newContract)
 })
 
 router.post("/confirm", async (request, response, next) => {
@@ -492,7 +491,8 @@ router.post("/sign", async (request, response, next) => {
             },
         })
 
-        await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
+        const newContract = await prisma.contracts.update({ where: { id: contract.id }, data: { signatures: signatures.toString() } })
+        io.emit("contract:update", newContract)
 
         if (data.signing == "sion") {
             rdstation.closed(data)

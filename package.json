@@ -26,7 +26,8 @@
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^3.5.141",
     "prisma": "^4.12.0",
-    "socket.io": "^4.5.2"
+    "socket.io": "^4.5.2",
+    "socket.io-client": "^4.7.1"
   },
   "devDependencies": {}
 }
