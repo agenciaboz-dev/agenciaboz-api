@@ -19,6 +19,11 @@ const mails = {
     contract: "eduardo.lucas@sionenergia.com.br",
 }
 
+router.get("/", async (request, response, next) => {
+    const connected = io.connected
+    response.json({ connected })
+})
+
 router.post("/", async (request, response, next) => {
     const data = request.body
     console.log({ data })
