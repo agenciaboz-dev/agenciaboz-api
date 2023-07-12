@@ -1,3 +1,5 @@
-const { io } = require("socket.io-client").io("wss://app.agenciaboz.com.br:4101")
+const { io } = require("socket.io-client")
 
-module.exports = io
+const socket = io("wss://app.agenciaboz.com.br:4101")
+
+module.exports = socket
