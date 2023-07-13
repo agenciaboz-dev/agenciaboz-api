@@ -329,9 +329,8 @@ router.post("/generate", async (request, response, next) => {
         console.log(stdout)
     })
 
-    const newContract = await prisma.contracts.update({ data: { filename }, where: { id: contract.id }, include: { seller: true, status: true } })
-    newContract.status = { id: 1 }
-    io.emit("contract:new", newContract)
+    const newContract = await prisma.contracts.update({ data: { filename }, where: { id: contract.id }, include: { seller: true } })
+    io.emit("contract:new", { ...newContract, status: { id: 1 } })
 })
 
 router.post("/confirm", async (request, response, next) => {
@@ -497,10 +496,9 @@ router.post("/sign", async (request, response, next) => {
         const newContract = await prisma.contracts.update({
             where: { id: contract.id },
             data: { signatures: signatures.toString() },
-            include: { seller: true, status: true },
+            include: { seller: true },
         })
-        newContract.status = { id: 1 }
-        io.emit("contract:update", newContract)
+        io.emit("contract:update", { ...newContract, status: { id: 1 } })
 
         if (data.signing == "sion") {
             rdstation.closed(data)
