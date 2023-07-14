@@ -80,6 +80,8 @@ router.post("/lead", async (request, response, next) => {
     const data = request.body
     data.date = new Date()
 
+    const splittedBirth = data.birth.split("/")
+
     if ("emails" in data) {
         data.email = data.emails.toString()
     }
@@ -94,7 +96,7 @@ router.post("/lead", async (request, response, next) => {
                 pessoa: data.pessoa,
                 supplier: data.supplier,
                 name: data.name,
-                birth: new Date(data.birth),
+                birth: new Date(`${splittedBirth[1]}/${splittedBirth[0]}/${splittedBirth[2]}`),
                 email: data.email,
                 phone: data.phone.replace(/\D/g, ""),
                 cep: data.cep.replace(/\D/g, ""),
