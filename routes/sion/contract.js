@@ -373,9 +373,9 @@ router.post("/confirm", async (request, response, next) => {
                 contract: {
                     birth: new Date(contract.seller.birth).getTime(),
                     name: contract.seller.name.trim().toLowerCase(),
-                    cpf: contract.seller.cpf,
+                    cpf: contract.seller.cpf.replace(/\D/g, ""),
                 },
-                confirm: { birth: data.birth, name: data.name.trim().toLowerCase(), cpf: data.document },
+                confirm: { birth: data.birth, name: data.name.trim().toLowerCase(), cpf: data.document.replace(/\D/g, "") },
             })
         contract = null
         if (contract) contract.mail_list = [contract.seller.email]
