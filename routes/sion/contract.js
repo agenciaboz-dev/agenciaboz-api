@@ -333,6 +333,7 @@ router.post("/generate", async (request, response, next) => {
     })
 
     const newContract = await prisma.contracts.update({ data: { filename }, where: { id: contract.id }, include: { seller: true } })
+    console.log({ newContract })
     if (newContract) io.emit("contract:new", { ...newContract, status: { id: 1 } })
 })
 
