@@ -401,18 +401,16 @@ router.post("/confirm", async (request, response, next) => {
         })
 
         if (data.signing == "client") {
-            console.log({ phone: contract.phone })
             axios
                 .post("https://app.agenciaboz.com.br:4101/api/whatsapp/token", {
-                    number: contract.phone,
+                    number: contract.phone.toString().replace(/\D/g, ""),
                     token: contract.token,
                 })
                 .then((response) => console.log(response.data))
         } else if (data.signing == "seller") {
-            console.log({ phone: contract.seller.phone })
             axios
                 .post("https://app.agenciaboz.com.br:4101/api/whatsapp/token", {
-                    number: contract.seller.phone,
+                    number: contract.seller.phone.toString().replace(/\D/g, ""),
                     token: contract.token,
                 })
                 .then((response) => console.log(response.data))
