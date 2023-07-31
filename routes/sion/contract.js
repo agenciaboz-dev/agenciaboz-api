@@ -426,7 +426,6 @@ router.post("/confirm", async (request, response, next) => {
         // Iterate through the files and save them
         Object.entries(files).forEach(([key, file]) => {
             const filePath = path.join(uploadsDir, file.name)
-            console.log(filePath)
             contract.upload_file = file.name
             contract.biometry = filePath
             file.mv(filePath, (err) => {
