@@ -365,7 +365,7 @@ router.post("/confirm", async (request, response, next) => {
         const signatures = signed ? contract.signatures.split(",") : []
         contract.signed = signatures.includes(contract.seller.email)
         if (
-            contract.seller.cpf != data.document ||
+            contract.seller.cpf.replace(/\D/g, "") != data.document.replace(/\D/g, "") ||
             contract.seller.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
             new Date(contract.seller.birth).getTime() != data.birth
         )
@@ -387,7 +387,8 @@ router.post("/confirm", async (request, response, next) => {
         if (contract) contract.mail_list = [contract.email]
         console.log(new Date(contract.birth).getTime())
         if (
-            (contract.cpf != data.document && contract.cnpj != data.document) ||
+            (contract.cpf.replace(/\D/g, "") != data.document.replace(/\D/g, "") &&
+                contract.cnpj.replace(/\D/g, "") != data.document.replace(/\D/g, "")) ||
             contract.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
             new Date(contract.birth).getTime() != data.birth
         )
