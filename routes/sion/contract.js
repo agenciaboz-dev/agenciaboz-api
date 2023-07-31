@@ -202,6 +202,7 @@ router.post("/send", async (request, response, next) => {
 router.post("/generate", async (request, response, next) => {
     const data = JSON.parse(request.body.data)
     data.date = new Date()
+    console.log({ data })
 
     const files = request.files
 
