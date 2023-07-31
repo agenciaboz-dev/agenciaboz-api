@@ -365,7 +365,7 @@ router.post("/confirm", async (request, response, next) => {
         const signatures = signed ? contract.signatures.split(",") : []
         contract.signed = signatures.includes(contract.seller.email)
         if (
-            contract.seller.cpf.replace(/\D/g, "") != data.document.replace(/\D/g, "") ||
+            contract.seller.cpf.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "") ||
             contract.seller.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
             new Date(contract.seller.birth).getTime() != data.birth
         )
@@ -373,9 +373,9 @@ router.post("/confirm", async (request, response, next) => {
                 contract: {
                     birth: new Date(contract.seller.birth).getTime(),
                     name: contract.seller.name.trim().toLowerCase(),
-                    cpf: contract.seller.cpf.replace(/\D/g, ""),
+                    cpf: contract.seller.cpf.toString().replace(/\D/g, ""),
                 },
-                confirm: { birth: data.birth, name: data.name.trim().toLowerCase(), cpf: data.document.replace(/\D/g, "") },
+                confirm: { birth: data.birth, name: data.name.trim().toLowerCase(), cpf: data.document.toString().replace(/\D/g, "") },
             })
         contract = null
         if (contract) contract.mail_list = [contract.seller.email]
@@ -387,8 +387,8 @@ router.post("/confirm", async (request, response, next) => {
         if (contract) contract.mail_list = [contract.email]
         console.log(new Date(contract.birth).getTime())
         if (
-            (contract.cpf.replace(/\D/g, "") != data.document.replace(/\D/g, "") &&
-                contract.cnpj.replace(/\D/g, "") != data.document.replace(/\D/g, "")) ||
+            (contract.cpf.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "") &&
+                contract.cnpj.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "")) ||
             contract.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
             new Date(contract.birth).getTime() != data.birth
         )
