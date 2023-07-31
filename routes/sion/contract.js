@@ -364,20 +364,20 @@ router.post("/confirm", async (request, response, next) => {
         const signed = !!contract.signatures
         const signatures = signed ? contract.signatures.split(",") : []
         contract.signed = signatures.includes(contract.seller.email)
+        console.log({
+            contract: {
+                birth: new Date(contract.seller.birth).getTime(),
+                name: contract.seller.name.trim().toLowerCase(),
+                cpf: contract.seller.cpf.toString().replace(/\D/g, ""),
+            },
+            confirm: { birth: data.birth, name: data.name.trim().toLowerCase(), cpf: data.document.toString().replace(/\D/g, "") },
+        })
         if (
             contract.seller.cpf.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "") ||
             contract.seller.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
             new Date(contract.seller.birth).getTime() != data.birth
         )
-            console.log({
-                contract: {
-                    birth: new Date(contract.seller.birth).getTime(),
-                    name: contract.seller.name.trim().toLowerCase(),
-                    cpf: contract.seller.cpf.toString().replace(/\D/g, ""),
-                },
-                confirm: { birth: data.birth, name: data.name.trim().toLowerCase(), cpf: data.document.toString().replace(/\D/g, "") },
-            })
-        contract = null
+            contract = null
         if (contract) contract.mail_list = [contract.seller.email]
     } else {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
