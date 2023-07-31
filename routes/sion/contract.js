@@ -332,7 +332,7 @@ router.post("/generate", async (request, response, next) => {
     })
 
     const newContract = await prisma.contracts.update({ data: { filename }, where: { id: contract.id }, include: { seller: true } })
-    io.emit("contract:new", { ...newContract, status: { id: 1 } })
+    if (newContract) io.emit("contract:new", { ...newContract, status: { id: 1 } })
 })
 
 router.post("/confirm", async (request, response, next) => {
