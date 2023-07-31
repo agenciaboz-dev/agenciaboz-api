@@ -346,7 +346,7 @@ router.post("/confirm", async (request, response, next) => {
     data.id = parseInt(data.id)
     data.document = data.document.replace(/\D/g, "")
     data.birth = new Date(data.birth).getTime()
-    console.log(data)
+    // console.log(data)
 
     const files = request.files
 
@@ -370,7 +370,7 @@ router.post("/confirm", async (request, response, next) => {
             new Date(contract.seller.birth).getTime() != data.birth
         )
             console.log({ contract: new Date(contract.seller.birth).getTime(), confirm: data.birth })
-            contract = null
+        contract = null
         if (contract) contract.mail_list = [contract.seller.email]
     } else {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
