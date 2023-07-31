@@ -348,7 +348,6 @@ router.post("/confirm", async (request, response, next) => {
     data.id = parseInt(data.id)
     data.document = data.document.replace(/\D/g, "")
     data.birth = new Date(data.birth).getTime()
-    // console.log(data)
 
     const files = request.files
 
@@ -366,14 +365,6 @@ router.post("/confirm", async (request, response, next) => {
         const signed = !!contract.signatures
         const signatures = signed ? contract.signatures.split(",") : []
         contract.signed = signatures.includes(contract.seller.email)
-        console.log({
-            contract: {
-                birth: new Date(contract.seller.birth).getTime(),
-                name: contract.seller.name.trim().toLowerCase(),
-                cpf: contract.seller.cpf.toString().replace(/\D/g, ""),
-            },
-            confirm: { birth: data.birth, name: data.name.trim().toLowerCase(), cpf: data.document.toString().replace(/\D/g, "") },
-        })
         if (
             contract.seller.cpf.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "") ||
             contract.seller.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
@@ -387,7 +378,6 @@ router.post("/confirm", async (request, response, next) => {
         const signatures = signed ? contract.signatures.split(",") : []
         contract.signed = signatures.includes(contract.email)
         if (contract) contract.mail_list = [contract.email]
-        console.log(new Date(contract.birth).getTime())
         if (
             (contract.cpf.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "") &&
                 contract.cnpj.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "")) ||
@@ -398,8 +388,6 @@ router.post("/confirm", async (request, response, next) => {
     }
 
     if (contract) contract.token = generateRandomNumber(5)
-
-    console.log(contract)
 
     if (contract) {
         contract.rubric = data.rubric
@@ -419,13 +407,14 @@ router.post("/confirm", async (request, response, next) => {
                     token: contract.token,
                 })
                 .then((response) => console.log(response.data))
-        } else if(data.signing == 'seller') {
+        } else if (data.signing == "seller") {
+            console.log({ phone: contract.seller.phone })
             axios
-            .post("https://app.agenciaboz.com.br:4101/api/whatsapp/token", {
-                number: contract.seller.phone,
-                token: contract.token,
-            })
-            .then((response) => console.log(response.data))
+                .post("https://app.agenciaboz.com.br:4101/api/whatsapp/token", {
+                    number: contract.seller.phone,
+                    token: contract.token,
+                })
+                .then((response) => console.log(response.data))
         }
 
         const uploadsDir = `documents/sion/${contract.unit}`
