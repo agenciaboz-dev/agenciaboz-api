@@ -369,6 +369,7 @@ router.post("/confirm", async (request, response, next) => {
             contract.seller.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
             new Date(contract.seller.birth).getTime() != data.birth
         )
+            console.log({ contract: new Date(contract.seller.birth).getTime(), confirm: data.birth })
             contract = null
         if (contract) contract.mail_list = [contract.seller.email]
     } else {
