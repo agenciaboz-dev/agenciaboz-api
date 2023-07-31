@@ -417,6 +417,13 @@ router.post("/confirm", async (request, response, next) => {
                     token: contract.token,
                 })
                 .then((response) => console.log(response.data))
+        } else if(data.signing == 'seller') {
+            axios
+            .post("https://app.agenciaboz.com.br:4101/api/whatsapp/token", {
+                number: contract.seller.phone,
+                token: contract.token,
+            })
+            .then((response) => console.log(response.data))
         }
 
         const uploadsDir = `documents/sion/${contract.unit}`
