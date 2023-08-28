@@ -395,13 +395,15 @@ router.post("/confirm", async (request, response, next) => {
         contract.mail_subject = contract.token + " - Token de autenticação - Sion - Contrato"
         const input = JSON.stringify(contract).replaceAll('"', "'")
         exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
-            console.log(stdout)
-            console.log(error)
-            console.log(stderr)
+            // console.log(stdout)
+            // console.log(error)
+            // console.log(stderr)
         })
 
         let dateLimit = newDate(contract.date)
+        console.log(dateLimit)
         dateLimit.setMonth(dateLimit.getMonth() + 1)
+        console.log(dateLimit)
 
         if (data.signing == "client") {
             axios
@@ -411,7 +413,7 @@ router.post("/confirm", async (request, response, next) => {
                     name: contract.name,
                     limit: dateLimit,
                 })
-                .then((response) => console.log(response.data))
+                .then((response) => {})
         } else if (data.signing == "seller") {
             axios
                 .post("https://app.agenciaboz.com.br:4101/api/whatsapp/token", {
@@ -420,7 +422,7 @@ router.post("/confirm", async (request, response, next) => {
                     name: contract.seller.name,
                     limit: dateLimit,
                 })
-                .then((response) => console.log(response.data))
+                .then((response) => {})
         }
 
         const uploadsDir = `documents/sion/${contract.unit}`
