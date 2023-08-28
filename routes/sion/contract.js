@@ -400,7 +400,7 @@ router.post("/confirm", async (request, response, next) => {
             // console.log(stderr)
         })
 
-        let dateLimit = newDate(contract.date)
+        let dateLimit = new Date(contract.date)
         console.log(dateLimit)
         dateLimit.setMonth(dateLimit.getMonth() + 1)
         console.log(dateLimit)
