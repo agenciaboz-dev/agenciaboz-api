@@ -400,11 +400,16 @@ router.post("/confirm", async (request, response, next) => {
             console.log(stderr)
         })
 
+        let dateLimit = newDate(contract.date)
+        dateLimit.setMonth(dateLimit.getMonth() + 1)
+
         if (data.signing == "client") {
             axios
                 .post("https://app.agenciaboz.com.br:4101/api/whatsapp/token", {
                     number: contract.phone.toString().replace(/\D/g, ""),
                     token: contract.token,
+                    name: contract.name,
+                    limit: dateLimit,
                 })
                 .then((response) => console.log(response.data))
         } else if (data.signing == "seller") {
@@ -412,6 +417,8 @@ router.post("/confirm", async (request, response, next) => {
                 .post("https://app.agenciaboz.com.br:4101/api/whatsapp/token", {
                     number: contract.seller.phone.toString().replace(/\D/g, ""),
                     token: contract.token,
+                    name: contract.seller.name,
+                    limit: dateLimit,
                 })
                 .then((response) => console.log(response.data))
         }
