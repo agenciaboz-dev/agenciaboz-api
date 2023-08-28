@@ -411,7 +411,7 @@ router.post("/confirm", async (request, response, next) => {
                     number: contract.phone.toString().replace(/\D/g, ""),
                     token: contract.token,
                     name: contract.name,
-                    limit: dateLimit,
+                    limit: dateLimit.toLocaleDateString("pt-br"),
                 })
                 .then((response) => {})
         } else if (data.signing == "seller") {
@@ -420,7 +420,7 @@ router.post("/confirm", async (request, response, next) => {
                     number: contract.seller.phone.toString().replace(/\D/g, ""),
                     token: contract.token,
                     name: contract.seller.name,
-                    limit: dateLimit,
+                    limit: dateLimit.toLocaleDateString("pt-br"),
                 })
                 .then((response) => {})
         }
