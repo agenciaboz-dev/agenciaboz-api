@@ -215,6 +215,7 @@ router.post("/generate", async (request, response, next) => {
     const files = request.files
 
     const contract = await prisma.contracts.findUnique({ where: { unit: data.unit }, include: { seller: true } })
+    const fernanda = await prisma.users.findFirst({ where: { username: "fernanda" } })
     // omie.bill(contract)
 
     console.log(contract)
@@ -280,7 +281,7 @@ router.post("/generate", async (request, response, next) => {
             data: {
                 contract_id: contract.id,
                 seller_id: contract.seller_id,
-                text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${contract.seller.email} para assinar como testemunha, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Documentação; Endereço de IP.`,
+                text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${fernanda.email} para assinar como testemunha, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Documentação; Endereço de IP.`,
             },
         })
     )
@@ -304,8 +305,8 @@ router.post("/generate", async (request, response, next) => {
     // signatures
     fields.push({ name: "sion.name", value: "Sion Energia", bold: true })
     fields.push({ name: "sion.cpf", value: "CPF: 05003138903" })
-    fields.push({ name: "seller.name", value: contract.seller.name, bold: true })
-    fields.push({ name: "seller.cpf", value: `CPF: ${contract.seller.cpf}` })
+    fields.push({ name: "seller.name", value: fernanda.name, bold: true })
+    fields.push({ name: "seller.cpf", value: `CPF: ${fernanda.cpf}` })
     fields.push({ name: "contract.name", value: contract.name, bold: true })
     fields.push({ name: "contract.cpf", value: `CPF: ${contract.cpf}` })
 
@@ -346,13 +347,15 @@ router.post("/generate", async (request, response, next) => {
 
     axios
         .post("https://app.agenciaboz.com.br:4101/api/whatsapp/new", {
-            number: newContract.seller.phone.toString().replace(/\D/g, ""),
+            number: fernanda.phone.toString().replace(/\D/g, ""),
             id: newContract.id,
         })
         .then((response) => {})
 })
 
 router.post("/confirm", async (request, response, next) => {
+    const fernanda = await prisma.users.findFirst({ where: { username: "fernanda" } })
+
     const generateRandomNumber = (length) => {
         const min = Math.pow(10, length - 1)
         const max = Math.pow(10, length) - 1
@@ -381,12 +384,12 @@ router.post("/confirm", async (request, response, next) => {
         const signatures = signed ? contract.signatures.split(",") : []
         contract.signed = signatures.includes(contract.seller.email)
         if (
-            contract.seller.cpf.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "") ||
-            contract.seller.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
-            new Date(contract.seller.birth).getTime() != data.birth
+            fernanda.cpf.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "") ||
+            fernanda.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
+            new Date(fernanda.birth).getTime() != data.birth
         )
             contract = null
-        if (contract) contract.mail_list = [contract.seller.email]
+        if (contract) contract.mail_list = [fernanda.email]
     } else {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
         const signed = !!contract.signatures
@@ -432,9 +435,9 @@ router.post("/confirm", async (request, response, next) => {
         } else if (data.signing == "seller") {
             axios
                 .post("https://app.agenciaboz.com.br:4101/api/whatsapp/token", {
-                    number: contract.seller.phone.toString().replace(/\D/g, ""),
+                    number: fernanda.phone.toString().replace(/\D/g, ""),
                     token: contract.token,
-                    name: contract.seller.name,
+                    name: fernanda.name,
                     limit: dateLimit.toLocaleDateString("pt-br"),
                 })
                 .then((response) => {})
@@ -471,6 +474,7 @@ router.post("/sign", async (request, response, next) => {
     const data = request.body
 
     const contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
+    const fernanda = await prisma.users.findFirst({ where: { username: "fernanda" } })
     const signed = !!contract.signatures
     const signatures = signed ? contract.signatures.split(",") : []
 
@@ -490,16 +494,15 @@ router.post("/sign", async (request, response, next) => {
         const signing = data.signing
         if (data.signing == "client") {
             data.signing = "seller"
-            data.mail_list = [contract.seller.email]
+            data.mail_list = [fernanda.email]
             axios
                 .post("https://app.agenciaboz.com.br:4101/api/whatsapp/contract", {
-                    number: contract.seller.phone.toString().replace(/\D/g, ""),
+                    number: fernanda.phone.toString().replace(/\D/g, ""),
                     limit: data.sign_limit,
                     link: `https://adesao.cooperativasion.com.br/contract/${contract.id}/client`,
-                    signing: contract.seller.email,
+                    signing: fernanda.email,
                 })
                 .then((response) => {})
-            
         } else if (data.signing == "seller") {
             data.signing = "sion"
             data.mail_list = [mails.contract]
@@ -519,13 +522,13 @@ router.post("/sign", async (request, response, next) => {
 
         const sign_type = data.signing == "seller" ? "testemunha" : "parte"
 
-        const sign_name = data.signing == "seller" ? contract.seller.name : data.signing == "client" ? contract.name : "Cooperativa Sion"
+        const sign_name = data.signing == "seller" ? fernanda.name : data.signing == "client" ? contract.name : "Cooperativa Sion"
 
-        const sign_email = data.signing == "seller" ? contract.seller.email : data.signing == "client" ? contract.email : mails.contract
+        const sign_email = data.signing == "seller" ? fernanda.email : data.signing == "client" ? contract.email : mails.contract
 
-        const sign_cpf = data.signing == "seller" ? contract.seller.cpf : data.signing == "client" ? contract.cpf : "05003138903"
+        const sign_cpf = data.signing == "seller" ? fernanda.cpf : data.signing == "client" ? contract.cpf : "05003138903"
 
-        const sign_phone = data.signing == "seller" ? contract.seller.phone : data.signing == "client" ? contract.phone : "41984556795"
+        const sign_phone = data.signing == "seller" ? fernanda.phone : data.signing == "client" ? contract.phone : "41984556795"
 
         axios
             .post("https://app.agenciaboz.com.br:4101/api/whatsapp/signed", {
