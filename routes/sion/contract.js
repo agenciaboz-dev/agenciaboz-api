@@ -189,6 +189,14 @@ router.post("/send", async (request, response, next) => {
     mail_list.map((mail) => {
         data.mail_list = [mail]
         data.signing = "client"
+        axios
+            .post("https://app.agenciaboz.com.br:4101/api/whatsapp/contract", {
+                number: contract.phone.toString().replace(/\D/g, ""),
+                signing: contract.email,
+                link: `https://adesao.cooperativasion.com.br/contract/${contract.id}/client`,
+                limit: data.sign_limit,
+            })
+            .then((response) => {})
 
         const input = JSON.stringify(data).replaceAll('"', "'")
         exec(`python3 src/sion/send_contract_mail.py "${input}"`, (error, stdout, stderr) => {
@@ -335,6 +343,13 @@ router.post("/generate", async (request, response, next) => {
     const newContract = await prisma.contracts.update({ data: { filename }, where: { id: contract.id }, include: { seller: true } })
     console.log({ newContract })
     if (newContract) io.emit("contract:new", { ...newContract, status: { id: 1 } })
+
+    axios
+        .post("https://app.agenciaboz.com.br:4101/api/whatsapp/new", {
+            number: newContract.seller.phone.toString().replace(/\D/g, ""),
+            id: newContract.id,
+        })
+        .then((response) => {})
 })
 
 router.post("/confirm", async (request, response, next) => {
@@ -476,10 +491,25 @@ router.post("/sign", async (request, response, next) => {
         if (data.signing == "client") {
             data.signing = "seller"
             data.mail_list = [contract.seller.email]
+            axios
+                .post("https://app.agenciaboz.com.br:4101/api/whatsapp/signed", {
+                    number: contract.phone.toString().replace(/\D/g, ""),
+                    id: contract.id,
+                    signing: contract.email,
+                })
+                .then((response) => {})
         } else if (data.signing == "seller") {
             data.signing = "sion"
             data.mail_list = [mails.contract]
+            axios
+                .post("https://app.agenciaboz.com.br:4101/api/whatsapp/signed", {
+                    number: contract.seller.phone.toString().replace(/\D/g, ""),
+                    id: contract.id,
+                    signing: contract.seller.email,
+                })
+                .then((response) => {})
         }
+
 
         console.log("......")
         console.log(`sending contract to ${data.mail_list}`)
