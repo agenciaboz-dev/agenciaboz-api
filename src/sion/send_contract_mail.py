@@ -692,7 +692,7 @@ template = f"""
                     <tbody>
                         <tr>
                             <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Arial; font-size: 16px; padding: 12px;">
-                                <a class="mcnButton " title="Ver documento" href="https://vendas.cooperativasion.com.br/contract/{data['id']}/{data['signing']}" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;cursor: pointer">Ver documento</a>
+                                <a class="mcnButton " title="Ver documento" href="https://adesao.cooperativasion.com.br/contract/{data['id']}/{data['signing']}" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;cursor: pointer">Ver documento</a>
                             </td>
                         </tr>
                     </tbody>
