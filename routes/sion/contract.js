@@ -491,25 +491,10 @@ router.post("/sign", async (request, response, next) => {
         if (data.signing == "client") {
             data.signing = "seller"
             data.mail_list = [contract.seller.email]
-            axios
-                .post("https://app.agenciaboz.com.br:4101/api/whatsapp/signed", {
-                    number: contract.phone.toString().replace(/\D/g, ""),
-                    id: contract.id,
-                    signing: contract.email,
-                })
-                .then((response) => {})
         } else if (data.signing == "seller") {
             data.signing = "sion"
             data.mail_list = [mails.contract]
-            axios
-                .post("https://app.agenciaboz.com.br:4101/api/whatsapp/signed", {
-                    number: contract.seller.phone.toString().replace(/\D/g, ""),
-                    id: contract.id,
-                    signing: contract.seller.email,
-                })
-                .then((response) => {})
         }
-
 
         console.log("......")
         console.log(`sending contract to ${data.mail_list}`)
@@ -530,6 +515,22 @@ router.post("/sign", async (request, response, next) => {
         const sign_email = data.signing == "seller" ? contract.seller.email : data.signing == "client" ? contract.email : mails.contract
 
         const sign_cpf = data.signing == "seller" ? contract.seller.cpf : data.signing == "client" ? contract.cpf : "05003138903"
+
+        const sign_phone = data.signing == "seller" ? contract.seller.phone : data.signing == "client" ? contract.phone : "41984556795"
+
+        console.log({
+            number: sign_phone.toString().replace(/\D/g, ""),
+            id: contract.id,
+            signing: sign_email,
+        })
+
+        axios
+            .post("https://app.agenciaboz.com.br:4101/api/whatsapp/signed", {
+                number: sign_phone.toString().replace(/\D/g, ""),
+                id: contract.id,
+                signing: sign_email,
+            })
+            .then((response) => {})
 
         await prisma.logs.create({
             data: {
@@ -607,8 +608,8 @@ router.post("/sign", async (request, response, next) => {
         const upload_input = JSON.stringify(contract).replaceAll('"', "'")
 
         exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
-            console.log(stdout)
-            console.log(stderr)
+            // console.log(stdout)
+            // console.log(stderr)
         })
     } else {
         response.json({ error: true })
