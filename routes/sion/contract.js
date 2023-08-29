@@ -491,6 +491,15 @@ router.post("/sign", async (request, response, next) => {
         if (data.signing == "client") {
             data.signing = "seller"
             data.mail_list = [contract.seller.email]
+            axios
+                .post("https://app.agenciaboz.com.br:4101/api/whatsapp/contract", {
+                    number: contract.seller.phone.toString().replace(/\D/g, ""),
+                    limit: data.sign_limit,
+                    link: `https://adesao.cooperativasion.com.br/contract/${contract.id}/client`,
+                    signing: contract.seller.email,
+                })
+                .then((response) => {})
+            
         } else if (data.signing == "seller") {
             data.signing = "sion"
             data.mail_list = [mails.contract]
@@ -517,12 +526,6 @@ router.post("/sign", async (request, response, next) => {
         const sign_cpf = data.signing == "seller" ? contract.seller.cpf : data.signing == "client" ? contract.cpf : "05003138903"
 
         const sign_phone = data.signing == "seller" ? contract.seller.phone : data.signing == "client" ? contract.phone : "41984556795"
-
-        console.log({
-            number: sign_phone.toString().replace(/\D/g, ""),
-            id: contract.id,
-            signing: sign_email,
-        })
 
         axios
             .post("https://app.agenciaboz.com.br:4101/api/whatsapp/signed", {
