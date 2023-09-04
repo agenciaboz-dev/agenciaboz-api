@@ -412,11 +412,11 @@ router.post("/confirm", async (request, response, next) => {
         contract.template = "token"
         contract.mail_subject = contract.token + " - Token de autenticação - Sion - Contrato"
         const input = JSON.stringify(contract).replaceAll('"', "'")
-        exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
-            // console.log(stdout)
-            // console.log(error)
-            // console.log(stderr)
-        })
+        // exec(`python3 src/sion/send_mail.py "${input}"`, (error, stdout, stderr) => {
+        //     // console.log(stdout)
+        //     // console.log(error)
+        //     // console.log(stderr)
+        // })
 
         let dateLimit = new Date(contract.date)
         console.log(dateLimit)
