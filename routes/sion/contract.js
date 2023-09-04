@@ -199,11 +199,11 @@ router.post("/send", async (request, response, next) => {
             .then((response) => {})
 
         const input = JSON.stringify(data).replaceAll('"', "'")
-        exec(`python3 src/sion/send_contract_mail.py "${input}"`, (error, stdout, stderr) => {
-            console.log(stdout)
-            console.log(error)
-            console.log(stderr)
-        })
+        // exec(`python3 src/sion/send_contract_mail.py "${input}"`, (error, stdout, stderr) => {
+        //     console.log(stdout)
+        //     console.log(error)
+        //     console.log(stderr)
+        // })
     })
 })
 
