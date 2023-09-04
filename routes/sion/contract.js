@@ -499,7 +499,7 @@ router.post("/sign", async (request, response, next) => {
                 .post("https://app.agenciaboz.com.br:4101/api/whatsapp/contract", {
                     number: fernanda.phone.toString().replace(/\D/g, ""),
                     limit: data.sign_limit,
-                    link: `https://adesao.cooperativasion.com.br/contract/${contract.id}/client`,
+                    link: `https://adesao.cooperativasion.com.br/contract/${contract.id}/seller`,
                     signing: fernanda.email,
                 })
                 .then((response) => {})
