@@ -532,7 +532,7 @@ router.post("/sign", async (request, response, next) => {
                 .post("https://app.agenciaboz.com.br:4101/api/whatsapp/contract", {
                     number: eduardo.phone.toString().replace(/\D/g, ""),
                     limit: data.sign_limit,
-                    link: `https://adesao.cooperativasion.com.br/contract/${contract.id}/seller`,
+                    link: `https://adesao.cooperativasion.com.br/contract/${contract.id}/sion`,
                     signing: eduardo.email,
                 })
                 .then((response) => {})
