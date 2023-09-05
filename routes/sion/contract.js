@@ -216,6 +216,7 @@ router.post("/generate", async (request, response, next) => {
 
     const contract = await prisma.contracts.findUnique({ where: { unit: data.unit }, include: { seller: true } })
     const fernanda = await prisma.users.findFirst({ where: { username: "fernanda" } })
+    const eduardo = await prisma.users.findFirst({ where: { username: "els" } })
     // omie.bill(contract)
 
     console.log(contract)
@@ -271,7 +272,7 @@ router.post("/generate", async (request, response, next) => {
             data: {
                 contract_id: contract.id,
                 seller_id: contract.seller_id,
-                text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${mails.contract} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Documentação; Endereço de IP.`,
+                text: `Operador com email ${contract.seller.email} adicionou à Lista de Assinatura:  ${eduardo.email} para assinar como parte, via E-mail, com os pontos de autenticação: Token via E-mail; Nome Completo; CPF; Documentação; Endereço de IP.`,
             },
         })
     )
@@ -356,6 +357,7 @@ router.post("/generate", async (request, response, next) => {
 
 router.post("/confirm", async (request, response, next) => {
     const fernanda = await prisma.users.findFirst({ where: { username: "fernanda" } })
+    const eduardo = await prisma.users.findFirst({ where: { username: "els" } })
 
     const generateRandomNumber = (length) => {
         const min = Math.pow(10, length - 1)
@@ -378,7 +380,13 @@ router.post("/confirm", async (request, response, next) => {
         const signed = !!contract.signatures
         const signatures = signed ? contract.signatures.split(",") : []
         contract.signed = signatures.includes(user.email)
-        if (contract) contract.mail_list = [mails.contract]
+        if (
+            eduardo.cpf.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "") ||
+            eduardo.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
+            new Date(eduardo.birth).getTime() != data.birth
+        )
+            contract = null
+        if (contract) contract.mail_list = [eduardo.email]
     } else if (data.signing == "seller") {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
         const signed = !!contract.signatures
@@ -444,6 +452,16 @@ router.post("/confirm", async (request, response, next) => {
                     limit: dateLimit.toLocaleDateString("pt-br"),
                 })
                 .then((response) => {})
+        } else if (data.signing == "sion") {
+            axios
+                .post("https://app.agenciaboz.com.br:4101/api/whatsapp/token", {
+                    number: eduardo.phone.toString().replace(/\D/g, ""),
+                    token: contract.token,
+                    name: eduardo.name,
+                    signing: eduardo.email,
+                    limit: dateLimit.toLocaleDateString("pt-br"),
+                })
+                .then((response) => {})
         }
 
         const uploadsDir = `documents/sion/${contract.unit}`
@@ -478,6 +496,7 @@ router.post("/sign", async (request, response, next) => {
 
     const contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
     const fernanda = await prisma.users.findFirst({ where: { username: "fernanda" } })
+    const eduardo = await prisma.users.findFirst({ where: { username: "els" } })
     const signed = !!contract.signatures
     const signatures = signed ? contract.signatures.split(",") : []
 
@@ -508,7 +527,15 @@ router.post("/sign", async (request, response, next) => {
                 .then((response) => {})
         } else if (data.signing == "seller") {
             data.signing = "sion"
-            data.mail_list = [mails.contract]
+            data.mail_list = [eduardo.email]
+            axios
+                .post("https://app.agenciaboz.com.br:4101/api/whatsapp/contract", {
+                    number: eduardo.phone.toString().replace(/\D/g, ""),
+                    limit: data.sign_limit,
+                    link: `https://adesao.cooperativasion.com.br/contract/${contract.id}/seller`,
+                    signing: eduardo.email,
+                })
+                .then((response) => {})
         }
 
         console.log("......")
@@ -527,7 +554,7 @@ router.post("/sign", async (request, response, next) => {
 
         const sign_name = data.signing == "seller" ? fernanda.name : data.signing == "client" ? contract.name : "Cooperativa Sion"
 
-        const sign_email = data.signing == "seller" ? fernanda.email : data.signing == "client" ? contract.email : mails.contract
+        const sign_email = data.signing == "seller" ? fernanda.email : data.signing == "client" ? contract.email : eduardo.email
 
         const sign_cpf = data.signing == "seller" ? fernanda.cpf : data.signing == "client" ? contract.cpf : "05003138903"
 
