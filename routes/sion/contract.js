@@ -221,7 +221,9 @@ router.post("/generate", async (request, response, next) => {
 
     console.log(contract)
 
-    contract.date = contract.date.toLocaleDateString("pt-BR")
+    const date = new Date(contract.date.getTime())
+    date.setDate(date.getDate() + 1)
+    contract.date = date.toLocaleDateString("pt-BR")
 
     // Create an 'uploads' folder if it doesn't exist
     const uploadsDir = `documents/sion/${contract.unit}`
