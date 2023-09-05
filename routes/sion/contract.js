@@ -429,6 +429,7 @@ router.post("/confirm", async (request, response, next) => {
                     number: contract.phone.toString().replace(/\D/g, ""),
                     token: contract.token,
                     name: contract.name,
+                    signing: contract.email,
                     limit: dateLimit.toLocaleDateString("pt-br"),
                 })
                 .then((response) => {})
@@ -438,6 +439,7 @@ router.post("/confirm", async (request, response, next) => {
                     number: fernanda.phone.toString().replace(/\D/g, ""),
                     token: contract.token,
                     name: fernanda.name,
+                    signing: fernanda.email,
                     limit: dateLimit.toLocaleDateString("pt-br"),
                 })
                 .then((response) => {})
