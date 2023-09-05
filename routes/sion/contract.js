@@ -374,12 +374,8 @@ router.post("/confirm", async (request, response, next) => {
 
     let contract = null
 
-    const user = data.user
     if (data.signing == "sion") {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
-        const signed = !!contract.signatures
-        const signatures = signed ? contract.signatures.split(",") : []
-        contract.signed = signatures.includes(user.email)
         if (
             eduardo.cpf.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "") ||
             eduardo.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
@@ -389,9 +385,6 @@ router.post("/confirm", async (request, response, next) => {
         if (contract) contract.mail_list = [eduardo.email]
     } else if (data.signing == "seller") {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
-        const signed = !!contract.signatures
-        const signatures = signed ? contract.signatures.split(",") : []
-        contract.signed = signatures.includes(contract.seller.email)
         if (
             fernanda.cpf.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "") ||
             fernanda.name.trim().toLowerCase() != data.name.trim().toLowerCase() ||
@@ -401,9 +394,6 @@ router.post("/confirm", async (request, response, next) => {
         if (contract) contract.mail_list = [fernanda.email]
     } else {
         contract = await prisma.contracts.findUnique({ where: { id: data.id }, include: { seller: true } })
-        const signed = !!contract.signatures
-        const signatures = signed ? contract.signatures.split(",") : []
-        contract.signed = signatures.includes(contract.email)
         if (contract) contract.mail_list = [contract.email]
         if (
             (contract.cpf.toString().replace(/\D/g, "") != data.document.toString().replace(/\D/g, "") &&
