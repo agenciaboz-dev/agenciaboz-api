@@ -548,9 +548,9 @@ router.post("/sign", async (request, response, next) => {
 
         const sign_email = data.signing == "seller" ? fernanda.email : data.signing == "client" ? contract.email : eduardo.email
 
-        const sign_cpf = data.signing == "seller" ? fernanda.cpf : data.signing == "client" ? contract.cpf : "05003138903"
+        const sign_cpf = data.signing == "seller" ? fernanda.cpf : data.signing == "client" ? contract.cpf : eduardo.cpf
 
-        const sign_phone = data.signing == "seller" ? fernanda.phone : data.signing == "client" ? contract.phone : "41984556795"
+        const sign_phone = data.signing == "seller" ? fernanda.phone : data.signing == "client" ? contract.phone : eduardo.phone
 
         axios
             .post("https://app.agenciaboz.com.br:4101/api/whatsapp/signed", {
