@@ -515,11 +515,11 @@ router.post("/sign", async (request, response, next) => {
         console.log(`sending contract to ${data.mail_list}`)
         console.log("......")
         const input = JSON.stringify(data).replaceAll('"', "'")
-        exec(`python3 src/sion/send_contract_mail.py "${input}"`, (error, stdout, stderr) => {
-            console.log(stdout)
-            console.log(error)
-            console.log(stderr)
-        })
+        // exec(`python3 src/sion/send_contract_mail.py "${input}"`, (error, stdout, stderr) => {
+        //     console.log(stdout)
+        //     console.log(error)
+        //     console.log(stderr)
+        // })
 
         data.signing = signing
 
