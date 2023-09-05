@@ -7,12 +7,12 @@ def sendMail(destination, subject, message = None, attachment = None, html = Non
     email = EmailSender(
         host="mail.cooperativasion.com.br",
         port=25,
-        username="noreply@cooperativasion.com.br",
-        password=",2Fc2K[TXT?C"
+        username="adesao@cooperativasion.com.br",
+        password="kfxWy4L6s2ieXjt"
     )
 
     email.send(
-        sender="noreply@cooperativasion.com.br",
+        sender="adesao@cooperativasion.com.br",
         receivers=destination,
         subject=subject,
         text=message,
