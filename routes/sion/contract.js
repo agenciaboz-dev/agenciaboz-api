@@ -348,6 +348,7 @@ router.post("/generate", async (request, response, next) => {
     axios
         .post("https://app.agenciaboz.com.br:4101/api/whatsapp/new", {
             number: fernanda.phone.toString().replace(/\D/g, ""),
+            mail: fernanda.email,
             id: newContract.id,
         })
         .then((response) => {})
