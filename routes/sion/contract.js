@@ -636,8 +636,9 @@ router.post("/sign", async (request, response, next) => {
         const upload_input = JSON.stringify(contract).replaceAll('"', "'")
 
         exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
-            // console.log(stdout)
-            // console.log(stderr)
+            console.log("uploading file")
+            console.log(stdout)
+            console.log(stderr)
         })
     } else {
         response.json({ error: true })
