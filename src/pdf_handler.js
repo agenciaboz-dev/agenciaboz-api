@@ -45,7 +45,12 @@ const fillForm = async (options) => {
 
   // Save the modified PDF document to a file
   const modifiedPdf = await pdfDoc.save()
-  await fs.promises.writeFile(options.outputPath, modifiedPdf)
+    await fs.promises.writeFile(options.outputPath, modifiedPdf)
+
+    form.flatten()
+    const flattenedPdf = await pdfDoc.save()
+    const flattenedSplited = options.outputPath.split(".pdf")
+    await fs.promises.writeFile(`${flattenedSplited[0]}.flattened.pdf`, flattenedPdf)
 }
 
 const pdf = {
