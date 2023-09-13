@@ -632,9 +632,8 @@ router.post("/sign", async (request, response, next) => {
             fields,
         })
 
-        contract.upload_file = contract.filename
+        contract.upload_file = contract.filename.replace(`documents/sion/${contract.unit}/`, "")
         const upload_input = JSON.stringify(contract).replaceAll('"', "'")
-        console.log(contract.upload_file)
 
         exec(`python3 src/sion/upload_file.py "${upload_input}"`, (error, stdout, stderr) => {
             console.log(stdout)
