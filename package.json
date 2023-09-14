@@ -9,6 +9,7 @@
     "dev": "nodemon -L ./bin/www"
   },
   "dependencies": {
+    "@ilovepdf/ilovepdf-nodejs": "ilovepdf/ilovepdf-nodejs",
     "@pdf-lib/fontkit": "^1.1.1",
     "@prisma/client": "^4.12.0",
     "axios": "^1.3.3",
