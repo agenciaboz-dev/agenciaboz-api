@@ -11,9 +11,10 @@
     form-data "^3.0.0"
     jsonwebtoken "^8.5.1"
 
-"@ilovepdf/ilovepdf-nodejs@ilovepdf/ilovepdf-nodejs":
+"@ilovepdf/ilovepdf-nodejs@^0.2.5":
   version "0.2.5"
-  resolved "https://codeload.github.com/ilovepdf/ilovepdf-nodejs/tar.gz/c6be865180eb715f3048dd22ff991fece9e3f69a"
+  resolved "https://registry.yarnpkg.com/@ilovepdf/ilovepdf-nodejs/-/ilovepdf-nodejs-0.2.5.tgz#29584c795502fef37ab7051db65561260310f244"
+  integrity sha512-Ops5t0dRZzLnd2xXCrU0S7+v6tDIB3fy3bKNw2okjOMJ2xBmwriY/IjieFzOny7FrXntA0MZS68HBY9uHkdoQw==
   dependencies:
     "@ilovepdf/ilovepdf-js-core" "~0.2.0"
 
