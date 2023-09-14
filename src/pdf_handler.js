@@ -63,7 +63,7 @@ const fillForm = async (options) => {
 
     task.start()
         .then(() => {
-            return task.addFile(flattenedFile)
+            return task.addFile(`https://app.agenciaboz.com.br:4000/${flattenedFile}`)
         })
         .then(() => {
             return task.process()
