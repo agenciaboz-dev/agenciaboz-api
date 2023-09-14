@@ -4,7 +4,7 @@ const path = require('path')
 const fs = require('fs');
 const ILovePDFApi = require("@ilovepdf/ilovepdf-nodejs")
 
-const api = new ILovePDFApi(
+const ilovepdf = new ILovePDFApi(
     "project_public_b8d1c4357e8b02e980b17b3d4d0399b7_ipGERaa8e091e59a6cc2127cb8a443ba0b982",
     "secret_key_5f630c8f52e223d4a2c5f887bc24617a_Eykek4fdcde4a15208c6ee7ad4021f9502887"
 )
