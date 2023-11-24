@@ -17,97 +17,84 @@ const { wsServer } = require('./websocket')
  */
 
 const config = require('../config.json')
-var port = normalizePort(process.env.PORT || config.server.ssl_port);
-app.set('port', port);
+var port = 4000
+app.set("port", port)
 
 /**
  * Create HTTP server.
  */
-const server = https.createServer({
-    key: fs.readFileSync('/etc/letsencrypt/live/app.agenciaboz.com.br/privkey.pem', 'utf8'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/app.agenciaboz.com.br/cert.pem', 'utf8'),
-    ca: fs.readFileSync('/etc/letsencrypt/live/app.agenciaboz.com.br/chain.pem', 'utf8'),
-}, app);
 
-// var server = http.createServer(app);
-/**
- * Listen on provided port, on all network interfaces.
- */
+try {
+    const server = https.createServer(
+        {
+            key: fs.readFileSync("/etc/letsencrypt/live/app.agenciaboz.com.br/privkey.pem", "utf8"),
+            cert: fs.readFileSync("/etc/letsencrypt/live/app.agenciaboz.com.br/cert.pem", "utf8"),
+            ca: fs.readFileSync("/etc/letsencrypt/live/app.agenciaboz.com.br/fullchain.pem", "utf8")
+        },
+        app
+    )
 
-server.listen(port, '0.0.0.0');
-server.on('error', onError);
-server.on('listening', onListening);
+    // var server = http.createServer(app);
+    /**
+     * Listen on provided port, on all network interfaces.
+     */
 
-io.on('connection', (socket) => {
-    console.log('A user connected');
- 
-    //Whenever someone disconnects this piece of code executed
-    socket.on('disconnect', () => {
-       console.log('A user disconnected');
-    });
- });
-/**
- * Normalize a port into a number, string, or false.
- */
+    server.listen(port, "0.0.0.0")
+    server.on("error", onError)
+    server.on("listening", onListening)
 
-function normalizePort(val) {
-  var port = parseInt(val, 10);
+    io.on("connection", (socket) => {
+        console.log("A user connected")
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+        //Whenever someone disconnects this piece of code executed
+        socket.on("disconnect", () => {
+            console.log("A user disconnected")
+        })
+    })
+    /**
+     * Normalize a port into a number, string, or false.
+     */
+    /**
+     * Event listener for HTTP server "error" event.
+     */
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+    function onError(error) {
+        if (error.syscall !== "listen") {
+            throw error
+        }
 
-  return false;
+        var bind = typeof port === "string" ? "Pipe " + port : "Port " + port
+
+        // handle specific listen errors with friendly messages
+        switch (error.code) {
+            case "EACCES":
+                console.error(bind + " requires elevated privileges")
+                process.exit(1)
+                break
+            case "EADDRINUSE":
+                console.error(bind + " is already in use")
+                process.exit(1)
+                break
+            default:
+                throw error
+        }
+    }
+
+    /**
+     * Event listener for HTTP server "listening" event.
+     */
+
+    function onListening() {
+        var addr = server.address()
+        var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port
+        debug("Listening on " + bind)
+    }
+
+    server.on("upgrade", (request, socket, head) => {
+        wsServer.handleUpgrade(request, socket, head, (socket) => {
+            wsServer.emit("connection", socket, request)
+        })
+    })
+} catch (error) {
+    console.log(error)
 }
-
-/**
- * Event listener for HTTP server "error" event.
- */
-
-function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
-}
-
-server.on('upgrade', (request, socket, head) => {
-    wsServer.handleUpgrade(request, socket, head, (socket) => {
-      wsServer.emit('connection', socket, request);
-    });
-});

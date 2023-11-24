@@ -1,0 +1,29 @@
+#!/bin/bash
+
+api="apiantiga"
+user="burgos"
+
+path="~/${api}/"
+
+echo 'Uploading build to server'
+scp -r * ${user}@agencyboz:${path}/
+
+echo 'uploading .env to server'
+scp .env ${user}@agencyboz:${path}/
+
+echo 'uploading package.json to server'
+scp package.json ${user}@agencyboz:${path}/
+
+echo 'syncing dependencies'
+ssh ${user}@agencyboz "source ~/.nvm/nvm.sh; cd ${path}; yarn"
+
+echo 'Uploading prisma to server'
+scp -r prisma ${user}@agencyboz:${path}/
+
+echo 'generating prisma client'
+ssh ${user}@agencyboz "source ~/.nvm/nvm.sh; cd ${path}; npx prisma generate"
+
+echo 'restarting server api'
+ssh ${user}@agencyboz "source ~/.nvm/nvm.sh; cd ${path}; pm2 restart ${api}"
+
+echo 'finished'
